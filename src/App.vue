@@ -1,9 +1,9 @@
 <template>
-    <div class="flex w-screen h-screen px-6 py-8">
-        <section class="week bg-slate-100 basis-5/12 p-3">
+    <div class="flex w-screen h-screen">
+        <section class="week bg-slate-50 basis-5/12 pl-12 pr-8 py-8">
             <todayVue></todayVue>
         </section>
-        <section class="day flex flex-col basis-7/12 p-3">
+        <section class="day flex flex-col basis-7/12 pl-8 pr-12 py-8">
             <courseTableVue class="basis-5/6"></courseTableVue>
             <Weektable class="basis-1/6"></Weektable>
         </section>
