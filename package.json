@@ -1,0 +1,92 @@
+{
+  "name": "course",
+  "private": true,
+  "version": "0.0.0",
+  "main": "dist/electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "preview": "vite preview",
+    "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .js 和 .vue 的文件",
+    "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "prettier:comment": "自动格式化当前目录下的所有文件",
+    "prettier": "prettier --write"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.3",
+    "@typescript-eslint/parser": "^5.30.3",
+    "@vueuse/core": "^8.7.5",
+    "axios": "^0.27.2",
+    "electron": "^19.0.8",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.1.1",
+    "klona": "^2.0.5",
+    "pinia": "^2.0.14",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.1.5",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "autoprefixer": "latest",
+    "electron-builder": "^23.1.0",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-rebuild": "^3.2.7",
+    "postcss": "latest",
+    "sass": "^1.53.0",
+    "tailwindcss": "latest",
+    "typescript": "^4.5.4",
+    "vfonts": "^0.0.3",
+    "vite": "^2.9.9",
+    "vite-plugin-electron": "^0.7.2",
+    "vue-tsc": "^0.34.7"
+  },
+  "build": {
+    "appId": "cn.rokeey.table",
+    "productName": "table",
+    "asar": true,
+    "copyright": "Copyright © 2022 RoIce",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://127.0.0.1:8080"
+      }
+    ],
+    "releaseInfo": {
+      "releaseNotes": "版本更新的具体内容"
+    }
+  }
+}
