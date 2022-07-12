@@ -1,49 +1,113 @@
 <template>
-    <div>
-        <div class="week flex justify-between">
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full grayscale"
-                ><p class="text-base">15</p>
-                <p class="text-sm">周</p></span
+    <div class="w-full">
+        <div
+            class="week flex justify-between snap-proximity snap-x overflow-scroll scroll-smooth"
+            id="weekList"
+        >
+            <div
+                class="flex flex-col mx-4"
+                :class="{
+                    grayscale: day + 1 < currentWeek,
+                    sepia: day + 1 > currentWeek
+                }"
+                v-for="(day, index) in weekList"
+                :key="index"
+                @click="setScroll(index)"
             >
+                <div
+                    class="p-6 snap-start relative bg-amber-400 rounded-full hover:bg-amber-300 hover:cursor-pointer"
+                >
+                    <span class="week-info flex flex-col items-center absolute">
+                        <p class="text-base font-semibold">{{ day + 1 }}</p>
+                        <p class="text-xs leading-3">周</p>
+                    </span>
+                </div>
 
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full"
-                ><p class="text-base">16</p>
-                <p class="text-sm">周</p></span
-            >
-
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full sepia"
-                ><p class="text-base">17</p>
-                <p class="text-sm">周</p></span
-            >
-
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full sepia"
-                ><p class="text-base">18</p>
-                <p class="text-sm">周</p></span
-            >
-
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full sepia"
-                ><p class="text-base">19</p>
-                <p class="text-sm">周</p></span
-            >
-
-            <span
-                class="bg-amber-400 flex flex-col items-center px-4 py-1 rounded-full sepia"
-                ><p class="text-base">20</p>
-                <p class="text-sm">周</p></span
-            >
+                <ul class="day-list flex justify-between w-full mt-1">
+                    <li class="bg-slate-200 rounded-full"></li>
+                    <li class="bg-amber-400 rounded-full"></li>
+                    <li class="bg-amber-400 rounded-full"></li>
+                    <li class="bg-amber-400 rounded-full"></li>
+                    <li class="bg-amber-400 rounded-full"></li>
+                    <li class="bg-slate-200 rounded-full"></li>
+                    <li class="bg-slate-200 rounded-full"></li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, onMounted, reactive, toRefs } from 'vue'
+import { useAppStore } from '@/store/app'
 
 export default defineComponent({
     name: 'WeekTable',
-    setup() {}
+    setup() {
+        const appStore = useAppStore()
+
+        const data = reactive({
+            weekList: <number[]>[]
+        })
+        let EList: Element | null = null
+
+        let currentWeek = computed<number>({
+            get: (): number => {
+                return appStore.currentWeek
+            },
+            set: (value: number) => {
+                appStore.setCurrentWeek(value)
+            }
+        })
+
+        for (let i = 0; i < 20; i++) {
+            data.weekList.push(i)
+        }
+
+        const setScroll = (index: number) => {
+            let el = EList?.children[index]
+
+            if (!el) return
+            currentWeek.value = index + 1
+
+            el.scrollIntoView({
+                behavior: 'smooth',
+                inline: 'center'
+            })
+        }
+
+        onMounted(() => {
+            EList = document.querySelector('#weekList')
+        })
+
+        return {
+            ...toRefs(data),
+            setScroll,
+            currentWeek
+        }
+    }
 })
 </script>
+
+<style lang="scss" scoped>
+.week {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+
+    &-info {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.day-list {
+    li {
+        padding: 3px;
+    }
+}
+</style>

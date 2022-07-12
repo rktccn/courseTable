@@ -1,31 +1,66 @@
 <template>
     <div>
-        <section class="flex flex-col font-semibold mb-2">
-            <span class="text-4xl">今日</span>
-            <span class="text-2xl text-amber-400">7月8日 星期五</span>
+        <section class="flex justify-between font-semibold mb-2">
+            <div class="title flex flex-col">
+                <span class="text-3xl">今日</span>
+                <span class="text-2xl text-amber-400">7月8日 星期五</span>
+            </div>
+            <div class="weather flex items-center">
+                <span class="mr-3">icon</span>
+                <div class="info flex flex-col">
+                    <span class="text-xl">多云</span>
+                    <span class="text-thin text-base">21-23℃</span>
+                </div>
+            </div>
         </section>
 
-        <section class="flex flex-col mb-6">
+        <section class="flex relative flex-col mb-6">
             <div class="flex text-xl items-center my-1 grayscale" id="current">
-                <span class="text-right pr-2 w-10"></span>
-                <span class="grow bg-amber-400 p-4 rounded-xl font-semibold">
-                    <span class="text-2xl">语文</span>
-                    <span class="text-xl">8:00-9:15</span>
+                <span
+                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                >
+                    <span class="flex text-sm">
+                        <span>8:00</span>
+                        <em class="mx-1">-</em>
+                        <span>9:15</span>
+                    </span>
+                    <span class="text-xl">语文</span>
+                    <span class="text-base">C101</span>
                 </span>
             </div>
             <div class="flex text-xl items-center my-1">
-                <span class="text-right pr-2 w-10 font-semibold">→</span>
-                <span class="grow bg-amber-400 p-4 rounded-xl font-semibold">
+                <span
+                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                >
+                    <span class="flex text-sm">
+                        <span>8:00</span>
+                        <em class="mx-1">-</em>
+                        <span>9:15</span>
+                    </span>
                     <span class="text-2xl">英语</span>
-                    <span class="text-xl">9:15-10:30</span>
+                    <span class="text-base">C101</span>
                 </span>
             </div>
             <div class="flex text-xl items-center my-1 sepia">
-                <span class="text-right pr-2 w-10"></span>
-                <span class="grow bg-amber-400 p-4 rounded-xl font-semibold">
+                <span
+                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                >
+                    <span class="flex text-sm">
+                        <span>8:00</span>
+                        <em class="mx-1">-</em>
+                        <span>9:15</span>
+                    </span>
                     <span class="text-2xl">数学</span>
-                    <span class="text-xl">10:30-11:45</span>
+                    <span class="text-base">C101</span>
                 </span>
+            </div>
+
+            <div
+                class="pointer absolute flex flex-col items-end w-full"
+                :style="{ top: '150px', left: '0' }"
+            >
+                <span class="mr-3 text-blue-600 opacity-60 text-sm">8:25</span>
+                <span class="w-full h-0.5 bg-sky-600 opacity-50"></span>
             </div>
         </section>
 

@@ -146,12 +146,10 @@ export const useCourseStore = defineStore({
             weekInfo.forEach((day: number[], index: number) => {
                 res.push([])
                 day = Array.from(new Set(day))
-                console.log(day)
 
                 day.forEach((key: number) => {
                     const course = this.getCourse(key)
                     if (course) {
-                        console.log(course)
 
                         const { courseName, courseTeacher, color } = course
                         const duraction: courseDuractionModel =
