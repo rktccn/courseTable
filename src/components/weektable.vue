@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full">
+    <div class="w-full" @scroll="scrollList">
         <div
             class="week flex justify-between snap-proximity snap-x overflow-scroll scroll-smooth"
             id="weekList"
@@ -12,7 +12,7 @@
                 }"
                 v-for="(day, index) in weekList"
                 :key="index"
-                @click="setScroll(index)"
+                @click="setToCenter(index)"
             >
                 <div
                     class="p-6 snap-start relative bg-amber-400 rounded-full hover:bg-amber-300 hover:cursor-pointer"
@@ -63,7 +63,7 @@ export default defineComponent({
             data.weekList.push(i)
         }
 
-        const setScroll = (index: number) => {
+        const setToCenter = (index: number) => {
             let el = EList?.children[index]
 
             if (!el) return
@@ -75,13 +75,18 @@ export default defineComponent({
             })
         }
 
+        const scrollList = (e: any) => {
+            e.preventDefault()
+        }
+
         onMounted(() => {
             EList = document.querySelector('#weekList')
         })
 
         return {
             ...toRefs(data),
-            setScroll,
+            setToCenter,
+            scrollList,
             currentWeek
         }
     }
@@ -92,11 +97,13 @@ export default defineComponent({
 .week {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    overflow-y: auto;
-    overflow-x: hidden;
+
     -webkit-overflow-scrolling: touch;
     user-select: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     &-info {
         top: 50%;

@@ -1,5 +1,5 @@
 <template>
-    <divb class="text-right">
+    <div class="text-right">
         <span
             class="relative p-6 mr-3 rounded-full inline-block leading-none bg-amber-400 cursor-pointer hover:bg-amber-300"
         >
@@ -35,7 +35,7 @@
                 />
             </svg>
         </span>
-    </divb>
+    </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
