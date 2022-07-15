@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-screen h-screen">
+    <div class="flex w-screen h-screen relative">
         <section
             class="week bg-slate-50 basis-5/12 grow pl-12 pr-8 py-8 overflow-hidden"
         >
@@ -8,19 +8,27 @@
         <section
             class="day flex flex-col basis-7/12 grow pl-8 pr-12 py-8 overflow-hidden"
         >
-            <TableFunction></TableFunction>
-            <div class="table grow h-full relative">
-                <transition :name="data.animationTag">
+            <TableFunction
+                v-model:showEditCourse="showEditCourse"
+            ></TableFunction>
+            <div class="table grow h-full relative mb-3">
+                <transition :name="animationTag">
                     <component
-                        :week="data.currentWeekIndex"
-                        :is="CourseTable"
+                        :week="currentWeekIndex"
+                        :is="$options.components?.CourseTable"
                         class="h-full w-full absolute top-0 left-0"
-                        :key="data.currentWeekIndex"
+                        :key="currentWeekIndex"
                     ></component>
                 </transition>
             </div>
             <Weektable></Weektable>
         </section>
+
+        <EditCourse
+            class="edit-course absolute"
+            v-if="showEditCourse"
+            ref="editCourse"
+        ></EditCourse>
 
         <div class="hidden">
             {{ currentWeekInfo }}
@@ -28,55 +36,82 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import { defineComponent, reactive, toRefs, computed } from 'vue'
+<script lang="ts">
+import { defineComponent, reactive, toRefs, ref, computed, nextTick } from 'vue'
 import { useCourseStore } from './store/course'
 import { useAppStore } from './store/app'
+import { onClickOutside } from '@vueuse/core'
 
 import todayVue from './components/today.vue'
 import CourseTable from './components/courseTable.vue'
 import Weektable from './components/weektable.vue'
 import TableFunction from './components/tableFunction.vue'
+import EditCourse from './components/editCourse.vue'
 
-const courseStore = useCourseStore()
-for (let i = 0; i < 20; i++) {
-    courseStore.weekInfo.push([])
-    for (let j = 0; j < 7; j++) {
-        courseStore.weekInfo[i].push([])
-        for (let k = 0; k < 20; k++) {
-            courseStore.weekInfo[i][j].push(null)
-        }
-    }
-}
-
-const appStore = useAppStore()
-
-const data = reactive({
-    currentWeekIndex: 0,
-    animationTag: ''
-})
-
-let currentWeekInfo = computed({
-    get: () => {
-        console.log(data.currentWeekIndex)
-
-        if (data.currentWeekIndex < appStore.currentWeek) {
-            data.animationTag = 'slide-right'
-        }
-        if (data.currentWeekIndex > appStore.currentWeek) {
-            data.animationTag = 'slide-left'
+export default defineComponent({
+    setup() {
+        const courseStore = useCourseStore()
+        for (let i = 0; i < 20; i++) {
+            courseStore.weekInfo.push([])
+            for (let j = 0; j < 7; j++) {
+                courseStore.weekInfo[i].push([])
+                for (let k = 0; k < 20; k++) {
+                    courseStore.weekInfo[i][j].push(null)
+                }
+            }
         }
 
-        console.log('data.animationTag', data.animationTag)
+        const appStore = useAppStore()
+        appStore.currentWeek = 1
 
-        data.currentWeekIndex = appStore.currentWeek
-        return courseStore.getCourseTable(data.currentWeekIndex)
+        const data = reactive({
+            currentWeekIndex: 0,
+            animationTag: '',
+            showEditCourse: false
+        })
+
+        const editCourse = ref(null)
+        onClickOutside(editCourse, () => {
+            // data.showEditCourse = false
+        })
+
+        let currentWeekInfo = computed({
+            get: () => {
+                if (data.currentWeekIndex < appStore.currentWeek) {
+                    data.animationTag = 'slide-right'
+                }
+                if (data.currentWeekIndex > appStore.currentWeek) {
+                    data.animationTag = 'slide-left'
+                }
+
+                data.currentWeekIndex = appStore.currentWeek
+                return courseStore.getCourseTable(data.currentWeekIndex)
+            },
+            set: () => {}
+        })
+
+        return {
+            ...toRefs(data),
+            currentWeekInfo,
+            editCourse
+        }
     },
-    set: () => {}
+    components: {
+        todayVue,
+        CourseTable,
+        Weektable,
+        TableFunction,
+        EditCourse
+    }
 })
 </script>
 
 <style lang="scss" scoped>
+.edit-course {
+    right: 140px;
+    top: 70px;
+}
+
 .slide-left-enter-from {
     transform: translateX(-100%);
     opacity: 0;

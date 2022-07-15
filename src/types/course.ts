@@ -1,16 +1,17 @@
+export interface courseDuractionModel {
+    weeks: number[] // 上课周次
+    day: number // 星期几
+    section: number[] // 第几节
+    classroom: string // 教室
+}
+
 // 课程类型
 export type RoCourse = {
     key: number
     courseName: string // 课程名称
-    courseId: number // 课程id
-    courseTeacher: string // 授课教师
-    weeks: number[] // 上课周次
-    duration: {
-        // 第几节上课
-        day: number // 星期几
-        section: number[] // 第几节
-        classroom: string // 教室
-    }[]
+    courseId?: number // 课程id
+    courseTeacher?: string // 授课教师
+    duration: courseDuractionModel[]
     color: string // 颜色
 }
 

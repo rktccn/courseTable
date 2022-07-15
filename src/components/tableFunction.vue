@@ -2,14 +2,20 @@
     <div class="text-right">
         <span
             class="relative p-6 mr-3 rounded-full inline-block leading-none bg-amber-400 cursor-pointer hover:bg-amber-300"
+            @click="toggleEditCourse"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 absolute font-bold text-3xl text-white add-course"
+                class="h-6 w-6 absolute font-bold text-3xl text-white add-course ease-out duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 stroke-width="5"
+                :style="{
+                    transform: showEditCourse
+                        ? 'translate(-50%,-50%) rotate(45deg)'
+                        : 'translate(-50%,-50%)'
+                }"
             >
                 <path
                     stroke-linecap="round"
@@ -27,6 +33,9 @@
                 class="h-7 w-7 absolute font-bold text-3xl text-white setting"
                 viewBox="0 0 20 20"
                 fill="currentColor"
+                :style="{
+                    transform: 'translate(-50%,-50%)'
+                }"
             >
                 <path
                     fill-rule="evenodd"
@@ -42,7 +51,26 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
     name: 'TableFunction',
-    setup() {}
+    props: {
+        showEditCourse: {
+            type: Boolean,
+            required: true
+        }
+    },
+    emits: {
+        'update:showEditCourse': (val: boolean) => {
+            return val
+        }
+    },
+    setup(props, context) {
+        const toggleEditCourse = () => {
+            context.emit('update:showEditCourse', !props.showEditCourse)
+        }
+
+        return {
+            toggleEditCourse
+        }
+    }
 })
 </script>
 
@@ -51,6 +79,6 @@ export default defineComponent({
 .setting {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(45derg);
 }
 </style>

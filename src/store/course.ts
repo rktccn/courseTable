@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
-import { RoCourse, RoCourseTimeType, RoCourseTable } from '../types/course'
+import {
+    RoCourse,
+    RoCourseTimeType,
+    RoCourseTable,
+    courseDuractionModel
+} from '../types/course'
 import { klona } from 'klona'
-
-interface courseDuractionModel {
-    day: number
-    section: number[]
-    classroom: string
-}
 
 // 颜色列表
 const RoCourseColorList = [
@@ -41,8 +40,8 @@ export const useCourseStore = defineStore({
             course.key = key
             this.courseMap.set(key, course)
 
-            course.weeks.forEach(week => {
-                course.duration.forEach(duration => {
+            course.duration.forEach(duration => {
+                duration.weeks.forEach(week => {
                     const day = duration.day === 7 ? 0 : duration.day
                     const section = duration.section
                     section.forEach(item => {
@@ -59,8 +58,22 @@ export const useCourseStore = defineStore({
         },
 
         // 删除课程
-        deleteCourse(course: RoCourse) {
-            const key = course.key
+        deleteCourse(key: number) {
+            const course = this.courseMap.get(key)
+
+            course.key = key
+            this.courseMap.set(key, course)
+
+            course.duration.forEach((duration: courseDuractionModel) => {
+                duration.weeks.forEach(week => {
+                    const day = duration.day === 7 ? 0 : duration.day
+                    const section = duration.section
+                    section.forEach(item => {
+                        this.weekInfo[week - 1][day][item - 1] = null
+                    })
+                })
+            })
+
             this.courseMap.delete(key)
         },
 
@@ -142,15 +155,14 @@ export const useCourseStore = defineStore({
         // 将每周课程信息转换为课程表结构
         getCourseTable(week: number): RoCourseTable[][] {
             const weekInfo = this.getWeek(week)
-            const res: RoCourseTable[][] = []
+            const res: RoCourseTable[][] = [] // res[星期][节次]
             weekInfo.forEach((day: number[], index: number) => {
                 res.push([])
                 day = Array.from(new Set(day))
 
                 day.forEach((key: number) => {
-                    const course = this.getCourse(key)
+                    const course = this.getCourse(key) // 获取课程信息
                     if (course) {
-
                         const { courseName, courseTeacher, color } = course
                         const duraction: courseDuractionModel =
                             course.duration.find(

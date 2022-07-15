@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full select-none">
         <section
             class="grid grid-cols-8 mb-3 bg-amber-100 rounded-t-lg overflow-hidden"
         >
@@ -51,55 +51,69 @@
             <span :style="{ gridArea: '7/1/8/2' }">15:30</span>
             <span :style="{ gridArea: '8/1/9/2' }">16:45</span>
 
-            <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+            <!-- <span
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '3/4/5/5'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '5/3/8/4'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '1/7/3/8'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '4/7/6/8'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '5/5/7/6'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '2/3/4/4'
                 }"
                 >语文</span
             >
             <span
-                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold hover:outline"
+                class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                 :style="{
                     gridArea: '3/6/6/7'
                 }"
                 >语文</span
-            >
+            > -->
+
+            <template v-for="(day, index) in table" :key="day">
+                <span
+                    v-for="course in day"
+                    :key="course.name"
+                    class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
+                    :style="{
+                        gridArea: `${course.start}/${index + 2}/${
+                            course.start + course.count
+                        }/${index + 3}`
+                    }"
+                    >语文</span
+                >
+            </template>
         </section>
     </div>
 </template>
@@ -107,6 +121,7 @@
 import { useAppStore } from '@/store/app'
 import { useCourseStore } from '@/store/course'
 import { defineComponent, reactive, computed, toRefs } from 'vue'
+import { RoCourseTable } from '@/types/course'
 
 export default defineComponent({
     name: 'CourseTable',
@@ -114,9 +129,15 @@ export default defineComponent({
         week: { type: Number, required: true }
     },
 
-    setup() {
+    setup(props) {
         const appStore = useAppStore()
         const courseStore = useCourseStore()
+
+        let table = computed<RoCourseTable[][]>(() => {
+            return courseStore.getCourseTable(props.week)
+        })
+
+        return { table }
     }
 })
 </script>

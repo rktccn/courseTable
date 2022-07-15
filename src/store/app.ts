@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
-export const useAppStore =  defineStore('app', {
+export const useAppStore = defineStore('app', {
     state: () => {
         return {
-            currentWeek: 1 // 当前周次
+            currentWeek: 0 // 当前周次
         }
     },
     actions: {
