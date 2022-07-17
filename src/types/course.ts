@@ -27,7 +27,7 @@ export type RoCourseTimeType = {
 export type RoCourseTable = {
     count: number
     start: number
-    name?: string
+    name: string
     classRoom?: string
     teacher?: string
     color?: string

@@ -190,11 +190,13 @@ export const useCourseStore = defineStore({
 
         // 获取当前节次可选的，与其他课程不冲突的周次
         getAbleWeek(day: number, section: number[]): number[] {
+            day = day === 7 ? 0 : day
             const res: number[] = []
             this.weekInfo.forEach((week: number[][], index: number) => {
                 const check = section.find(
                     (v: number) => week[day][v - 1] !== null
                 )
+
                 if (!check) {
                     res.push(index + 1)
                 }
