@@ -1,5 +1,5 @@
 <template>
-    <div class="px-8 py-4 bg-amber-100 shadow-lg rounded-lg">
+    <div class="px-8 py-4 bg-amber-100 shadow-lg rounded-lg select-none">
         <div class="flex flex-col my-2">
             <span class="item text-xs opacity-70">基础信息</span>
             <input
@@ -40,150 +40,176 @@
                 </div>
             </div>
 
-            <button class="item outline rounded mt-2">添加时间段</button>
+            <button
+                class="item outline rounded mt-2"
+                @click="addTimeShow = true"
+            >
+                添加时间段
+            </button>
         </div>
 
         <div class="control flex justify-between mt-4 font-semibold">
-            <span class="control__item px-3 py-1 rounded-md bg-slate-50"
-                >取消</span
+            <button
+                class="control__item px-3 py-1 rounded-md bg-slate-50"
+                @click="$emit('update:showEditCourse', false)"
             >
-            <span
+                取消
+            </button>
+            <button
                 class="control__item px-3 py-1 rounded-md bg-amber-400"
                 @click="addCourse"
-                >添加</span
             >
+                添加
+            </button>
         </div>
 
-        <div class="edit-time">
+        <transition name="drop-b">
             <div
-                class="edit-time__box px-8 py-4 w-80 bg-amber-100 shadow-lg rounded-lg flex flex-col"
+                class="edit-time backdrop-blur-md backdrop-brightness-75"
+                v-if="addTimeShow"
             >
-                <div>
-                    <h6 class="item font-semibold text-base">选择节次</h6>
+                <div
+                    class="edit-time__box px-8 py-4 w-80 bg-amber-100 shadow-lg rounded-lg flex flex-col"
+                    ref="addTimeEL"
+                >
+                    <div>
+                        <h6 class="item font-semibold text-base">选择节次</h6>
 
-                    <div class="item flex justify-evenly items-center">
-                        <div class="start flex flex-col items-center">
-                            <input
-                                type="number"
-                                name="start-section"
-                                id=""
-                                class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
-                                :class="
-                                    sectionState(time.startSection)
-                                        ? 'outline-sky-400'
-                                        : 'outline-red-400'
-                                "
-                                @mousewheel.prevent="scrollNumber('start')"
-                                v-model="time.startSection"
-                            />
-                            <span class="text-xs opacity-70 mt-1"
-                                >开始节次</span
-                            >
-                        </div>
-                        <span class="pb-4 font-semibold">→</span>
-                        <div class="end flex flex-col items-center">
-                            <input
-                                type="number"
-                                name="start-section"
-                                id=""
-                                class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
-                                :class="
-                                    sectionState(time.endSection)
-                                        ? 'outline-sky-400'
-                                        : 'outline-red-400'
-                                "
-                                @mousewheel.prevent="scrollNumber('end')"
-                                v-model="time.endSection"
-                            />
-                            <span class="text-xs opacity-70 mt-1"
-                                >结束节次</span
-                            >
+                        <div class="item flex justify-evenly items-center">
+                            <div class="start flex flex-col items-center">
+                                <input
+                                    type="number"
+                                    name="start-section"
+                                    id=""
+                                    class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
+                                    :class="
+                                        sectionState(time.startSection)
+                                            ? 'outline-sky-400'
+                                            : 'outline-red-400'
+                                    "
+                                    @mousewheel.prevent="scrollNumber('start')"
+                                    v-model="time.startSection"
+                                />
+                                <span class="text-xs opacity-70 mt-1"
+                                    >开始节次</span
+                                >
+                            </div>
+                            <span class="pb-4 font-semibold">→</span>
+                            <div class="end flex flex-col items-center">
+                                <input
+                                    type="number"
+                                    name="start-section"
+                                    id=""
+                                    class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
+                                    :class="
+                                        sectionState(time.endSection)
+                                            ? 'outline-sky-400'
+                                            : 'outline-red-400'
+                                    "
+                                    @mousewheel.prevent="scrollNumber('end')"
+                                    v-model="time.endSection"
+                                />
+                                <span class="text-xs opacity-70 mt-1"
+                                    >结束节次</span
+                                >
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 星期 -->
-                <div>
-                    <h6 class="item font-semibold text-base">选择星期</h6>
-                    <div class="item flex justify-between">
-                        <button
-                            v-for="item in 7"
-                            class="flex items-center justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-300 hover:bg-amber-400"
-                            @click="time.day = item"
-                            :class="{ 'bg-amber-400': time.day === item }"
-                        >
-                            {{ item }}
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <h6 class="item font-semibold text-base">选择周次</h6>
-                    <div class="item flex flex-wrap">
-                        <div class="basis-1/6 inline-block" v-for="item in 20">
+                    <!-- 星期 -->
+                    <div>
+                        <h6 class="item font-semibold text-base">选择星期</h6>
+                        <div class="item flex justify-between">
                             <button
-                                class="flex items-center mx-auto mb-0.5 justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-300 hover:bg-amber-400"
-                                :class="{
-                                    ' bg-slate-300 text-white hover:bg-slate-300 hover:cursor-no-drop':
-                                        !AvailableWeek.includes(item),
-                                    'bg-amber-400': time.weeks.includes(item)
-                                }"
-                                @click="
-                                    time.weeks.includes(item)
-                                        ? time.weeks.splice(
-                                              time.weeks.indexOf(item),
-                                              1
-                                          )
-                                        : time.weeks.push(item)
-                                "
+                                v-for="item in 7"
+                                class="flex items-center justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-150 hover:bg-amber-400 active:bg-amber-300"
+                                @click="time.day = item"
+                                :class="{ 'bg-amber-400': time.day === item }"
                             >
                                 {{ item }}
                             </button>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <h6 class="item font-semibold text-base">其他信息</h6>
-                    <div class="item flex flex-col">
-                        <div class="item flex justify-between">
-                            <span>教室</span>
-                            <input
-                                type="text"
-                                class="px-2 rounded-md"
-                                placeholder="教室"
-                                v-model="time.classroom"
-                            />
-                        </div>
-                        <div class="item flex justify-between">
-                            <span>教师</span>
-                            <input
-                                type="text"
-                                class="px-2 rounded-md"
-                                placeholder="教师"
-                                v-model="time.teacher"
-                            />
+
+                    <div>
+                        <h6 class="item font-semibold text-base">选择周次</h6>
+                        <div class="item flex flex-wrap">
+                            <div
+                                class="basis-1/6 inline-block"
+                                v-for="item in 20"
+                            >
+                                <button
+                                    class="flex items-center mx-auto mb-0.5 justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-150 hover:bg-amber-400 active:bg-amber-300"
+                                    :class="{
+                                        ' bg-slate-300 text-white hover:bg-slate-300 hover:cursor-no-drop':
+                                            !AvailableWeek.includes(item),
+                                        'bg-amber-400':
+                                            time.weeks.includes(item)
+                                    }"
+                                    @click="
+                                        time.weeks.includes(item)
+                                            ? time.weeks.splice(
+                                                  time.weeks.indexOf(item),
+                                                  1
+                                              )
+                                            : time.weeks.push(item)
+                                    "
+                                >
+                                    {{ item }}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div>
+                        <h6 class="item font-semibold text-base">其他信息</h6>
+                        <div class="item flex flex-col">
+                            <div class="item flex justify-between">
+                                <span>教室</span>
+                                <input
+                                    type="text"
+                                    class="px-2 rounded-md"
+                                    placeholder="教室"
+                                    v-model="time.classroom"
+                                />
+                            </div>
+                            <div class="item flex justify-between">
+                                <span>教师</span>
+                                <input
+                                    type="text"
+                                    class="px-2 rounded-md"
+                                    placeholder="教师"
+                                    v-model="time.teacher"
+                                />
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="control flex justify-between mt-4 font-semibold">
-                    <span class="control__item px-3 py-1 rounded-md bg-slate-50"
-                        >取消</span
+                    <div
+                        class="control flex justify-between mt-4 font-semibold"
                     >
-                    <span
-                        class="control__item px-3 py-1 rounded-md bg-amber-400"
-                        @click="addTime"
-                        >添加</span
-                    >
+                        <button
+                            class="control__item px-3 py-1 rounded-md bg-slate-50"
+                            @click="addTimeShow = false"
+                        >
+                            取消
+                        </button>
+                        <button
+                            class="control__item px-3 py-1 rounded-md bg-amber-400"
+                            @click="addTime"
+                        >
+                            添加
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
 import { defineComponent, reactive, ref, toRefs, computed } from 'vue'
 import { RoCourse, courseDuractionModel } from '@/types/course'
+import { onClickOutside } from '@vueuse/core'
 
 interface time {
     startSection: number | null
@@ -196,14 +222,23 @@ interface time {
 
 export default defineComponent({
     name: 'EditCourse',
-    setup() {
+    props: {
+        showEditCourse: {
+            type: Boolean,
+            default: false
+        }
+    },
+    emits: ['update:showEditCourse'],
+    setup(props, context) {
         const courseStore = useCourseStore()
+        const addTimeEL = ref<HTMLDivElement | null>(null)
 
         const data = reactive({
             courseName: '',
             color: 'amber',
             icon: '',
-            timeList: <time[]>[]
+            timeList: <time[]>[],
+            addTimeShow: false
         })
 
         const time = ref<time>({
@@ -218,6 +253,10 @@ export default defineComponent({
         function getNumberArr(a: number, b: number): number[] {
             return Array.from(Array(b - a + 1)).map((e, i) => a + i)
         }
+
+        onClickOutside(addTimeEL, () => {
+            data.addTimeShow = false
+        })
 
         const check = () => {
             if (
@@ -270,14 +309,17 @@ export default defineComponent({
                 color: 'amber' // 颜色
             }
 
-            console.log(course)
-
             courseStore.insertCourse(course)
+            context.emit('update:showEditCourse', false)
         }
 
         const addTime = () => {
             let { startSection, endSection, day, weeks, classroom, teacher } =
                 time.value
+
+            time.value.weeks = time.value.weeks.filter(item =>
+                AvailableWeek.value.includes(item)
+            )
 
             if (
                 startSection &&
@@ -289,10 +331,6 @@ export default defineComponent({
                 sectionState(startSection) &&
                 sectionState(endSection)
             ) {
-                time.value.weeks = time.value.weeks.filter(item =>
-                    AvailableWeek.value.includes(item)
-                )
-
                 data.timeList.push(time.value)
                 time.value = {
                     startSection: null,
@@ -302,6 +340,7 @@ export default defineComponent({
                     classroom: '',
                     teacher: ''
                 }
+                data.addTimeShow = false
             } else {
                 console.log('startSection', startSection)
                 console.log('endSection', endSection)
@@ -396,7 +435,8 @@ export default defineComponent({
             sectionState,
             addCourse,
             addTime,
-            scrollNumber
+            scrollNumber,
+            addTimeEL
         }
     }
 })
@@ -412,8 +452,8 @@ export default defineComponent({
     top: 0;
     left: 0;
 
-    // width: 100vw;
-    // height: 100vh;
+    width: 100vw;
+    height: calc(100vh + 10px);
 
     &__box {
         position: fixed;

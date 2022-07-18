@@ -1,0 +1,19 @@
+.drop-b-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.drop-b-enter-to,
+.drop-b-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.drop-b-leave-to {
+    opacity: 0;
+}
+
+.drop-b-enter-active,
+.drop-b-leave-active {
+    transition: all 0.15s ease-out;
+}

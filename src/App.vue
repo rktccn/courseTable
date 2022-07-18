@@ -21,14 +21,17 @@
                     ></component>
                 </transition>
             </div>
-            <Weektable></Weektable>
+            <WeekList></WeekList>
         </section>
 
-        <EditCourse
-            class="edit-course absolute"
-            v-if="showEditCourse"
-            ref="editCourse"
-        ></EditCourse>
+        <transition name="drop-b">
+            <EditCourse
+                class="edit-course absolute"
+                v-if="showEditCourse"
+                ref="editCourse"
+                v-model:showEditCourse="showEditCourse"
+            ></EditCourse>
+        </transition>
 
         <div class="hidden">
             {{ currentWeekInfo }}
@@ -37,14 +40,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, ref, computed, nextTick } from 'vue'
+import { defineComponent, reactive, toRefs, ref, computed } from 'vue'
 import { useCourseStore } from './store/course'
 import { useAppStore } from './store/app'
 import { onClickOutside } from '@vueuse/core'
 
 import todayVue from './components/today.vue'
 import CourseTable from './components/courseTable.vue'
-import Weektable from './components/weektable.vue'
+import WeekList from './components/weekList.vue'
 import TableFunction from './components/tableFunction.vue'
 import EditCourse from './components/editCourse.vue'
 
@@ -67,7 +70,8 @@ export default defineComponent({
         const data = reactive({
             currentWeekIndex: 0,
             animationTag: '',
-            showEditCourse: false
+            showEditCourse: false,
+            editCoursePosition: <[number, number]>[0, 0]
         })
 
         const editCourse = ref(null)
@@ -99,7 +103,7 @@ export default defineComponent({
     components: {
         todayVue,
         CourseTable,
-        Weektable,
+        WeekList,
         TableFunction,
         EditCourse
     }
