@@ -5,36 +5,36 @@
         >
             <span
                 class="py-3 bg-amber-300 flex items-center justify-center font-semibold cursor-pointer hover:bg-amber-200"
-                >{{ week }}周
+                >7月
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周日</p>
-                <p class="text-sm opacity-60 leading-3">7/8</p>
+                <p class="text-sm opacity-60 leading-3">8</p>
             </span>
 
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周一</p>
-                <p class="text-sm opacity-60 leading-3">7/9</p>
+                <p class="text-sm opacity-60 leading-3">9</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周二</p>
-                <p class="text-sm opacity-60 leading-3">7/10</p>
+                <p class="text-sm opacity-60 leading-3">10</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周三</p>
-                <p class="text-sm opacity-60 leading-3">7/11</p>
+                <p class="text-sm opacity-60 leading-3">11</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周四</p>
-                <p class="text-sm opacity-60 leading-3">7/12</p>
+                <p class="text-sm opacity-60 leading-3">12</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周五</p>
-                <p class="text-sm opacity-60 leading-3">7/13</p>
+                <p class="text-sm opacity-60 leading-3">13</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周六</p>
-                <p class="text-sm opacity-60 leading-3">7/14</p>
+                <p class="text-sm opacity-60 leading-3">14</p>
             </span>
         </section>
 

@@ -17,20 +17,22 @@
         <section class="flex relative flex-col mb-6">
             <div class="flex text-xl items-center my-1 grayscale" id="current">
                 <span
-                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                    class="flex flex-col relative grow overflow-hidden p-4 pl-8 rounded-lg shadow-sm bg-amber-100 text-amber-600 font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
                 >
                     <span class="flex text-sm">
-                        <span>8:00</span>
+                        <span>8:00 AM</span>
                         <em class="mx-1">-</em>
-                        <span>9:15</span>
+                        <span>9:15 AM</span>
                     </span>
-                    <span class="text-xl">语文</span>
+                    <p class="text-xl overflow-hidden truncate">
+                        算法与数据结构课程设计结构课程设计
+                    </p>
                     <span class="text-base">C101</span>
                 </span>
             </div>
             <div class="flex text-xl items-center my-1">
                 <span
-                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                    class="flex flex-col relative grow overflow-hidden p-4 pl-8 rounded-lg shadow-sm bg-amber-100 text-amber-600 font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
                 >
                     <span class="flex text-sm">
                         <span>8:00</span>
@@ -41,9 +43,10 @@
                     <span class="text-base">C101</span>
                 </span>
             </div>
+
             <div class="flex text-xl items-center my-1 sepia">
                 <span
-                    class="flex flex-col relative grow overflow-hidden bg-amber-100 text-amber-600 p-4 pl-8 rounded-lg font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
+                    class="flex flex-col relative grow overflow-hidden p-4 pl-8 rounded-lg shadow-sm bg-amber-100 text-amber-600 font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-amber-600"
                 >
                     <span class="flex text-sm">
                         <span>8:00</span>
