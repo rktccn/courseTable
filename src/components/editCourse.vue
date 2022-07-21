@@ -23,11 +23,11 @@
 
             <div class="time-list">
                 <div
-                    class="item time-list__item flex flex-col my-1 text-sm bg-white p-2 rounded-md leading-7 cursor-pointer"
+                    class="item time-list__item flex flex-col my-1 text-sm bg-secondary p-2 rounded-md leading-7 cursor-pointer"
                     v-for="time in timeList"
                 >
-                    <div class="time flex justify-between">
-                        <span>{{ time.day }}，共{{ time.weeks.length }}周</span>
+                    <div class="time flex justify-between text-primary">
+                        <span>周{{ time.day }}，共{{ time.weeks.length }}周</span>
                         <span
                             >{{ time.startSection }}-{{
                                 time.endSection
@@ -35,7 +35,7 @@
                         >
                     </div>
 
-                    <div class="location flex justify-between">
+                    <div class="location flex justify-between text-primary">
                         <span>{{ time.classroom }}</span>
                         <span>{{ time.teacher }}</span>
                     </div>
@@ -175,7 +175,7 @@
                                 <span>教室</span>
                                 <input
                                     type="text"
-                                    class="px-2 rounded-md"
+                                    class="px-2 rounded-md text-primary"
                                     placeholder="教室"
                                     v-model="time.classroom"
                                 />
@@ -184,7 +184,7 @@
                                 <span>教师</span>
                                 <input
                                     type="text"
-                                    class="px-2 rounded-md"
+                                    class="px-2 rounded-md text-primary"
                                     placeholder="教师"
                                     v-model="time.teacher"
                                 />
