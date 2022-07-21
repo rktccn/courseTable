@@ -1,40 +1,40 @@
 <template>
-    <div class="flex flex-col h-full select-none">
+    <div class="flex flex-col h-full select-none text-base">
         <section
-            class="grid grid-cols-8 mb-3 bg-amber-100 rounded-t-lg overflow-hidden"
+            class="grid grid-cols-8 mb-3 bg-off-base rounded-t-lg overflow-hidden"
         >
             <span
-                class="py-3 bg-amber-300 flex items-center justify-center font-semibold cursor-pointer hover:bg-amber-200"
+                class="py-3 backdrop-contrast-75 flex items-center justify-center font-semibold cursor-pointer"
                 >7月
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周日</p>
-                <p class="text-sm opacity-60 leading-3">8</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">8</p>
             </span>
 
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周一</p>
-                <p class="text-sm opacity-60 leading-3">9</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">9</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周二</p>
-                <p class="text-sm opacity-60 leading-3">10</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">10</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周三</p>
-                <p class="text-sm opacity-60 leading-3">11</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">11</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周四</p>
-                <p class="text-sm opacity-60 leading-3">12</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">12</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周五</p>
-                <p class="text-sm opacity-60 leading-3">13</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">13</p>
             </span>
             <span class="flex flex-col justify-center items-center">
                 <p class="text-base font-semibold">周六</p>
-                <p class="text-sm opacity-60 leading-3">14</p>
+                <p class="text-sm opacity-60 leading-3 text-primary">14</p>
             </span>
         </section>
 

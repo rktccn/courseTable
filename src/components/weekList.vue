@@ -8,29 +8,29 @@
                 class="flex flex-col mx-4"
                 :class="{
                     grayscale: day + 1 < currentWeek,
-                    sepia: day + 1 > currentWeek
+                    ' brightness-90': day + 1 > currentWeek
                 }"
                 v-for="(day, index) in weekList"
                 :key="index"
                 @click="setToCenter(index)"
             >
                 <div
-                    class="p-6 snap-start relative bg-amber-400 rounded-full hover:bg-amber-300 hover:cursor-pointer"
+                    class="p-6 snap-start relative bg-secondary rounded-full hover:brightness-110 hover:cursor-pointer text-primary"
                 >
                     <span class="week-info flex flex-col items-center absolute">
-                        <p class="text-base font-semibold">{{ day + 1 }}</p>
+                        <p class="font-semibold brightness-70">{{ day + 1 }}</p>
                         <p class="text-xs leading-3">周</p>
                     </span>
                 </div>
 
                 <ul class="day-list flex justify-between w-full mt-1">
-                    <li class="bg-slate-200 rounded-full"></li>
-                    <li class="bg-amber-400 rounded-full"></li>
-                    <li class="bg-amber-400 rounded-full"></li>
-                    <li class="bg-amber-400 rounded-full"></li>
-                    <li class="bg-amber-400 rounded-full"></li>
-                    <li class="bg-slate-200 rounded-full"></li>
-                    <li class="bg-slate-200 rounded-full"></li>
+                    <li class="bg-secondary rounded-full"></li>
+                    <li class="bg-primary rounded-full"></li>
+                    <li class="bg-primary rounded-full"></li>
+                    <li class="bg-primary rounded-full"></li>
+                    <li class="bg-primary rounded-full"></li>
+                    <li class="bg-secondary rounded-full"></li>
+                    <li class="bg-secondary rounded-full"></li>
                 </ul>
             </div>
         </div>

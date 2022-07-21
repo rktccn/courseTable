@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="">
         <router-view></router-view>
     </div>
 </template>
@@ -17,6 +17,10 @@ for (let i = 0; i < 20; i++) {
         }
     }
 }
+
+document.documentElement.classList.add('theme-dark')
+
+
 </script>
 
 <style lang="scss"></style>

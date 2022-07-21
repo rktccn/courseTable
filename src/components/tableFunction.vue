@@ -1,12 +1,12 @@
 <template>
     <div class="text-right">
         <button
-            class="relative p-6 mr-3 rounded-full inline-block leading-none bg-amber-400 hover:bg-amber-300"
+            class="relative p-6 mr-3 rounded-full inline-block leading-none bg-secondary hover:brightness-110"
             @click="toggleEditCourse"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 absolute font-bold text-3xl text-white add-course ease-out duration-300"
+                class="h-6 w-6 absolute font-bold text-3xl text-primary add-course ease-out duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -26,11 +26,11 @@
         </button>
         <router-link to="Setting">
             <button
-                class="relative p-6 rounded-full inline-block leading-none bg-amber-400 hover:bg-amber-300"
+                class="relative p-6 rounded-full inline-block leading-none bg-secondary hover:brightness-110"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-7 w-7 absolute font-bold text-3xl text-white setting"
+                    class="h-7 w-7 absolute font-bold text-3xl text-primary setting"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     :style="{

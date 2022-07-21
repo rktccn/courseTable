@@ -1,20 +1,23 @@
 <template>
-    <div
-        class="h-7 w-52 px-2 flex items-center outline outline-2 outline-amber-300 rounded-md relative select-none"
-    >
-        <header class="cursor-pointer flex justify-between items-center w-full">
+    <div class="relative select-none" ref="roSelect">
+        <header
+            class="cursor-pointer flex justify-between items-center h-7 w-52 px-2 outline outline-2 rounded-md duration-150 ease-in-out"
+            :class="isListShow ? 'text-primary' : 'text-muted'"
+            @click="isListShow = !isListShow"
+        >
             <span
                 v-if="curLabel === ''"
                 class="placeholder text-sm opacity-60 grow overflow-hidden truncate"
                 >{{ placeholder }}</span
             >
-            <span v-else class="grow overflow-hidden truncate">{{
+            <span v-else class="grow font-semibold overflow-hidden truncate">{{
                 curLabel
             }}</span>
 
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 shrink-0 stroke-amber-300"
+                class="h-5 w-5 shrink-0 text-primary duration-150 ease-in-out"
+                :class="{ 'rotate-180': isListShow }"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -27,14 +30,22 @@
                 />
             </svg>
         </header>
-        <div class="option-list absolute top-full left-0 w-full pt-1 px-1">
-            <slot></slot>
-        </div>
+
+        <transition name="drop-b">
+            <div
+                v-if="isListShow"
+                class="option-list absolute top-full left-0 w-full mt-1 py-1 bg-off-base shadow-md rounded-md overflow-hidden"
+            >
+                <slot></slot>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, reactive, ref, toRefs } from 'vue'
+import { defineComponent, provide, ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+
 import {
     Option,
     pushOption,
@@ -59,6 +70,7 @@ export default defineComponent({
         const options = ref<Option[]>([])
         const curValue = ref<String | number>('')
         const curLabel = ref<string>('')
+        const isListShow = ref<boolean>(false)
 
         const pushOption: pushOption = ({ label, value }) => {
             options.value.push({ label, value })
@@ -68,19 +80,21 @@ export default defineComponent({
             curValue.value = value
             curLabel.value =
                 options.value.find(item => item.value === value)?.label ?? ''
+            isListShow.value = false
         }
 
         provide(pushOptionKey, pushOption)
         provide(setCurrentKey, setCurrent)
         provide(curValueKey, curValue)
 
-        return { curValue, curLabel }
+        const roSelect = ref<HTMLDivElement | null>(null)
+        onClickOutside(roSelect, () => {
+            isListShow.value = false
+        })
+
+        return { curValue, curLabel, isListShow, roSelect }
     }
 })
 </script>
 
-<style lang="scss" scoped>
-.option-list {
-    // transform: translateY(5px);
-}
-</style>
+<style lang="scss" scoped></style>

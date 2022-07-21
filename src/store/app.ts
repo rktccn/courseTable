@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', {
     state: () => {
         return {
-            currentWeek: 0 // 当前周次
+            currentWeek: 0, // 当前周次
+            primaryColor: 'fuchsia'
         }
     },
     actions: {

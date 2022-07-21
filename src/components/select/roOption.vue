@@ -1,8 +1,10 @@
 <template>
     <div class="w-full">
         <span
-            class="w-full block cursor-pointer"
-            :class="[curValue === value ? 'bg-amber-400' : 'bg-amber-200']"
+            class="w-full px-2 py-1 block cursor-pointer font-semibold text-base hover:backdrop-brightness-110"
+            :class="{
+                'text-primary backdrop-brightness-110': curValue === value
+            }"
             @click="setCurrent?.(value)"
             >{{ label }}</span
         >

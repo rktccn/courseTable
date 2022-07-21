@@ -1,9 +1,11 @@
 <template>
-    <div class="px-8 py-4 bg-amber-100 shadow-lg rounded-lg select-none">
+    <div
+        class="px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
+    >
         <div class="flex flex-col my-2">
             <span class="item text-xs opacity-70">基础信息</span>
             <input
-                class="item px-2 rounded-md"
+                class="item px-2 rounded-md text-primary"
                 type=" text"
                 v-model="courseName"
                 placeholder="课程名称"
@@ -11,7 +13,7 @@
             <div class="item flex items-center justify-between">
                 <span> 颜色和图标</span>
                 <span
-                    class="h-5 rounded bg-amber-400 aspect-square block cursor-pointer"
+                    class="h-5 rounded bg-primary aspect-square block cursor-pointer"
                 ></span>
             </div>
         </div>
@@ -50,13 +52,13 @@
 
         <div class="control flex justify-between mt-4 font-semibold">
             <button
-                class="control__item px-3 py-1 rounded-md bg-slate-50"
+                class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
                 @click="$emit('update:showEditCourse', false)"
             >
                 取消
             </button>
             <button
-                class="control__item px-3 py-1 rounded-md bg-amber-400"
+                class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
                 @click="addCourse"
             >
                 添加
@@ -69,10 +71,10 @@
                 v-if="addTimeShow"
             >
                 <div
-                    class="edit-time__box px-8 py-4 w-80 bg-amber-100 shadow-lg rounded-lg flex flex-col"
+                    class="edit-time__box px-8 py-4 w-80 bg-off-base shadow-lg rounded-lg flex flex-col"
                     ref="addTimeEL"
                 >
-                    <div>
+                    <section>
                         <h6 class="item font-semibold text-base">选择节次</h6>
 
                         <div class="item flex justify-evenly items-center">
@@ -81,7 +83,7 @@
                                     type="number"
                                     name="start-section"
                                     id=""
-                                    class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
+                                    class="w-8 h-8 bg-base text-base rounded-md text-center outline"
                                     :class="
                                         sectionState(time.startSection)
                                             ? 'outline-sky-400'
@@ -100,7 +102,7 @@
                                     type="number"
                                     name="start-section"
                                     id=""
-                                    class="w-8 h-8 bg-slate-50 rounded-md text-center outline"
+                                    class="w-8 h-8 bg-base text-base rounded-md text-center outline"
                                     :class="
                                         sectionState(time.endSection)
                                             ? 'outline-sky-400'
@@ -114,24 +116,28 @@
                                 >
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- 星期 -->
-                    <div>
+                    <section>
                         <h6 class="item font-semibold text-base">选择星期</h6>
                         <div class="item flex justify-between">
                             <button
                                 v-for="item in 7"
-                                class="flex items-center justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-150 hover:bg-amber-400 active:bg-amber-300"
+                                class="flex items-center justify-center w-8 h-8 rounded-full ease-in-out duration-150 hover:bg-primary hover:text-secondary active:brightness-110"
                                 @click="time.day = item"
-                                :class="{ 'bg-amber-400': time.day === item }"
+                                :class="[
+                                    time.day === item
+                                        ? 'bg-primary text-secondary'
+                                        : 'bg-off-base text-base'
+                                ]"
                             >
                                 {{ item }}
                             </button>
                         </div>
-                    </div>
+                    </section>
 
-                    <div>
+                    <section>
                         <h6 class="item font-semibold text-base">选择周次</h6>
                         <div class="item flex flex-wrap">
                             <div
@@ -139,13 +145,15 @@
                                 v-for="item in 20"
                             >
                                 <button
-                                    class="flex items-center mx-auto mb-0.5 justify-center w-8 h-8 bg-slate-50 rounded-full ease-in-out duration-150 hover:bg-amber-400 active:bg-amber-300"
-                                    :class="{
-                                        ' bg-slate-300 text-white hover:bg-slate-300 hover:cursor-no-drop':
-                                            !AvailableWeek.includes(item),
-                                        'bg-amber-400':
-                                            time.weeks.includes(item)
-                                    }"
+                                    class="flex items-center mx-auto mb-0.5 justify-center w-8 h-8 rounded-full ease-in-out duration-150"
+                                    :class="[
+                                        !AvailableWeek.includes(item)
+                                            ? 'bg-muted text-secondary hover:bg-muted hover:cursor-no-drop'
+                                            : 'hover:bg-primary hover:text-secondary active:brigntness-110',
+                                        time.weeks.includes(item)
+                                            ? 'bg-primary text-secondary'
+                                            : 'bg-off-base text-base'
+                                    ]"
                                     @click="
                                         time.weeks.includes(item)
                                             ? time.weeks.splice(
@@ -159,8 +167,8 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div>
+                    </section>
+                    <section>
                         <h6 class="item font-semibold text-base">其他信息</h6>
                         <div class="item flex flex-col">
                             <div class="item flex justify-between">
@@ -182,24 +190,24 @@
                                 />
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <div
+                    <section
                         class="control flex justify-between mt-4 font-semibold"
                     >
                         <button
-                            class="control__item px-3 py-1 rounded-md bg-slate-50"
+                            class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
                             @click="addTimeShow = false"
                         >
                             取消
                         </button>
                         <button
-                            class="control__item px-3 py-1 rounded-md bg-amber-400"
+                            class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
                             @click="addTime"
                         >
                             添加
                         </button>
-                    </div>
+                    </section>
                 </div>
             </div>
         </transition>
