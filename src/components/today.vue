@@ -3,7 +3,7 @@
         <section class="flex justify-between font-semibold mb-2">
             <div class="title flex flex-col">
                 <span class="text-3xl text-primary">今日</span>
-                <span class="text-2xl text-secondary">7月8日 星期五</span>
+                <span class="text-2xl text-muted">7月8日 星期五</span>
             </div>
             <div class="weather flex items-center">
                 <span class="mr-3">icon</span>

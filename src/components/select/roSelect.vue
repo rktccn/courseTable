@@ -2,7 +2,7 @@
     <div class="relative select-none" ref="roSelect">
         <header
             class="cursor-pointer flex justify-between items-center h-7 w-52 px-2 outline outline-2 rounded-md duration-150 ease-in-out"
-            :class="isListShow ? 'text-primary' : 'text-muted'"
+            :class="isListShow ? 'text-muted-hover' : 'text-primary'"
             @click="isListShow = !isListShow"
         >
             <span
@@ -16,7 +16,7 @@
 
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 shrink-0 text-primary duration-150 ease-in-out"
+                class="h-5 w-5 shrink-0 text-muted-hover duration-150 ease-in-out"
                 :class="{ 'rotate-180': isListShow }"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -34,7 +34,7 @@
         <transition name="drop-b">
             <div
                 v-if="isListShow"
-                class="option-list absolute top-full left-0 w-full mt-1 py-1 bg-off-base shadow-md rounded-md overflow-hidden"
+                class="option-list z-10 absolute top-full left-0 w-full mt-1 py-1 bg-off-base shadow-md rounded-md overflow-hidden"
             >
                 <slot></slot>
             </div>

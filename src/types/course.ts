@@ -33,12 +33,11 @@ export type RoCourseTable = {
     color?: string
 }
 
-
-
-export enum themeKey  {
-    'light',
-    'dark',
-    "solar",
-    'evergreen'
-
+export enum themeKey {
+    light = 'light',
+    dark = 'dark',
+    solar = 'solar',
+    evergreen = 'evergreen',
+    lightgreen = 'lightgreen',
+    zinc = 'zinc'
 }

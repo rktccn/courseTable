@@ -3,7 +3,7 @@
         <span
             class="w-full px-2 py-1 block cursor-pointer font-semibold text-base hover:backdrop-brightness-110"
             :class="{
-                'text-primary backdrop-brightness-110': curValue === value
+                'text-muted-hover backdrop-brightness-110': curValue === value
             }"
             @click="setCurrent?.(value)"
             >{{ label }}</span

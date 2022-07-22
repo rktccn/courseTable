@@ -54,11 +54,21 @@
 
     .theme-lightgreen {
         --color-base: theme('colors.green.50');
-        --color-text-base: theme('colors.neutral.800');
-        --color-off-base: theme('colors.green.300');
-        --color-text-muted: theme('colors.neutral.400');
-        --color-text-muted-hover: theme('colors.neutral.600');
-        --color-primary: theme('colors.emerald.800');
+        --color-text-base: #1f2430;
+        --color-off-base: #82eab5;
+        --color-text-muted: #b3b4b8;
+        --color-text-muted-hover: #8da4da;
+        --color-primary: #202230;
         --color-secondary: theme('colors.emerald.300');
+    }
+
+    .theme-zinc {
+        --color-base: rgb(64, 67, 86);
+        --color-text-base: #ffffff;
+        --color-off-base: rgb(68, 71, 90);
+        --color-text-muted: #696f7f;
+        --color-text-muted-hover: #ff6897;
+        --color-primary: #b7b9c6;
+        --color-secondary: #383b4a;
     }
 }
