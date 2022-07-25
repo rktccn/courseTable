@@ -1,7 +1,7 @@
 <template>
     <div class="relative select-none" ref="roSelect">
         <header
-            class="cursor-pointer flex justify-between items-center h-7 w-52 px-2 outline outline-2 rounded-md duration-150 ease-in-out"
+            class="cursor-pointer flex justify-between items-center h-7 w-52 px-2 outline outline-2 rounded-md bg-base duration-150 ease-in-out"
             :class="isListShow ? 'text-muted-hover' : 'text-primary'"
             @click="isListShow = !isListShow"
         >

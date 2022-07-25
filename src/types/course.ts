@@ -18,9 +18,9 @@ export type RoCourse = {
 // 节次类型，每节课的时间
 export type RoCourseTimeType = {
     // 开始时间
-    start: Date
+    start: string | null
     // 结束时间
-    end: Date
+    end: string | null
 }
 
 // 课表类型
@@ -28,7 +28,17 @@ export type RoCourseTable = {
     count: number
     start: number
     name: string
-    classRoom?: string
+    classroom?: string
+    teacher?: string
+    color?: string
+}
+
+// 单日类型
+export type RoCourseDay = {
+    start: string
+    end: string
+    name: string
+    classroom?: string
     teacher?: string
     color?: string
 }
@@ -40,4 +50,15 @@ export enum themeKey {
     evergreen = 'evergreen',
     lightgreen = 'lightgreen',
     zinc = 'zinc'
+}
+
+// 数字转汉字
+export enum numToChinese {
+    '日',
+    '一',
+    '二',
+    '三',
+    '四',
+    '五',
+    '六'
 }

@@ -8,15 +8,7 @@
 import { useCourseStore } from '@/store/course'
 
 const courseStore = useCourseStore()
-for (let i = 0; i < 20; i++) {
-    courseStore.weekInfo.push([])
-    for (let j = 0; j < 7; j++) {
-        courseStore.weekInfo[i].push([])
-        for (let k = 0; k < 20; k++) {
-            courseStore.weekInfo[i][j].push(null)
-        }
-    }
-}
+courseStore.initCourse()
 </script>
 
 <style lang="scss"></style>

@@ -6,12 +6,12 @@
 
         <h3 class="font-semibold text-4xl">设置</h3>
 
-        <section class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
+        <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
             <header>
                 <h6 class="text-xl">基础设置</h6>
             </header>
             <div class="flex flex-col">
-                <div class="mt-2 flex justify-between items-center">
+                <section class="mt-2 flex justify-between items-center">
                     <span class=""> 颜色 </span>
                     <div class="relative" ref="colorList">
                         <button
@@ -33,8 +33,9 @@
                             </div>
                         </transition>
                     </div>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
                     <span class="float-left"> 语言 </span>
                     <RoSelect class="float-left">
                         <RoOption
@@ -44,10 +45,129 @@
                             :label="item.label"
                         ></RoOption>
                     </RoSelect>
-                </div>
-                <div class="mt-2"><span> 地区 </span></div>
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
+                    <span> 地区 </span>
+                    <RoSelect class="float-left">
+                        <RoOption
+                            v-for="item in regionList"
+                            :key="item.value"
+                            :value="item.value"
+                            :label="item.label"
+                        ></RoOption>
+                    </RoSelect>
+                </section>
             </div>
-        </section>
+        </article>
+
+        <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
+            <header>
+                <h6 class="text-xl">课表设置</h6>
+            </header>
+            <div class="flex flex-col">
+                <section class="mt-2 flex justify-between items-center">
+                    <span class=""> 开学时间 </span>
+                    <input
+                        class="h-7 px-2 outline outline-2 bg-base rounded-md text-primary font-semibold"
+                        type="date"
+                        name=""
+                        id=""
+                        v-model="firstWeekTime"
+                    />
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
+                    <span class=""> 学期总周数 </span>
+                    <input
+                        class="h-7 px-2 w-10 outline outline-2 bg-base rounded-md text-center text-primary font-semibold"
+                        type="number"
+                        name=""
+                        id=""
+                        v-model="totalWeeks"
+                    />
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
+                    <span class="mb-2">
+                        课表节数
+                        <p class="text-xs text-muted opacity-80">
+                            修改后可能导致部分课程显示异常
+                        </p>
+                    </span>
+                    <div class="flex">
+                        <span class="mr-3 flex flex-col items-center">
+                            <input
+                                class="w-7 h-7 px-1 outline outline-2 bg-base rounded-md text-center text-primary font-semibold"
+                                type="number"
+                                name=""
+                                id=""
+                                v-model="sections[0]"
+                            />
+                            <p class="mt-1 text-xs opacity-70">上午</p>
+                        </span>
+                        <span class="flex flex-col items-center">
+                            <input
+                                class="w-7 h-7 px-1 outline outline-2 bg-base rounded-md text-center text-primary font-semibold"
+                                type="number"
+                                name=""
+                                id=""
+                                v-model="sections[1]"
+                            />
+                            <p class="mt-1 text-xs opacity-70">下午</p>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
+                    <span class=""> 上课时间 </span>
+                    <button
+                        class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-base hover:text-primary hover:outline-2"
+                        @click="isTimeShow = true"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                        </svg>
+                    </button>
+                </section>
+            </div>
+        </article>
+
+        <article>
+            <section class="control float-right mt-4 font-semibold">
+                <button
+                    class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out text-base hover:text-base hover:outline-2"
+                    @click="cancel"
+                >
+                    取消
+                </button>
+                <button
+                    class="control__item px-3 py-1 ml-8 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
+                    @click="submit"
+                >
+                    确定
+                </button>
+            </section>
+        </article>
+
+        <transition name="drop-b">
+            <EditTime
+                v-if="isTimeShow"
+                v-model:isShow="isTimeShow"
+                class="edit-time fixed"
+            ></EditTime>
+        </transition>
     </div>
 </template>
 <script lang="ts">
@@ -57,24 +177,48 @@ import { onClickOutside } from '@vueuse/core'
 
 import RoSelect from '@/components/select/roSelect.vue'
 import RoOption from '@/components/select/roOption.vue'
+import EditTime from '@/components/editTime.vue'
+import { useCourseStore } from '@/store/course'
 
 export default defineComponent({
     name: 'Setting',
     setup() {
+        const courseStore = useCourseStore()
+
         const languageOptionList = [
             {
                 value: 'zh-CN',
                 label: '中文'
-            },
+            }
+            // {
+            //     value: 'en-US',
+            //     label: '英文'
+            // }
+        ]
+
+        const regionList = [
             {
-                value: 'en-US',
-                label: '英文'
+                value: '+8',
+                label: '中国，北京'
             }
         ]
 
         const data = reactive({
-            isThemeShow: false
+            isThemeShow: false,
+            isTimeShow: false,
+            firstWeekTime: '',
+            totalWeeks: '',
+            sections: [0, 0, 0]
         })
+
+        const initData = () => {
+            data.firstWeekTime = courseStore.firstWeekDate
+
+            data.totalWeeks = courseStore.totalWeeks
+            data.sections[0] = courseStore._getCourseSection[0]
+            data.sections[1] = courseStore._getCourseSection[1]
+            data.sections[2] = courseStore._getCourseSection[2]
+        }
 
         const colorList = ref<HTMLDivElement | null>(null)
         onClickOutside(colorList, () => {
@@ -85,17 +229,33 @@ export default defineComponent({
             document.documentElement.classList.value = `theme-${val}`
         }
 
+        initData()
+
+        const cancel = () => {
+            initData()
+        }
+
+        const submit = () => {
+            courseStore.setStartDate(data.firstWeekTime)
+            courseStore.totalWeeks = data.totalWeeks
+            courseStore.setCourseSection(data.sections)
+        }
+
         return {
             ...toRefs(data),
             languageOptionList,
+            regionList,
             themeKey,
             colorList,
-            toggleTheme
+            toggleTheme,
+            cancel,
+            submit
         }
     },
     components: {
         RoSelect,
-        RoOption
+        RoOption,
+        EditTime
     }
 })
 </script>
@@ -110,5 +270,10 @@ export default defineComponent({
     grid-gap: 8px;
     justify-content: center;
     align-items: center;
+}
+
+.edit-time {
+    top: 0;
+    left: 0;
 }
 </style>

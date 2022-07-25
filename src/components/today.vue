@@ -57,6 +57,23 @@
                 <span class="text-base text-primary">C101</span>
             </article>
 
+            <article
+                v-for="(course, index) in courseList"
+                class="grow flex flex-col relative overflow-hidden p-4 pl-8 my-1 shadow-md rounded-lg bg-off-base text-xl font-semibold before:block before:absolute before:left-0 before:top-0 before:w-2 before:h-full before:bg-sky-400"
+            >
+                <span class="flex text-sm text-muted-hover">
+                    <span>{{ course.start }}</span>
+                    <em class="mx-1">-</em>
+                    <span>{{ course.end }}</span>
+                </span>
+                <span class="text-2xl overflow-hidden truncate text-primary">{{
+                    course.name
+                }}</span>
+                <span class="text-base text-primary">{{
+                    course.classroom
+                }}</span>
+            </article>
+
             <div
                 class="pointer absolute flex flex-col items-end w-full"
                 :style="{ top: '150px', left: '0' }"
@@ -73,10 +90,20 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { useCourseStore } from '@/store/course'
+import { defineComponent, computed } from 'vue'
 
 export default defineComponent({
     name: 'Today',
-    setup() {}
+    setup() {
+        const courseStore = useCourseStore()
+        const courseList = computed(() => {
+            return courseStore.getDayCourse(new Date())
+        })
+
+        return {
+            courseList
+        }
+    }
 })
 </script>

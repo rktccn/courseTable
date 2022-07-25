@@ -7,10 +7,10 @@
             <div
                 class="flex flex-col mx-4"
                 :class="{
-                    grayscale: day + 1 < currentWeek,
-                    ' brightness-90': day + 1 > currentWeek
+                    grayscale: day < currentWeek,
+                    ' brightness-90': day > currentWeek
                 }"
-                v-for="(day, index) in weekList"
+                v-for="(day, index) in totalWeeks"
                 :key="index"
                 @click="setToCenter(index)"
             >
@@ -18,7 +18,7 @@
                     class="p-6 snap-start relative bg-secondary rounded-full hover:brightness-110 hover:cursor-pointer text-primary"
                 >
                     <span class="week-info flex flex-col items-center absolute">
-                        <p class="font-semibold brightness-70">{{ day + 1 }}</p>
+                        <p class="font-semibold brightness-70">{{ day }}</p>
                         <p class="text-xs leading-3">周</p>
                     </span>
                 </div>
@@ -39,15 +39,14 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, reactive, toRefs } from 'vue'
 import { useAppStore } from '@/store/app'
+import { useCourseStore } from '@/store/course'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
     name: 'WeekTable',
     setup() {
         const appStore = useAppStore()
-
-        const data = reactive({
-            weekList: <number[]>[]
-        })
+        const courseStore = useCourseStore()
         let EList: Element | null = null
 
         let currentWeek = computed<number>({
@@ -59,9 +58,7 @@ export default defineComponent({
             }
         })
 
-        for (let i = 0; i < 20; i++) {
-            data.weekList.push(i)
-        }
+        const { totalWeeks } = storeToRefs(courseStore)
 
         const setToCenter = (index: number) => {
             let el = EList?.children[index]
@@ -84,10 +81,10 @@ export default defineComponent({
         })
 
         return {
-            ...toRefs(data),
             setToCenter,
             scrollList,
-            currentWeek
+            currentWeek,
+            totalWeeks
         }
     }
 })
