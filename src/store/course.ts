@@ -62,7 +62,7 @@ export const useCourseStore = defineStore({
                     for (let j = 0; j < 7; j++) {
                         // 增加日数组
                         this.weekInfo[i].push([])
-                        for (let k = 0; k < totalSections; k++) {
+                        for (let k = 0; k < 20; k++) {
                             // 增加课程key
                             this.weekInfo[i][j].push(null)
                         }
@@ -122,6 +122,33 @@ export const useCourseStore = defineStore({
             })
 
             this.courseMap.delete(key)
+        },
+
+        // 设置总周数量
+        setTotalWeeks(totalWeeks: number) {
+            let curWeeks = this.totalWeeks
+            let diff = totalWeeks - curWeeks
+            let totalSections =
+                this.courseSection[0] +
+                this.courseSection[1] +
+                this.courseSection[2]
+            if (diff > 0) {
+                for (let i = 0; i < diff; i++) {
+                    this.weekInfo.push([])
+                    for (let j = 0; j < 7; j++) {
+                        this.weekInfo[curWeeks + i].push([])
+                        for (let k = 0; k < totalSections; k++) {
+                            this.weekInfo[curWeeks + i][j].push(null)
+                        }
+                    }
+                }
+            } else {
+                for (let i = 0; i < -diff; i++) {
+                    this.weekInfo.pop()
+                }
+            }
+
+            this.totalWeeks = totalWeeks
         },
 
         // 设置第一周开始日期
@@ -264,6 +291,8 @@ export const useCourseStore = defineStore({
             duraction: courseDuractionModel[]
         ): (number | string)[][] {
             let res: (number | string)[][] = []
+            let c = this.courseSection
+            let breakSection = [c[0], c[0] + c[1], c[0] + c[1] + c[2]]
 
             duraction.forEach(val => {
                 const { section, classroom } = val
@@ -273,7 +302,7 @@ export const useCourseStore = defineStore({
                 // 检查数字连续
                 // 返回[第一个数，连续次数]
                 section.forEach(v => {
-                    if (temp === v && !this.courseSection.includes(temp - 1)) {
+                    if (temp === v && !breakSection.includes(temp - 1)) {
                         temp++
                         long++
                         ta[1] = long
@@ -292,6 +321,8 @@ export const useCourseStore = defineStore({
         // 获取课程开始和结束时间
         getCourseTime(duraction: courseDuractionModel[]): string[][] {
             let res: string[][] = []
+            let c = this.courseSection
+            let breakSection = [c[0], c[0] + c[1], c[0] + c[1] + c[2]]
 
             duraction.forEach(val => {
                 const { section, classroom } = val
@@ -302,7 +333,7 @@ export const useCourseStore = defineStore({
                 // 检查数字连续
                 // 返回[第一个数，连续次数]
                 section.forEach(v => {
-                    if (temp === v && !this.courseSection.includes(temp - 1)) {
+                    if (temp === v && !breakSection.includes(temp - 1)) {
                         temp++
                         long++
                         ta[1] = this.getSection(v).end
@@ -411,8 +442,17 @@ export const useCourseStore = defineStore({
 
         // 获取当前节次可选的，与其他课程不冲突的周次
         getAbleWeek(day: number, section: number[]): number[] {
-            day = day === 7 ? 0 : day
             const res: number[] = []
+
+            let totalSections =
+                this.courseSection[0] +
+                this.courseSection[1] +
+                this.courseSection[2]
+            if (section[section.length - 1] > totalSections) {
+                return res
+            }
+            day = day === 7 ? 0 : day
+
             this.weekInfo.forEach((week: number[][], index: number) => {
                 const check = section.find(
                     (v: number) => week[day][v - 1] !== null

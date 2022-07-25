@@ -237,8 +237,8 @@ export default defineComponent({
 
         const submit = () => {
             courseStore.setStartDate(data.firstWeekTime)
-            courseStore.totalWeeks = data.totalWeeks
             courseStore.setCourseSection(data.sections)
+            courseStore.setTotalWeeks(data.totalWeeks)
         }
 
         return {

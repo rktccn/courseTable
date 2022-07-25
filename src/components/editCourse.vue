@@ -27,7 +27,9 @@
                     v-for="time in timeList"
                 >
                     <div class="time flex justify-between text-primary">
-                        <span>周{{ time.day }}，共{{ time.weeks.length }}周</span>
+                        <span
+                            >周{{ time.day }}，共{{ time.weeks.length }}周</span
+                        >
                         <span
                             >{{ time.startSection }}-{{
                                 time.endSection
@@ -142,7 +144,7 @@
                         <div class="item flex flex-wrap">
                             <div
                                 class="basis-1/6 inline-block"
-                                v-for="item in 20"
+                                v-for="item in totalWeeks"
                             >
                                 <button
                                     class="flex items-center mx-auto mb-0.5 justify-center w-8 h-8 rounded-full ease-in-out duration-150"
@@ -218,6 +220,7 @@ import { useCourseStore } from '@/store/course'
 import { defineComponent, reactive, ref, toRefs, computed } from 'vue'
 import { RoCourse, courseDuractionModel } from '@/types/course'
 import { onClickOutside } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 
 interface time {
     startSection: number | null
@@ -240,6 +243,7 @@ export default defineComponent({
     setup(props, context) {
         const courseStore = useCourseStore()
         const addTimeEL = ref<HTMLDivElement | null>(null)
+        const { totalWeeks } = storeToRefs(courseStore)
 
         const data = reactive({
             courseName: '',
@@ -440,6 +444,7 @@ export default defineComponent({
             ...toRefs(data),
             time,
             AvailableWeek,
+            totalWeeks,
             sectionState,
             addCourse,
             addTime,
