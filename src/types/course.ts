@@ -43,6 +43,7 @@ export type RoCourseDay = {
     color?: string
 }
 
+// 主题颜色
 export enum themeKey {
     light = 'light',
     dark = 'dark',
@@ -50,6 +51,19 @@ export enum themeKey {
     evergreen = 'evergreen',
     lightgreen = 'lightgreen',
     zinc = 'zinc'
+}
+
+// 课程颜色
+export enum courseColorKey {
+    red = 'red',
+    orange = 'orange',
+    yellow = 'yellow',
+    green = 'green',
+    teal = 'teal',
+    sky = 'sky',
+    indigo = 'indigo',
+    purple = 'purple',
+    pink = 'pink'
 }
 
 // 数字转汉字

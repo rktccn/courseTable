@@ -1,6 +1,6 @@
 <template>
     <div
-        class="px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
+        class="px-8 py-4 z-20 bg-off-base shadow-lg rounded-lg select-none text-base"
     >
         <div class="flex flex-col my-2">
             <span class="item text-xs opacity-70">基础信息</span>
@@ -12,9 +12,28 @@
             />
             <div class="item flex items-center justify-between">
                 <span> 颜色和图标</span>
-                <span
-                    class="h-5 rounded bg-primary aspect-square block cursor-pointer"
-                ></span>
+                <span class="relative">
+                    <button
+                        class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
+                        :class="`bg-${color}-200 outline-${color}-400`"
+                        @click.self="isColorShow = !isColorShow"
+                    ></button>
+
+                    <transition name="drop-b">
+                        <div
+                            v-if="isColorShow"
+                            class="color-list z-10 absolute mt-1 px-3 py-2 bg-off-base shadow-md rounded-md"
+                            ref="colorList"
+                        >
+                            <button
+                                v-for="item in courseColorKey"
+                                :class="getColor(item)"
+                                class="h-5 rounded outline outline-2 aspect-square block hover:brightness-110"
+                                @click="selectColor(item)"
+                            ></button>
+                        </div>
+                    </transition>
+                </span>
             </div>
         </div>
 
@@ -221,6 +240,7 @@ import { defineComponent, reactive, ref, toRefs, computed } from 'vue'
 import { RoCourse, courseDuractionModel } from '@/types/course'
 import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
+import { courseColorKey } from '@/types/course'
 
 interface time {
     startSection: number | null
@@ -243,14 +263,24 @@ export default defineComponent({
     setup(props, context) {
         const courseStore = useCourseStore()
         const addTimeEL = ref<HTMLDivElement | null>(null)
+        onClickOutside(addTimeEL, () => {
+            data.addTimeShow = false
+        })
+
+        const colorList = ref<HTMLDivElement | null>(null)
+        onClickOutside(colorList, () => {
+            data.isColorShow = false
+        })
+
         const { totalWeeks } = storeToRefs(courseStore)
 
         const data = reactive({
             courseName: '',
-            color: 'amber',
+            color: 'orange',
             icon: '',
             timeList: <time[]>[],
-            addTimeShow: false
+            addTimeShow: false,
+            isColorShow: false
         })
 
         const time = ref<time>({
@@ -262,13 +292,37 @@ export default defineComponent({
             teacher: ''
         })
 
+        const getColor = (item: string) => {
+            switch (item) {
+                case 'sky':
+                    return `bg-sky-200 text-sky-600 outline-sky-400`
+                case 'red':
+                    return `bg-red-200 text-red-600 outline-red-400`
+                case 'orange':
+                    return `bg-orange-200 text-orange-600 outline-orange-400`
+                case 'yellow':
+                    return `bg-yellow-200 text-yellow-600 outline-yellow-400`
+                case 'green':
+                    return `bg-green-200 text-green-600 outline-green-400`
+                case 'teal':
+                    return `bg-teal-200 text-teal-600 outline-teal-400`
+                case 'indigo':
+                    return `bg-indigo-200 text-indigo-600 outline-indigo-400`
+                case 'purple':
+                    return `bg-purple-200 text-purple-600 outline-purple-400`
+                case 'pink':
+                    return `bg-pink-200 text-pink-600 outline-pink-400`
+            }
+        }
+
+        const selectColor = (item: string) => {
+            data.color = item
+            data.isColorShow = false
+        }
+
         function getNumberArr(a: number, b: number): number[] {
             return Array.from(Array(b - a + 1)).map((e, i) => a + i)
         }
-
-        onClickOutside(addTimeEL, () => {
-            data.addTimeShow = false
-        })
 
         const check = () => {
             if (
@@ -306,23 +360,6 @@ export default defineComponent({
                 timeList.filter(item => item !== null)
             )
             return res
-        }
-
-        const addCourse = () => {
-            if (!check()) {
-                return
-            }
-
-            let course: RoCourse = {
-                key: 0,
-                courseName: data.courseName, // 课程名称
-                courseTeacher: '王老师', // 授课教师
-                duration: formatTime(),
-                color: 'amber' // 颜色
-            }
-
-            courseStore.insertCourse(course)
-            context.emit('update:showEditCourse', false)
         }
 
         const addTime = () => {
@@ -440,16 +477,37 @@ export default defineComponent({
             }
         })
 
+        const addCourse = () => {
+            if (!check()) {
+                return
+            }
+
+            let course: RoCourse = {
+                key: 0,
+                courseName: data.courseName, // 课程名称
+                courseTeacher: '王老师', // 授课教师
+                duration: formatTime(),
+                color: data.color // 颜色
+            }
+
+            courseStore.insertCourse(course)
+            context.emit('update:showEditCourse', false)
+        }
+
         return {
             ...toRefs(data),
             time,
             AvailableWeek,
             totalWeeks,
+            courseColorKey,
             sectionState,
             addCourse,
             addTime,
             scrollNumber,
-            addTimeEL
+            getColor,
+            selectColor,
+            addTimeEL,
+            colorList
         }
     }
 })
@@ -458,6 +516,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 .item {
     margin-bottom: 4px;
+}
+.color-list {
+    top: 100%;
+    right: 0;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-time {

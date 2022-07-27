@@ -3,6 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import * as path from 'path'
 
 import electron from 'vite-plugin-electron'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,6 +28,10 @@ export default defineConfig({
             },
             // Enables use of Node.js API in the Electron-Renderer
             renderer: {}
+        }),
+        createSvgIconsPlugin({
+            iconDirs: [path.resolve(process.cwd(), './node_modules/qweather-icons/icons')],
+            symbolId: 'icon-[name]'
         })
     ]
 })

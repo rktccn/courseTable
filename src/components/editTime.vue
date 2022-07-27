@@ -1,6 +1,6 @@
 <template>
     <div
-        class="backdrop-blur-md backdrop-brightness-75 w-full h-full flex items-center justify-center"
+        class="backdrop-blur-md backdrop-brightness-75 z-20 w-full h-full flex items-center justify-center"
         @click.self="cancel"
     >
         <div

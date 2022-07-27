@@ -1,2 +1,3 @@
-import os from "os";
-console.log("platform", os.platform());
+import os from 'os'
+
+console.log('platform', os.platform())

@@ -39,7 +39,8 @@
                     <span
                         v-for="course in day"
                         :key="course.name"
-                        class="bg-amber-100 rounded-md p-1 text-amber-600 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
+                        :class="`bg-${course.color}-200 text-${course.color}-600`"
+                        class=" rounded-md p-1  font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                         :style="{
                             gridArea: `${course.start}/${index + 2}/${
                                 course.start + course.count
