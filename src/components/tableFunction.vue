@@ -1,29 +1,37 @@
 <template>
     <div class="text-right">
-        <button
-            class="relative p-6 mr-3 rounded-full inline-block leading-none bg-secondary hover:brightness-110"
-            @click="toggleEditCourse"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 absolute font-bold text-3xl text-primary add-course ease-out duration-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="5"
-                :style="{
-                    transform: showEditCourse
-                        ? 'translate(-50%,-50%) rotate(45deg)'
-                        : 'translate(-50%,-50%)'
-                }"
+        <span class="relative mr-3" ref="addCourse">
+            <button
+                class="relative p-6 rounded-full inline-block leading-none bg-secondary hover:brightness-110"
+                @click="showEditCourse = !showEditCourse"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4v16m8-8H4"
-                />
-            </svg>
-        </button>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 absolute font-bold text-3xl text-primary add-course ease-out duration-150"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="5"
+                    :style="{
+                        transform: showEditCourse
+                            ? 'translate(-50%,-50%) rotate(45deg)'
+                            : 'translate(-50%,-50%)'
+                    }"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 4v16m8-8H4"
+                    />
+                </svg>
+            </button>
+            <transition name="drop-b">
+                <EditCourse
+                    v-if="showEditCourse"
+                    v-model:isShow="showEditCourse"
+                ></EditCourse>
+            </transition>
+        </span>
         <router-link to="Setting">
             <button
                 class="relative p-6 rounded-full inline-block leading-none bg-secondary hover:brightness-110"
@@ -48,30 +56,28 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { defineComponent, reactive, ref, toRefs } from 'vue'
+
+import EditCourse from './editCourse.vue'
 
 export default defineComponent({
     name: 'TableFunction',
-    props: {
-        showEditCourse: {
-            type: Boolean,
-            required: true
-        }
-    },
-    emits: {
-        'update:showEditCourse': (val: boolean) => {
-            return val
-        }
-    },
-    setup(props, context) {
-        const toggleEditCourse = () => {
-            context.emit('update:showEditCourse', !props.showEditCourse)
-        }
 
-        return {
-            toggleEditCourse
-        }
-    }
+    setup(props, context) {
+        const data = reactive({
+            showEditCourse: false,
+            cursorPosition: { x: 0, y: 0 }
+        })
+
+        const addCourse = ref<HTMLDivElement | null>(null)
+        onClickOutside(addCourse, () => {
+            data.showEditCourse = false
+        })
+
+        return { ...toRefs(data), addCourse }
+    },
+    components: { EditCourse }
 })
 </script>
 

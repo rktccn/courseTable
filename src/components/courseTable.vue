@@ -21,7 +21,7 @@
             </span>
         </section>
 
-        <section class="main-table overflow-y-scroll flex-grow py-1">
+        <section class="main-table overflow-y-scroll flex-grow p-1">
             <div
                 class="grid grid-cols-8 gap-2 text-center min-h-full"
                 :style="{ gridTemplateRows: 'repeat(8, minmax(0, 1fr))' }"
@@ -40,24 +40,35 @@
                         v-for="course in day"
                         :key="course.name"
                         :class="`bg-${course.color}-200 text-${course.color}-600`"
-                        class=" rounded-md p-1  font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
+                        class="rounded-md p-1 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                         :style="{
                             gridArea: `${course.start}/${index + 2}/${
                                 course.start + course.count
                             }/${index + 3}`
                         }"
+                        @click="toggleEditcourse(course.key)"
                         >{{ course.name }}</span
                     >
                 </template>
             </div>
         </section>
+
+        <transition name="drop-b">
+            <EditCourse
+                v-if="showEditcourse"
+                :courseKey="courseKey"
+                v-model:isShow="showEditcourse"
+            ></EditCourse>
+        </transition>
     </div>
 </template>
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, reactive, toRefs } from 'vue'
 import { RoCourseTable, numToChinese } from '@/types/course'
 import { storeToRefs } from 'pinia'
+
+import EditCourse from './editCourse.vue'
 
 export default defineComponent({
     name: 'CourseTable',
@@ -67,6 +78,10 @@ export default defineComponent({
 
     setup(props) {
         const courseStore = useCourseStore()
+        const data = reactive({
+            showEditcourse: false,
+            courseKey: <number | undefined>undefined
+        })
 
         const { dateList, month } = courseStore.getDateByWeek(props.week)
 
@@ -76,7 +91,23 @@ export default defineComponent({
             return courseStore.getCourseTable(props.week)
         })
 
-        return { numToChinese, table, courseTimeList, dateList, month }
+        const toggleEditcourse = (key: number) => {
+            data.showEditcourse = true
+            data.courseKey = key
+        }
+
+        return {
+            ...toRefs(data),
+            numToChinese,
+            table,
+            courseTimeList,
+            dateList,
+            month,
+            toggleEditcourse
+        }
+    },
+    components: {
+        EditCourse
     }
 })
 </script>

@@ -7,9 +7,7 @@
         <section
             class="day flex flex-col basis-7/12 grow pl-8 pr-12 py-8 overflow-hidden"
         >
-            <TableFunction
-                v-model:showEditCourse="showEditCourse"
-            ></TableFunction>
+            <TableFunction></TableFunction>
             <div class="table grow h-full relative my-3">
                 <transition :name="animationTag">
                     <component
@@ -22,15 +20,6 @@
             </div>
             <WeekList></WeekList>
         </section>
-
-        <transition name="drop-b">
-            <EditCourse
-                class="edit-course absolute"
-                v-if="showEditCourse"
-                ref="editCourse"
-                v-model:showEditCourse="showEditCourse"
-            ></EditCourse>
-        </transition>
 
         <div class="hidden">
             {{ currentWeekInfo }}
@@ -61,7 +50,6 @@ export default defineComponent({
         const data = reactive({
             currentWeekIndex: 0,
             animationTag: '',
-            showEditCourse: false,
             editCoursePosition: <[number, number]>[0, 0]
         })
 
@@ -102,11 +90,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.edit-course {
-    right: 140px;
-    top: 70px;
-}
-
 .slide-left-enter-from {
     transform: translateX(-100%);
     opacity: 0;

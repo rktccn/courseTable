@@ -89,7 +89,7 @@ export const useCourseStore = defineStore({
 
             course.duration.forEach(duration => {
                 duration.weeks.forEach(week => {
-                    const day = duration.day === 7 ? 0 : duration.day
+                    const day = duration.day
                     const section = duration.section
                     section.forEach(item => {
                         this.weekInfo[week - 1][day][item - 1] = key
@@ -99,29 +99,26 @@ export const useCourseStore = defineStore({
         },
 
         // 更新课程
-        updateCourse(course: RoCourse) {
-            const key = course.key
-            this.courseMap.set(key, course)
+        updateCourse(courseT: RoCourse) {
+            const key = courseT.key
+            this.deleteCourse(key)
+            this.insertCourse(courseT)
         },
 
         // 删除课程
         deleteCourse(key: number) {
             const course = this.courseMap.get(key)
-
-            course.key = key
-            this.courseMap.set(key, course)
+            this.courseMap.delete(key)
 
             course.duration.forEach((duration: courseDuractionModel) => {
                 duration.weeks.forEach(week => {
-                    const day = duration.day === 7 ? 0 : duration.day
+                    const day = duration.day
                     const section = duration.section
                     section.forEach(item => {
                         this.weekInfo[week - 1][day][item - 1] = null
                     })
                 })
             })
-
-            this.courseMap.delete(key)
         },
 
         // 设置总周数量
@@ -234,7 +231,6 @@ export const useCourseStore = defineStore({
                     )
                 }
             }
-            console.log(this.courseTimeList)
 
             this.courseSection = klona(section)
         },
@@ -369,7 +365,7 @@ export const useCourseStore = defineStore({
                         const duraction: courseDuractionModel[] =
                             course.duration.filter(
                                 (v: courseDuractionModel) =>
-                                    v.day === (index === 0 ? 7 : index)
+                                    v.day === index && v.weeks.includes(week)
                             )
 
                         let counts = this.getCourseSection(duraction)
@@ -381,6 +377,7 @@ export const useCourseStore = defineStore({
                                 string
                             ]) => {
                                 res[index].push({
+                                    key,
                                     start,
                                     count: long,
                                     name: courseName,
@@ -414,12 +411,15 @@ export const useCourseStore = defineStore({
                         const { courseName, courseTeacher, color } = course
                         const duraction: courseDuractionModel[] =
                             course.duration.filter(
-                                (v: courseDuractionModel) => v.day === date[1]
+                                (v: courseDuractionModel) =>
+                                    v.day === date[1] &&
+                                    v.weeks.includes(date[0])
                             )
 
                         let time = this.getCourseTime(duraction)
                         time.forEach(([start, end, classroom]: string[]) => {
                             res.push({
+                                key,
                                 start,
                                 end,
                                 name: courseName,
@@ -441,7 +441,11 @@ export const useCourseStore = defineStore({
         },
 
         // 获取当前节次可选的，与其他课程不冲突的周次
-        getAbleWeek(day: number, section: number[]): number[] {
+        getAbleWeek(
+            day: number,
+            section: number[],
+            availableTime?: courseDuractionModel[]
+        ): number[] {
             const res: number[] = []
 
             let totalSections =
@@ -451,17 +455,32 @@ export const useCourseStore = defineStore({
             if (section[section.length - 1] > totalSections) {
                 return res
             }
-            day = day === 7 ? 0 : day
 
             this.weekInfo.forEach((week: number[][], index: number) => {
-                const check = section.find(
-                    (v: number) => week[day][v - 1] !== null
-                )
+                const check = section.find((v: number) => {
+                    let res = availableTime?.find(item => {
+                        // 返回true代表在忽略的时间段内
+
+                        const {
+                            weeks: aWeeks,
+                            day: aDay,
+                            section: aSection
+                        } = item
+                        return (
+                            aWeeks.includes(index + 1) &&
+                            aDay === day &&
+                            aSection!.includes(v)
+                        )
+                    })
+
+                    return week[day][v - 1] !== null && !res
+                })
 
                 if (!check) {
                     res.push(index + 1)
                 }
             })
+
             return res
         }
     },

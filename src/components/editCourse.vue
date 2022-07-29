@@ -1,96 +1,111 @@
 <template>
     <div
-        class="px-8 py-4 z-20 bg-off-base shadow-lg rounded-lg select-none text-base"
+        class="edit-course z-20 text-left backdrop-blur-md backdrop-brightness-75"
+        @click.self="$emit('update:isShow', false)"
     >
-        <div class="flex flex-col my-2">
-            <span class="item text-xs opacity-70">基础信息</span>
-            <input
-                class="item px-2 rounded-md text-primary"
-                type=" text"
-                v-model="courseName"
-                placeholder="课程名称"
-            />
-            <div class="item flex items-center justify-between">
-                <span> 颜色和图标</span>
-                <span class="relative">
-                    <button
-                        class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
-                        :class="`bg-${color}-200 outline-${color}-400`"
-                        @click.self="isColorShow = !isColorShow"
-                    ></button>
+        <div
+            class="edit-course__box fixed px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
+        >
+            <div class="flex flex-col my-2">
+                <span class="item text-xs opacity-70">基础信息</span>
+                <input
+                    class="item px-2 rounded-md text-primary"
+                    type=" text"
+                    v-model="courseName"
+                    placeholder="课程名称"
+                />
+                <div class="item flex items-center justify-between">
+                    <span> 颜色和图标</span>
+                    <span class="relative">
+                        <button
+                            class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
+                            :class="`bg-${color}-200 outline-${color}-400`"
+                            @click.self="isColorShow = !isColorShow"
+                        ></button>
 
-                    <transition name="drop-b">
-                        <div
-                            v-if="isColorShow"
-                            class="color-list z-10 absolute mt-1 px-3 py-2 bg-off-base shadow-md rounded-md"
-                            ref="colorList"
-                        >
-                            <button
-                                v-for="item in courseColorKey"
-                                :class="getColor(item)"
-                                class="h-5 rounded outline outline-2 aspect-square block hover:brightness-110"
-                                @click="selectColor(item)"
-                            ></button>
-                        </div>
-                    </transition>
-                </span>
-            </div>
-        </div>
-
-        <div class="flex flex-col my-2">
-            <span class="item text-xs opacity-70">时间与地点</span>
-
-            <div class="time-list">
-                <div
-                    class="item time-list__item flex flex-col my-1 text-sm bg-secondary p-2 rounded-md leading-7 cursor-pointer"
-                    v-for="time in timeList"
-                >
-                    <div class="time flex justify-between text-primary">
-                        <span
-                            >周{{ time.day }}，共{{ time.weeks.length }}周</span
-                        >
-                        <span
-                            >{{ time.startSection }}-{{
-                                time.endSection
-                            }}节</span
-                        >
-                    </div>
-
-                    <div class="location flex justify-between text-primary">
-                        <span>{{ time.classroom }}</span>
-                        <span>{{ time.teacher }}</span>
-                    </div>
+                        <transition name="drop-b">
+                            <div
+                                v-if="isColorShow"
+                                class="color-list z-10 absolute mt-1 px-3 py-2 bg-off-base shadow-md rounded-md"
+                                ref="colorList"
+                            >
+                                <button
+                                    v-for="item in courseColorKey"
+                                    :class="getColor(item)"
+                                    class="h-5 rounded outline outline-2 aspect-square block hover:brightness-110"
+                                    @click="selectColor(item)"
+                                ></button>
+                            </div>
+                        </transition>
+                    </span>
                 </div>
             </div>
 
-            <button
-                class="item outline rounded mt-2"
-                @click="addTimeShow = true"
-            >
-                添加时间段
-            </button>
+            <div class="flex flex-col my-2">
+                <span class="item text-xs opacity-70">时间与地点</span>
+
+                <div class="time-list">
+                    <div
+                        class="item time-list__item flex flex-col my-1 text-sm bg-secondary p-2 rounded-md leading-7 cursor-pointer"
+                        v-for="time in timeList"
+                        @click="editTime(time)"
+                    >
+                        <div class="time flex justify-between text-primary">
+                            <span
+                                >周{{ numToChinese[time.day!] }}，共{{
+                                    time.weeks.length
+                                }}周</span
+                            >
+                            <span
+                                >{{ time.startSection }}-{{
+                                    time.endSection
+                                }}节</span
+                            >
+                        </div>
+
+                        <div class="location flex justify-between text-primary">
+                            <span>{{ time.classroom }}</span>
+                            <span>{{ time.teacher }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    class="item outline rounded mt-2"
+                    @click="addTimeShow = true"
+                >
+                    添加时间段
+                </button>
+            </div>
+            <!-- 删除课程 -->
+            <section v-if="courseKey" class="item block">
+                <button
+                    class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
+                    @click="deleteCourse"
+                >
+                    删除课程
+                </button>
+            </section>
+
+            <div class="control flex justify-between mt-4 font-semibold">
+                <button
+                    class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
+                    @click="$emit('update:isShow', false)"
+                >
+                    取消
+                </button>
+                <button
+                    class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
+                    @click="addCourse"
+                >
+                    添加
+                </button>
+            </div>
         </div>
 
-        <div class="control flex justify-between mt-4 font-semibold">
-            <button
-                class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
-                @click="$emit('update:showEditCourse', false)"
-            >
-                取消
-            </button>
-            <button
-                class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                @click="addCourse"
-            >
-                添加
-            </button>
-        </div>
-
+        <!-- 时间管理 -->
         <transition name="drop-b">
-            <div
-                class="edit-time backdrop-blur-md backdrop-brightness-75"
-                v-if="addTimeShow"
-            >
+            <div class="edit-time backdrop-brightness-75" v-if="addTimeShow">
                 <div
                     class="edit-time__box px-8 py-4 w-80 bg-off-base shadow-lg rounded-lg flex flex-col"
                     ref="addTimeEL"
@@ -146,14 +161,14 @@
                             <button
                                 v-for="item in 7"
                                 class="flex items-center justify-center w-8 h-8 rounded-full ease-in-out duration-150 hover:bg-primary hover:text-secondary active:brightness-110"
-                                @click="time.day = item"
+                                @click="time.day = item - 1"
                                 :class="[
-                                    time.day === item
+                                    time.day === item - 1
                                         ? 'bg-primary text-secondary'
                                         : 'bg-off-base text-base'
                                 ]"
                             >
-                                {{ item }}
+                                {{ numToChinese[item - 1] }}
                             </button>
                         </div>
                     </section>
@@ -218,7 +233,7 @@
                     >
                         <button
                             class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
-                            @click="addTimeShow = false"
+                            @click="closeAddTime"
                         >
                             取消
                         </button>
@@ -237,10 +252,11 @@
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
 import { defineComponent, reactive, ref, toRefs, computed } from 'vue'
-import { RoCourse, courseDuractionModel } from '@/types/course'
+import { RoCourse, courseDuractionModel, numToChinese } from '@/types/course'
 import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { courseColorKey } from '@/types/course'
+import { klona } from 'klona'
 
 interface time {
     startSection: number | null
@@ -254,17 +270,15 @@ interface time {
 export default defineComponent({
     name: 'EditCourse',
     props: {
-        showEditCourse: {
-            type: Boolean,
-            default: false
-        }
+        isShow: { type: Boolean, default: false },
+        courseKey: { type: Number, default: undefined }
     },
-    emits: ['update:showEditCourse'],
+    emits: ['update:isShow'],
     setup(props, context) {
         const courseStore = useCourseStore()
         const addTimeEL = ref<HTMLDivElement | null>(null)
         onClickOutside(addTimeEL, () => {
-            data.addTimeShow = false
+            closeAddTime()
         })
 
         const colorList = ref<HTMLDivElement | null>(null)
@@ -277,10 +291,12 @@ export default defineComponent({
         const data = reactive({
             courseName: '',
             color: 'orange',
-            icon: '',
+            // icon: '',
             timeList: <time[]>[],
             addTimeShow: false,
-            isColorShow: false
+            isColorShow: false,
+            isEditTime: false,
+            currentEditTime: <time | null>null // 当前编辑的时间
         })
 
         const time = ref<time>({
@@ -291,6 +307,30 @@ export default defineComponent({
             classroom: '',
             teacher: ''
         })
+
+        const initCourse = () => {
+            if (props.courseKey) {
+                let course: RoCourse = klona(
+                    courseStore.getCourse(props.courseKey)
+                )
+                if (!course) return
+                data.courseName = course.courseName
+                data.color = course.color
+                let timeList: time[] = []
+                course.duration.forEach(item => {
+                    timeList.push({
+                        startSection: item.section[0],
+                        endSection: item.section[item.section.length - 1],
+                        day: item.day,
+                        weeks: item.weeks,
+                        classroom: item.classroom,
+                        // teacher: item.teacher
+                        teacher: '王'
+                    })
+                })
+                data.timeList = timeList
+            }
+        }
 
         const getColor = (item: string) => {
             switch (item) {
@@ -336,30 +376,39 @@ export default defineComponent({
             return true
         }
 
-        const formatTime = (): courseDuractionModel[] => {
-            const timeList = data.timeList.map<courseDuractionModel | null>(
-                item => {
-                    const { weeks, day, startSection, endSection, classroom } =
-                        item
+        const formatTime = (timeList: time[]): courseDuractionModel[] => {
+            const temp = timeList.map<courseDuractionModel | null>(item => {
+                const { weeks, day, startSection, endSection, classroom } = item
 
-                    if (startSection && endSection && weeks.length > 0 && day) {
-                        let section = getNumberArr(startSection, endSection)
+                if (
+                    startSection &&
+                    endSection &&
+                    weeks.length > 0 &&
+                    day !== null
+                ) {
+                    let section = getNumberArr(startSection, endSection)
 
-                        return {
-                            weeks,
-                            day,
-                            section,
-                            classroom
-                        }
-                    } else {
-                        return null
+                    return {
+                        weeks,
+                        day,
+                        section,
+                        classroom
                     }
+                } else {
+                    return null
                 }
-            )
+            })
             const res: courseDuractionModel[] = <courseDuractionModel[]>(
-                timeList.filter(item => item !== null)
+                temp.filter(item => item !== null)
             )
             return res
+        }
+
+        const editTime = (val: time) => {
+            time.value = val
+            data.addTimeShow = true
+            data.isEditTime = true
+            data.currentEditTime = klona(val)
         }
 
         const addTime = () => {
@@ -373,23 +422,16 @@ export default defineComponent({
             if (
                 startSection &&
                 endSection &&
-                day &&
+                day !== null &&
                 weeks.length > 0 &&
                 classroom.length > 0 &&
                 teacher.length > 0 &&
                 sectionState(startSection) &&
                 sectionState(endSection)
             ) {
-                data.timeList.push(time.value)
-                time.value = {
-                    startSection: null,
-                    endSection: null,
-                    day: null,
-                    weeks: [],
-                    classroom: '',
-                    teacher: ''
-                }
-                data.addTimeShow = false
+                data.isEditTime ? '' : data.timeList.push(time.value)
+
+                closeAddTime()
             } else {
                 console.log('startSection', startSection)
                 console.log('endSection', endSection)
@@ -400,6 +442,47 @@ export default defineComponent({
 
                 console.log('请检查输入')
             }
+        }
+
+        const closeAddTime = () => {
+            data.isEditTime = false
+            data.addTimeShow = false
+            time.value = {
+                startSection: null,
+                endSection: null,
+                day: null,
+                weeks: [],
+                classroom: '',
+                teacher: ''
+            }
+        }
+
+        const addCourse = () => {
+            if (!check()) {
+                return
+            }
+
+            let course: RoCourse = {
+                key: props?.courseKey ?? 0,
+                courseName: data.courseName, // 课程名称
+                courseTeacher: '王老师', // 授课教师
+                duration: formatTime(data.timeList),
+                color: data.color // 颜色
+            }
+
+            console.log(course.duration)
+
+            if (props.courseKey) {
+                courseStore.updateCourse(course)
+            } else {
+                courseStore.insertCourse(course)
+            }
+            context.emit('update:isShow', false)
+        }
+
+        const deleteCourse = () => {
+            courseStore.deleteCourse(props.courseKey)
+            context.emit('update:isShow', false)
         }
 
         // 滚轮切换数字
@@ -469,30 +552,24 @@ export default defineComponent({
         const AvailableWeek = computed<number[]>(() => {
             const { day, startSection, endSection } = time.value
 
-            if (day && sectionState(startSection) && sectionState(endSection)) {
+            let availableTime: courseDuractionModel[] | null = null
+            if (props.courseKey) {
+                availableTime = courseStore.getCourse(props.courseKey).duration
+            }
+
+            if (
+                day !== null &&
+                sectionState(startSection) &&
+                sectionState(endSection)
+            ) {
                 let section = getNumberArr(startSection!, endSection!)
-                return courseStore.getAbleWeek(day, section)
+                return courseStore.getAbleWeek(day, section, availableTime)
             } else {
                 return []
             }
         })
 
-        const addCourse = () => {
-            if (!check()) {
-                return
-            }
-
-            let course: RoCourse = {
-                key: 0,
-                courseName: data.courseName, // 课程名称
-                courseTeacher: '王老师', // 授课教师
-                duration: formatTime(),
-                color: data.color // 颜色
-            }
-
-            courseStore.insertCourse(course)
-            context.emit('update:showEditCourse', false)
-        }
+        initCourse()
 
         return {
             ...toRefs(data),
@@ -502,12 +579,16 @@ export default defineComponent({
             courseColorKey,
             sectionState,
             addCourse,
+            deleteCourse,
             addTime,
+            editTime,
+            closeAddTime,
             scrollNumber,
             getColor,
             selectColor,
             addTimeEL,
-            colorList
+            colorList,
+            numToChinese
         }
     }
 })
@@ -528,6 +609,7 @@ export default defineComponent({
     align-items: center;
 }
 
+.edit-course,
 .edit-time {
     position: fixed;
     top: 0;

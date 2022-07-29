@@ -25,6 +25,7 @@ export type RoCourseTimeType = {
 
 // 课表类型
 export type RoCourseTable = {
+    key: number
     count: number
     start: number
     name: string
@@ -35,6 +36,7 @@ export type RoCourseTable = {
 
 // 单日类型
 export type RoCourseDay = {
+    key: number
     start: string
     end: string
     name: string
