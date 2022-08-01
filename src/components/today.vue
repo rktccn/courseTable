@@ -1,5 +1,6 @@
 <template>
     <div class="course-list relative text-base overflow-y-scroll h-full">
+        <!-- 天气 -->
         <!-- <section
             class="sticky top-0 left-0 flex justify-between font-semibold mb-2"
         >
@@ -27,7 +28,6 @@
                 </section>
             </div>
         </section> -->
-
         <section class="flex relative flex-col mb-6">
             <header
                 class="title sticky top-0 left-0 flex flex-col z-10 bg-base border-b-2 font-semibold mb-2"
@@ -40,13 +40,41 @@
                 >
             </header>
 
-            <span v-if="courseList.length > 0" class="pr-1">
+            <span
+                v-if="courseList.length > 0"
+                class="pr-1 relative"
+                ref="courseListEL"
+            >
+                <!-- 课程进度条 -->
+                <div
+                    class="pointer absolute duration-1000 ease-out flex flex-col items-end w-full z-10"
+                    :style="timeProgress"
+                    ref="timeProgressEL"
+                >
+                    <span class="w-full h-0.5 bg-primary opacity-75"></span>
+                    <div class="detail flex justify-between">
+                        <span
+                            v-if="timeLeft === -1"
+                            class="mr-3 text-primary opacity-90 text-sm"
+                        >
+                            {{ currentTime }}
+                        </span>
+                        <span
+                            v-if="timeLeft !== -1"
+                            class="mr-3 text-primary opacity-90 text-sm"
+                        >
+                            {{ currentIndex % 1 === 0 ? '剩余:' : '距开始:' }}
+                            {{ timeLeft }}分钟
+                        </span>
+                    </div>
+                </div>
+
                 <article
                     v-for="(course, index) in courseList"
-                    class="grow flex flex-col relative overflow-hidden p-4 pl-8 my-1 shadow-md rounded-lg bg-off-base text-xl font-semibold"
+                    class="grow flex flex-col relative overflow-hidden p-4 pl-8 my-2 shadow-md rounded-lg bg-off-base text-xl font-semibold duration-150 ease-out"
                     :class="{
-                        grayscale: checkCourse(course) === 0,
-                        'brightness-90': checkCourse(course) === 2
+                        grayscale: index < currentIndex,
+                        'brightness-90': index > currentIndex
                     }"
                 >
                     <span class="flex text-sm text-muted-hover">
@@ -74,14 +102,6 @@
             <section v-else class="text-md text-center pr-1 py-3 opacity-70">
                 今日没有课程！
             </section>
-
-            <!-- <div
-                class="pointer absolute flex flex-col items-end w-full"
-                :style="{ top: '150px', left: '0' }"
-            >
-                <span class="mr-3 text-primary opacity-90 text-sm">8:25</span>
-                <span class="w-full h-0.5 bg-primary opacity-75"></span>
-            </div> -->
         </section>
 
         <section class="relative flex flex-col">
@@ -128,18 +148,31 @@
 </template>
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, onMounted } from 'vue'
 import { RoCourseDay, numToChinese } from '@/types/course'
 
 export default defineComponent({
     name: 'Today',
     setup(context) {
         const courseStore = useCourseStore()
-        const courseList = computed(() => {
+        const courseList = computed((): RoCourseDay[] => {
             return courseStore.getDayCourse(new Date())
         })
         const date = computed(() => {
             return new Date()
+        })
+
+        const courseListEL = ref<HTMLDivElement | null>(null)
+        const timeProgressEL = ref<HTMLDivElement | null>(null)
+
+        let currentDate = ref(new Date())
+        setInterval(() => {
+            currentDate.value = new Date()
+        }, 500)
+
+        const currentTime = computed(() => {
+            let date = currentDate.value
+            return date.toTimeString().substr(0, 5)
         })
 
         const courseListTomorrow = computed(() => {
@@ -148,34 +181,113 @@ export default defineComponent({
             )
         })
 
-        // 检查课程状态
-        // 返回0: 已结束，1:正在进行,2未开始
-        const checkCourse = (val: RoCourseDay) => {
-            const now = new Date()
-            const nowTime = now.getHours() * 60 + now.getMinutes()
-            const course = val
-            const startTime = course.start
-                .split(':')
-                .map(item => parseInt(item))
+        // 当前课程index
+        const currentIndex = computed(() => {
+            const now = currentDate.value
+            let nowTime =
+                now.getHours() * 60 * 60 +
+                now.getMinutes() * 60 +
+                now.getSeconds()
+            const courseList = courseStore.getDayCourse(new Date())
+            for (let i = 0; i < courseList.length; i++) {
+                const course = courseList[i]
+                const startTime = course.start
+                    .split(':')
+                    .map((item: string) => parseInt(item))
 
-            const endTime = course.end.split(':').map(item => parseInt(item))
-            const start = startTime[0] * 60 + startTime[1]
-            const end = endTime[0] * 60 + endTime[1]
-            if (nowTime < start) {
-                return 2
+                const endTime = course.end
+                    .split(':')
+                    .map((item: string) => parseInt(item))
+                const start = startTime[0] * 60 * 60 + startTime[1] * 60
+                const end = endTime[0] * 60 * 60 + endTime[1] * 60
+                if (nowTime >= start && nowTime <= end) {
+                    return i
+                } else if (nowTime < end && nowTime < start) {
+                    return i - 1 + 0.5
+                }
             }
-            if (nowTime > end) {
-                return 0
+
+            return courseList.length - 1 + 0.5
+        })
+
+        // 课程剩余时间/距离上课时间
+        const timeLeft = ref(0)
+
+        // 时间进度条
+        const timeProgress = computed(() => {
+            let style = {
+                Transform: ''
             }
-            return 1
-        }
+            let offset = 0
+
+            if (courseListEL.value) {
+                let now = currentDate.value
+                let nowTime =
+                    now.getHours() * 60 * 60 +
+                    now.getMinutes() * 60 +
+                    now.getSeconds()
+                let current = Math.trunc(currentIndex.value)
+
+                let element = courseListEL.value.children[
+                    current + 1
+                ] as HTMLElement
+
+                if (!element) return
+
+                if (currentIndex.value % 1 === 0) {
+                    const course = courseList.value[current]
+                    const startTime = course.start
+                        .split(':')
+                        .map((item: string) => parseInt(item))
+
+                    const endTime = course.end
+                        .split(':')
+                        .map((item: string) => parseInt(item))
+
+                    const start = startTime[0] * 60 * 60 + startTime[1] * 60
+                    const end = endTime[0] * 60 * 60 + endTime[1] * 60
+
+                    let rate =
+                        Math.floor(
+                            ((nowTime - start) / (end - start)) * 10000
+                        ) / 10000
+                    offset = rate * element.offsetHeight
+
+                    timeLeft.value = Math.ceil((end - nowTime) / 60)
+                } else {
+                    offset = element.offsetHeight + 3
+                    const course = courseList.value[current + 1] ?? null
+                    if (course) {
+                        const startTime = course.start
+                            .split(':')
+                            .map((item: string) => parseInt(item))
+                        const start = startTime[0] * 60 * 60 + startTime[1] * 60
+
+                        timeLeft.value = Math.ceil((start - nowTime) / 60)
+                    } else {
+                        timeLeft.value = -1
+                    }
+                }
+
+                style.Transform = `translateY(${element.offsetTop + offset}px)`
+            }
+
+            return style
+        })
+
+        onMounted(() => {})
 
         return {
             date,
+            currentTime,
             courseList,
             courseListTomorrow,
-            checkCourse,
-            numToChinese
+            currentIndex,
+            timeProgress,
+            timeLeft,
+            numToChinese,
+            courseListEL,
+            timeProgressEL
         }
     }
 })

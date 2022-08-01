@@ -17,3 +17,76 @@
 .drop-b-leave-active {
     transition: all 0.15s ease-out;
 }
+
+.zoom-in-enter-from {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.zoom-in-enter-to,
+.zoom-in-leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.zoom-in-leave-to {
+    opacity: 0;
+    transform: scale(1.3);
+}
+
+.zoom-in-enter-active {
+    transition: all 0.15s;
+    transition-timing-function: cubic-bezier(
+        0.19,
+        1,
+        0.22,
+        1
+    ); /* easeOutExpo */
+}
+
+.zoom-in-leave-active {
+    transition: all 0.15s;
+    transition-timing-function: cubic-bezier(
+        0.95,
+        0.05,
+        0.795,
+        0.035
+    ); /* easeInExpo */
+}
+
+.zoom-out-enter-from {
+    opacity: 0;
+    transform: scale(1.3);
+}
+
+.zoom-out-enter-to,
+.zoom-out-leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.zoom-out-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.zoom-out-enter-active {
+    transition: all 0.15s;
+    transition-timing-function: cubic-bezier(
+        0.19,
+        1,
+        0.22,
+        1
+    ); /* easeOutExpo */
+}
+
+.zoom-out-leave-active {
+    transition: all 0.15s;
+
+    transition-timing-function: cubic-bezier(
+        0.95,
+        0.05,
+        0.795,
+        0.035
+    ); /* easeInExpo */
+}
