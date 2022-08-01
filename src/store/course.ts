@@ -181,6 +181,25 @@ export const useCourseStore = defineStore({
             return this.weekInfo[week - 1][day]
         },
 
+        // 获取每周有课的日期
+        getDaysHasCourse(week: number) {
+            console.log('123')
+
+            let days = []
+            for (let i = 0; i < 7; i++) {
+                if (
+                    this.weekInfo[week - 1][i].some(
+                        (item: number | null) => item !== null
+                    )
+                ) {
+                    days.push(true)
+                } else {
+                    days.push(false)
+                }
+            }
+            return days
+        },
+
         // 设置节次
         setCourseSection(section: [number, number, number]) {
             let mSections = this.courseSection[0]

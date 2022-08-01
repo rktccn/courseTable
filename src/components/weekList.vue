@@ -6,12 +6,12 @@
         >
             <div
                 class="flex flex-col mx-4"
+                v-for="(day, index) in totalWeeks"
+                :key="day"
                 :class="{
                     grayscale: day < currentWeek,
                     ' brightness-90': day > currentWeek
                 }"
-                v-for="(day, index) in totalWeeks"
-                :key="index"
                 @click="setToCenter(index)"
             >
                 <div
@@ -24,13 +24,19 @@
                 </div>
 
                 <ul class="day-list flex justify-between w-full mt-1">
-                    <li class="bg-secondary rounded-full"></li>
+                    <li
+                        class="rounded-full"
+                        v-for="hasCourse in getDaysHasCourse(day)"
+                        :key="day"
+                        :class="[hasCourse ? 'bg-primary' : 'bg-secondary']"
+                    ></li>
+                    <!-- <li class="bg-secondary rounded-full"></li>
                     <li class="bg-primary rounded-full"></li>
                     <li class="bg-primary rounded-full"></li>
                     <li class="bg-primary rounded-full"></li>
                     <li class="bg-primary rounded-full"></li>
                     <li class="bg-secondary rounded-full"></li>
-                    <li class="bg-secondary rounded-full"></li>
+                    <li class="bg-secondary rounded-full"></li> -->
                 </ul>
             </div>
         </div>
@@ -58,6 +64,9 @@ export default defineComponent({
             }
         })
 
+        const getDaysHasCourse: (week: any) => Boolean[] =
+            courseStore.getDaysHasCourse
+
         const { totalWeeks } = storeToRefs(courseStore)
 
         const setToCenter = (index: number) => {
@@ -81,10 +90,11 @@ export default defineComponent({
         })
 
         return {
+            currentWeek,
+            totalWeeks,
             setToCenter,
             scrollList,
-            currentWeek,
-            totalWeeks
+            getDaysHasCourse
         }
     }
 })
