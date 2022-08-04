@@ -9,9 +9,16 @@
     --color-text-muted: theme('colors.gray.600');
     --color-text-muted-hover: theme('colors.gray.500');
     --color-primary: theme('colors.blue.800');
-    --color-secondary: theme('colors.blue.200');
-    --color-danger: theme('colors.red.600');
-    --color-success: theme('colors.green.600');
+    --color-secondary: theme('colors.blue.300');
+
+
+
+    --color-success: rgba(24, 160, 88, 0.16);
+    --color-success-text: #18a058;
+    --color-warning: rgba(240, 160, 32, 0.16);
+    --color-warning-text: #f0a020;
+    --color-danger: rgba(217, 67, 85, 0.16);
+    --color-danger-text: #D94355;
 }
 
 .theme-light {
@@ -20,7 +27,7 @@
     --color-off-base: theme('colors.gray.50');
     --color-text-muted: theme('colors.gray.600');
     --color-text-muted-hover: theme('colors.gray.500');
-    --color-primary: theme('colors.blue.600');
+    --color-primary: theme('colors.blue.800');
     --color-secondary: theme('colors.blue.300');
 }
 

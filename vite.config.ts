@@ -5,7 +5,6 @@ import * as path from 'path'
 import electron from 'vite-plugin-electron'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
-
 // https://vitejs.dev/config/
 export default defineConfig({
     resolve: {
@@ -30,7 +29,16 @@ export default defineConfig({
             renderer: {}
         }),
         createSvgIconsPlugin({
-            iconDirs: [path.resolve(process.cwd(), './node_modules/qweather-icons/icons')],
+            iconDirs: [
+                path.resolve(
+                    process.cwd(),
+                    './node_modules/qweather-icons/icons'
+                ),
+                path.resolve(
+                    process.cwd(),
+                    './src/assets/svg'
+                )
+            ],
             symbolId: 'icon-[name]'
         })
     ]

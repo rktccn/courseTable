@@ -32,12 +32,14 @@
             <header
                 class="title sticky top-0 left-0 flex flex-col z-10 bg-base border-b-2 font-semibold mb-2"
             >
-                <span class="text-3xl text-primary">今日</span>
+                <span class="text-3xl text-primary">{{
+                    $t('today.title')
+                }}</span>
                 <span class="text-2xl text-muted"
-                    >{{ date.getMonth() + 1 }}月{{ date.getDate() }}日 星期{{
-                        numToChinese[date.getDay()]
-                    }}</span
-                >
+                    >{{ date.getMonth() + 1 }}{{ $t('base.month')
+                    }}{{ date.getDate() }}{{ $t('base.day') }}&nbsp;
+                    {{ $t(`base.weekList.${date.getDay()}`) }}
+                </span>
             </header>
 
             <span
@@ -63,8 +65,12 @@
                             v-if="timeLeft !== -1"
                             class="mr-3 text-primary opacity-90 text-sm"
                         >
-                            {{ currentIndex % 1 === 0 ? '剩余:' : '距开始:' }}
-                            {{ timeLeft }}分钟
+                            {{
+                                currentIndex % 1 === 0
+                                    ? $t('today.fromEnd')
+                                    : $t('today.fromStart')
+                            }}
+                            {{ timeLeft }}{{ $t('today.minutes') }}
                         </span>
                     </div>
                 </div>
@@ -100,7 +106,7 @@
                 </article>
             </span>
             <section v-else class="text-md text-center pr-1 py-3 opacity-70">
-                今日没有课程！
+                {{ $t('today.noCourse') }}
             </section>
         </section>
 
@@ -108,7 +114,7 @@
             <header
                 class="sticky top-0 left-0 z-10 bg-base border-b-2 text-2xl font-semibold"
             >
-                明日
+                {{ $t('today.tommrowTitle') }}
             </header>
             <span
                 class="flex relative flex-col mb-6 pr-1"
@@ -140,9 +146,9 @@
                     ></span>
                 </article>
             </span>
-            <span v-else class="pr-1 text-md text-center py-3 opacity-70"
-                >明日没有课程！</span
-            >
+            <span v-else class="pr-1 text-md text-center py-3 opacity-70">
+                {{ $t('today.noCourse') }}
+            </span>
         </section>
     </div>
 </template>
@@ -289,7 +295,8 @@ export default defineComponent({
             courseListEL,
             timeProgressEL
         }
-    }
+    },
+    components: {}
 })
 </script>
 

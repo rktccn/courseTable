@@ -205,11 +205,11 @@ export default defineComponent({
 <style lang="scss">
 .time {
     &:invalid {
-        outline-color: var(--color-danger);
+        outline-color: var(--color-danger-text);
     }
 
     &:valid {
-        outline-color: var(--color-success);
+        outline-color: var(--color-success-text);
     }
 }
 

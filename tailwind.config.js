@@ -15,7 +15,10 @@ module.exports = {
                 'off-base': 'var(--color-off-base)',
                 primary: 'var(--color-primary)',
                 secondary: 'var(--color-secondary)',
-                muted: 'var(--color-text-muted)'
+                muted: 'var(--color-text-muted)',
+                success: 'var(--color-success)',
+                warning: 'var(--color-warning)',
+                danger: 'var(--color-danger)'
             },
             textColor: {
                 //like `text-base` and `text-primary`
@@ -23,7 +26,10 @@ module.exports = {
                 muted: 'var(--color-text-muted)',
                 'muted-hover': 'var(--color-text-muted-hover)',
                 primary: 'var(--color-primary)',
-                secondary: 'var(--color-secondary)'
+                secondary: 'var(--color-secondary)',
+                success: 'var(--color-success-text)',
+                warning: 'var(--color-warning-text)',
+                danger: 'var(--color-danger-text)'
             }
         }
     },

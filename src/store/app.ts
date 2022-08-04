@@ -4,7 +4,9 @@ export const useAppStore = defineStore('app', {
     state: () => {
         return {
             currentWeek: 0, // 当前周次
-            primaryColor: 'fuchsia'
+            primaryColor: 'fuchsia',
+
+            lang: 'zh-CN'
         }
     },
     actions: {

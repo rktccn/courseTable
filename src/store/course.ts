@@ -152,6 +152,24 @@ export const useCourseStore = defineStore({
         setStartDate(date: string) {
             this.firstWeekDate = klona(date)
         },
+        
+        // 将日期转换为周次和星期
+        getWeekAndDay(date: Date): [number, number] {
+            const week =
+                Math.floor(
+                    (date.getTime() -
+                        new Date(this.firstWeekDate).getTime() +
+                        new Date(this.firstWeekDate).getDay() *
+                            24 *
+                            60 *
+                            60 *
+                            1000) /
+                        (7 * 24 * 60 * 60 * 1000)
+                ) + 1
+
+            const day = date.getDay()
+            return [week, day]
+        },
 
         // 根据周次获取日期,返回本周的日期和月份
         getDateByWeek(week: number) {
@@ -183,8 +201,6 @@ export const useCourseStore = defineStore({
 
         // 获取每周有课的日期
         getDaysHasCourse(week: number) {
-            console.log('123')
-
             let days = []
             for (let i = 0; i < 7; i++) {
                 if (
@@ -280,24 +296,6 @@ export const useCourseStore = defineStore({
                 key = this.getCourseKey(courseName + '_')
             }
             return key
-        },
-
-        // 将日期转换为周次和星期
-        getWeekAndDay(date: Date): [number, number] {
-            const week =
-                Math.floor(
-                    (date.getTime() -
-                        new Date(this.firstWeekDate).getTime() +
-                        new Date(this.firstWeekDate).getDay() *
-                            24 *
-                            60 *
-                            60 *
-                            1000) /
-                        (7 * 24 * 60 * 60 * 1000)
-                ) + 1
-
-            const day = date.getDay()
-            return [week, day]
         },
 
         // 获取课程连续上课节次
@@ -504,6 +502,14 @@ export const useCourseStore = defineStore({
         }
     },
     getters: {
+        getMaxSection(state: any) {
+            return (
+                state.courseSection[0] +
+                state.courseSection[1] +
+                state.courseSection[2]
+            )
+        },
+
         // 获取上午课程节次信息
         getMorningCourseSection(state: any): RoCourseTimeType[] {
             return state.courseTimeList.slice(0, state.courseSection[0])

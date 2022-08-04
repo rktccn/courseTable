@@ -5,15 +5,15 @@
         >
             <span
                 class="py-3 backdrop-contrast-75 flex items-center justify-center font-semibold cursor-pointer"
-                >{{ month }}月
-            </span>
+                >{{ month }}{{ $t('base.month') }}</span
+            >
             <span
                 v-for="(day, index) in dateList"
                 :key="day"
                 class="flex flex-col justify-center items-center"
             >
                 <p class="text-base font-semibold">
-                    周{{ numToChinese[index] }}
+                    {{ $t(`base.weekList.${index}`) }}
                 </p>
                 <p class="text-sm opacity-60 leading-3 text-primary">
                     {{ day }}

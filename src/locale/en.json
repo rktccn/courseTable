@@ -1,0 +1,86 @@
+{
+    "": "",
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "add": "add",
+    "base": {
+        "month": "month",
+        "week": "week",
+        "day": "day",
+        "weekList": {
+            "0": "周日",
+            "1": "周一",
+            "2": "周二",
+            "3": "周三",
+            "4": "周四",
+            "5": "周五",
+            "6": "周六"
+        }
+    },
+
+    "editCourse": {
+        "base": {
+            "title": "base info",
+            "courseName": "course name",
+            "color": "color",
+            "deleteCourse": "delete course",
+            "error": {
+                "noName": "*please input course name"
+            }
+        },
+        "timeAndLocation": {
+            "title": "时间与地点",
+            "addTime": "添加时间段",
+            "weekLength": "周数:",
+            "section": "节次:",
+            "error": {
+                "noTime": "*请添加时间段"
+            }
+        },
+        "selectSection": {
+            "title": "选择节次",
+            "startSection": "开始节次",
+            "endSection": "结束节次",
+            "error": {
+                "noStartSection": "*请输入开始节次",
+                "noEndSection": "*请输入结束节次",
+                "noSection": "*请输入节次",
+                "noSectionRange": "*请输入正确的节次范围"
+            }
+        },
+        "selectDay": {
+            "title": "选择星期",
+            "weekList": {
+                "0": "日",
+                "1": "一",
+                "2": "二",
+                "3": "三",
+                "4": "四",
+                "5": "五",
+                "6": "六"
+            },
+            "error": {
+                "noDay": "*请选择星期"
+            }
+        },
+        "selectWeek": {
+            "title": "选择周次",
+            "error": {
+                "noWeek": "*请选择周次"
+            }
+        },
+        "otherInfo": {
+            "title": "其他信息",
+            "teacher": "教师",
+            "place": "地点"
+        }
+    },
+    "today": {
+        "title": "today",
+        "tommrowTitle": "tommrow",
+        "noCourse": "no course",
+        "fromStart": "from start",
+        "fromEnd": "from end",
+        "minutes": "min"
+    }
+}

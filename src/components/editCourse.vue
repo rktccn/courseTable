@@ -7,15 +7,20 @@
             class="edit-course__box fixed px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
         >
             <div class="flex flex-col my-2">
-                <span class="item text-xs opacity-70">基础信息</span>
+                <span class="item text-xs opacity-70"
+                    >{{ $t('editCourse.base.title')
+                    }}<em class="text-xs ml-1 text-red-600">{{
+                        error.base
+                    }}</em></span
+                >
                 <input
                     class="item px-2 rounded-md text-primary"
                     type=" text"
                     v-model="courseName"
-                    placeholder="课程名称"
+                   :placeholder="$t('editCourse.base.courseName')"
                 />
                 <div class="item flex items-center justify-between">
-                    <span> 颜色和图标</span>
+                    <span> {{ $t('editCourse.base.color') }}</span>
                     <span class="relative">
                         <button
                             class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
@@ -42,7 +47,12 @@
             </div>
 
             <div class="flex flex-col my-2">
-                <span class="item text-xs opacity-70">时间与地点</span>
+                <span class="item text-xs opacity-70"
+                    >{{ $t('editCourse.timeAndLocation.title')
+                    }}<em class="text-xs ml-1 text-red-600">{{
+                        error.timeList
+                    }}</em></span
+                >
 
                 <div class="time-list">
                     <div
@@ -52,14 +62,15 @@
                     >
                         <div class="time flex justify-between text-primary">
                             <span
-                                >周{{ numToChinese[time.day!] }}，共{{
-                                    time.weeks.length
-                                }}周</span
+                                >{{ $t(`base.weekList.${time.day}`) }},&nbsp;{{
+                                    $t('editCourse.timeAndLocation.weekLength')
+                                }}{{ time.weeks.length }}</span
                             >
-                            <span
-                                >{{ time.startSection }}-{{
+                            <span>
+                                {{ $t('editCourse.timeAndLocation.section') }}
+                                {{ time.startSection }}-{{
                                     time.endSection
-                                }}节</span
+                                }}</span
                             >
                         </div>
 
@@ -74,7 +85,7 @@
                     class="item outline rounded mt-2"
                     @click="addTimeShow = true"
                 >
-                    添加时间段
+                    {{ $t('editCourse.timeAndLocation.addTime') }}
                 </button>
             </div>
             <!-- 删除课程 -->
@@ -83,7 +94,7 @@
                     class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
                     @click="deleteCourse"
                 >
-                    删除课程
+                    {{$t('editCourse.base.deleteCourse')}}
                 </button>
             </section>
 
@@ -92,14 +103,17 @@
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
                     @click="$emit('update:isShow', false)"
                 >
-                    取消
+                    {{ $t('cancel') }}
                 </button>
-                <button
+                <RoButton :type="state.baseButton" @click="addCourse">{{
+                    $t('add')
+                }}</RoButton>
+
+                <!-- <button
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                    @click="addCourse"
                 >
                     添加
-                </button>
+                </button> -->
             </div>
         </div>
 
@@ -111,7 +125,12 @@
                     ref="addTimeEL"
                 >
                     <section>
-                        <h6 class="item font-semibold text-base">选择节次</h6>
+                        <h6 class="item font-semibold text-base">
+                            {{ $t('editCourse.selectSection.title')
+                            }}<em class="text-xs ml-1 text-red-600">{{
+                                error.selectSection
+                            }}</em>
+                        </h6>
 
                         <div class="item flex justify-evenly items-center">
                             <div class="start flex flex-col items-center">
@@ -122,14 +141,18 @@
                                     class="w-8 h-8 bg-base text-base rounded-md text-center outline"
                                     :class="
                                         sectionState(time.startSection)
-                                            ? 'outline-sky-400'
-                                            : 'outline-red-400'
+                                            ? 'text-success'
+                                            : 'text-danger'
                                     "
                                     @mousewheel.prevent="scrollNumber('start')"
                                     v-model="time.startSection"
                                 />
-                                <span class="text-xs opacity-70 mt-1"
-                                    >开始节次</span
+                                <span class="text-xs opacity-70 mt-1">
+                                    {{
+                                        $t(
+                                            'editCourse.selectSection.startSection'
+                                        )
+                                    }}</span
                                 >
                             </div>
                             <span class="pb-4 font-semibold">→</span>
@@ -141,14 +164,18 @@
                                     class="w-8 h-8 bg-base text-base rounded-md text-center outline"
                                     :class="
                                         sectionState(time.endSection)
-                                            ? 'outline-sky-400'
-                                            : 'outline-red-400'
+                                            ? 'text-success'
+                                            : 'text-danger'
                                     "
                                     @mousewheel.prevent="scrollNumber('end')"
                                     v-model="time.endSection"
                                 />
-                                <span class="text-xs opacity-70 mt-1"
-                                    >结束节次</span
+                                <span class="text-xs opacity-70 mt-1">
+                                    {{
+                                        $t(
+                                            'editCourse.selectSection.endSection'
+                                        )
+                                    }}</span
                                 >
                             </div>
                         </div>
@@ -156,7 +183,12 @@
 
                     <!-- 星期 -->
                     <section>
-                        <h6 class="item font-semibold text-base">选择星期</h6>
+                        <h6 class="item font-semibold text-base">
+                            {{ $t('editCourse.selectDay.title')
+                            }}<em class="text-xs ml-1 text-red-600">{{
+                                error.selectDay
+                            }}</em>
+                        </h6>
                         <div class="item flex justify-between">
                             <button
                                 v-for="item in 7"
@@ -168,13 +200,24 @@
                                         : 'bg-off-base text-base'
                                 ]"
                             >
-                                {{ numToChinese[item - 1] }}
+                                {{
+                                    $t(
+                                        `editCourse.selectDay.weekList.${
+                                            item - 1
+                                        }`
+                                    )
+                                }}
                             </button>
                         </div>
                     </section>
 
                     <section>
-                        <h6 class="item font-semibold text-base">选择周次</h6>
+                        <h6 class="item font-semibold text-base">
+                            {{ $t('editCourse.selectWeek.title')
+                            }}<em class="text-xs ml-1 text-red-600">
+                                {{ error.selectWeek }}</em
+                            >
+                        </h6>
                         <div class="item flex flex-wrap">
                             <div
                                 class="basis-1/6 inline-block"
@@ -205,23 +248,33 @@
                         </div>
                     </section>
                     <section>
-                        <h6 class="item font-semibold text-base">其他信息</h6>
+                        <h6 class="item font-semibold text-base">
+                            {{ $t('editCourse.otherInfo.title') }}
+                        </h6>
                         <div class="item flex flex-col">
                             <div class="item flex justify-between">
-                                <span>教室</span>
+                                <span>{{
+                                    $t('editCourse.otherInfo.place')
+                                }}</span>
                                 <input
                                     type="text"
                                     class="px-2 rounded-md text-primary"
-                                    placeholder="教室"
+                                    :placeholder="
+                                        $t('editCourse.otherInfo.place')
+                                    "
                                     v-model="time.classroom"
                                 />
                             </div>
                             <div class="item flex justify-between">
-                                <span>教师</span>
+                                <span>{{
+                                    $t('editCourse.otherInfo.teacher')
+                                }}</span>
                                 <input
                                     type="text"
                                     class="px-2 rounded-md text-primary"
-                                    placeholder="教师"
+                                    :placeholder="
+                                        $t('editCourse.otherInfo.teacher')
+                                    "
                                     v-model="time.teacher"
                                 />
                             </div>
@@ -235,14 +288,11 @@
                             class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
                             @click="closeAddTime"
                         >
-                            取消
+                            {{ $t('cancel') }}
                         </button>
-                        <button
-                            class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                            @click="addTime"
+                        <RoButton :type="state.addTimeButton" @click="addTime">
+                            {{ $t('add') }}</RoButton
                         >
-                            添加
-                        </button>
                     </section>
                 </div>
             </div>
@@ -257,6 +307,7 @@ import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { courseColorKey } from '@/types/course'
 import { klona } from 'klona'
+import i18n from '@/locale/index'
 
 interface time {
     startSection: number | null
@@ -275,6 +326,8 @@ export default defineComponent({
     },
     emits: ['update:isShow'],
     setup(props, context) {
+        const { locale, t } = i18n.global
+
         const courseStore = useCourseStore()
         const addTimeEL = ref<HTMLDivElement | null>(null)
         onClickOutside(addTimeEL, () => {
@@ -296,7 +349,18 @@ export default defineComponent({
             addTimeShow: false,
             isColorShow: false,
             isEditTime: false,
-            currentEditTime: <time | null>null // 当前编辑的时间
+            currentEditTime: <time | null>null, // 当前编辑的时间
+            error: {
+                base: t(''),
+                timeList: t(''),
+                selectSection: t(''),
+                selectDay: t(''),
+                selectWeek: t('')
+            },
+            state: {
+                baseButton: 'default',
+                addTimeButton: 'default'
+            }
         })
 
         const time = ref<time>({
@@ -365,15 +429,21 @@ export default defineComponent({
         }
 
         const check = () => {
-            if (
-                data.courseName.length === 0 ||
-                // data.color.length === 0 ||
-                // data.icon.length === 0 ||
-                data.timeList.length === 0
-            ) {
-                return false
+            let flag = true
+            data.error.base = t('')
+            data.error.timeList = t('')
+            if (data.courseName.length === 0) {
+                data.error.base = t(`editCourse.base.error.noName`)
+                flag = false
             }
-            return true
+            if (data.timeList.length === 0) {
+                data.error.timeList = t(
+                    `editCourse.timeAndLocation.error.noTime`
+                )
+                flag = false
+            }
+
+            return flag
         }
 
         const formatTime = (timeList: time[]): courseDuractionModel[] => {
@@ -412,6 +482,11 @@ export default defineComponent({
         }
 
         const addTime = () => {
+            data.error.selectDay = t('')
+            data.error.selectSection = t('')
+            data.error.selectWeek = t('')
+
+            let flag = true
             let { startSection, endSection, day, weeks, classroom, teacher } =
                 time.value
 
@@ -419,28 +494,49 @@ export default defineComponent({
                 AvailableWeek.value.includes(item)
             )
 
-            if (
-                startSection &&
-                endSection &&
-                day !== null &&
-                weeks.length > 0 &&
-                classroom.length > 0 &&
-                teacher.length > 0 &&
-                sectionState(startSection) &&
-                sectionState(endSection)
+            if (!startSection && !endSection) {
+                data.error.selectSection = t(
+                    `editCourse.selectSection.error.noSection`
+                )
+                flag = false
+            } else if (!startSection) {
+                data.error.selectSection = t(
+                    `editCourse.selectSection.error.noStartSection`
+                )
+                flag = false
+            } else if (!endSection) {
+                data.error.selectSection = t(
+                    `editCourse.selectSection.error.noEndSection`
+                )
+                flag = false
+            } else if (
+                !sectionState(startSection) ||
+                !sectionState(endSection)
             ) {
+                data.error.selectSection = t(
+                    `editCourse.selectSection.error.noSectionRange`
+                )
+                flag = false
+            }
+
+            if (day === null) {
+                data.error.selectDay = t(`editCourse.selectDay.error.noDay`)
+                flag = false
+            }
+
+            if (weeks.length === 0) {
+                data.error.selectWeek = t(`editCourse.selectWeek.error.noWeek`)
+                flag = false
+            }
+
+            if (flag) {
                 data.isEditTime ? '' : data.timeList.push(time.value)
-
-                closeAddTime()
+                data.state.addTimeButton = 'success'
+                setTimeout(() => {
+                    closeAddTime()
+                }, 200)
             } else {
-                console.log('startSection', startSection)
-                console.log('endSection', endSection)
-                console.log('day', day)
-                console.log('weeks', weeks)
-                console.log('classroom', classroom)
-                console.log('teacher', teacher)
-
-                console.log('请检查输入')
+                data.state.addTimeButton = 'danger'
             }
         }
 
@@ -455,10 +551,12 @@ export default defineComponent({
                 classroom: '',
                 teacher: ''
             }
+            data.state.addTimeButton = 'default'
         }
 
         const addCourse = () => {
             if (!check()) {
+                data.state.baseButton = 'danger'
                 return
             }
 
@@ -470,14 +568,16 @@ export default defineComponent({
                 color: data.color // 颜色
             }
 
-            console.log(course.duration)
-
             if (props.courseKey) {
                 courseStore.updateCourse(course)
             } else {
                 courseStore.insertCourse(course)
             }
-            context.emit('update:isShow', false)
+            data.state.baseButton = 'success'
+
+            setTimeout(() => {
+                context.emit('update:isShow', false)
+            }, 500)
         }
 
         const deleteCourse = () => {
@@ -535,7 +635,7 @@ export default defineComponent({
         const sectionState = (val: number | null): boolean => {
             if (val === null) {
                 return false
-            } else if (val < 1 || val > 99) {
+            } else if (val < 1 || val > courseStore.getMaxSection) {
                 return false
             } else if (
                 time.value.startSection &&
