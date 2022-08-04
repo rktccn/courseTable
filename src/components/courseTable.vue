@@ -40,15 +40,21 @@
                         v-for="course in day"
                         :key="course.name"
                         :class="`bg-${course.color}-200 text-${course.color}-600`"
-                        class="rounded-md p-1 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
+                        class="flex flex-col justify-between rounded-md p-1 font-semibold ease-out duration-300 hover:outline hover:shadow-lg"
                         :style="{
                             gridArea: `${course.start}/${index + 2}/${
                                 course.start + course.count
                             }/${index + 3}`
                         }"
                         @click="toggleEditcourse(course.key)"
-                        >{{ course.name }}</span
                     >
+                        <p class="overflow-hidden break-all truncate">
+                            {{ course.name }}
+                        </p>
+                        <p class="font-thin text-sm">
+                            {{ course.classroom }}
+                        </p>
+                    </span>
                 </template>
             </div>
         </section>

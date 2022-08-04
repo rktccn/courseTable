@@ -8,7 +8,7 @@
             <span
                 v-if="curLabel === ''"
                 class="placeholder text-sm opacity-60 grow overflow-hidden truncate"
-                >{{ placeholder }}</span
+                >{{ $t('base.selecter.placeHolder') }}</span
             >
             <span v-else class="grow font-semibold overflow-hidden truncate">{{
                 curLabel
@@ -59,7 +59,7 @@ export default defineComponent({
     props: {
         placeholder: {
             type: String,
-            default: '请选择'
+            default: ''
         },
         value: {
             type: String,

@@ -1,5 +1,4 @@
 {
-    "": "",
     "cancel": "取消",
     "confirm": "确认",
     "add": "添加",
@@ -15,6 +14,24 @@
             "4": "周四",
             "5": "周五",
             "6": "周六"
+        },
+        "monthList": {
+            "0": "一月",
+            "1": "二月",
+            "2": "三月",
+            "3": "四月",
+            "4": "五月", 
+            "5": "六月",
+            "6": "七月",
+            "7": "八月",
+            "8": "九月",
+            "9": "十月",
+            "10": "十一月",
+            "11": "十二月"
+        },
+
+        "selecter": {
+            "placeHolder": "请选择"
         }
     },
 
@@ -31,8 +48,8 @@
         "timeAndLocation": {
             "title": "时间与地点",
             "addTime": "添加时间段",
-            "weekLength": "周数:",
-            "section": "节次:",
+            "weekLength": "共{length}周",
+            "section": "第{section}节",
             "error": {
                 "noTime": "*请添加时间段"
             }
@@ -77,10 +94,35 @@
     },
     "today": {
         "title": "今日",
+        "date": "{month}月{day}日",
         "tommrowTitle": "明日",
         "noCourse": "当天没有课程！",
         "fromStart": "距开始",
         "fromEnd": "距结束",
         "minutes": "分钟"
+    },
+    "setting": {
+        "title": "设置",
+        "base": {
+            "title": "基础设置",
+            "color": "颜色",
+            "lang": "语言"
+        },
+        "table": {
+            "title": "课表设置",
+            "startTime": "开学时间",
+            "weekLength": "学期总周数",
+            "section": "课表结束",
+            "sectionTip": "修改后可能导致部分课程显示异常",
+            "sectionMor": "上午",
+            "sectionAft": "下午",
+            "sectionTime": "上课时间"
+        }
+    },
+    "editTime": {
+        "title": "编辑时间",
+        "morning": "上午",
+        "afternoon": "下午",
+        "section": "第{index}节"
     }
 }

@@ -35,10 +35,8 @@
                 <span class="text-3xl text-primary">{{
                     $t('today.title')
                 }}</span>
-                <span class="text-2xl text-muted"
-                    >{{ date.getMonth() + 1 }}{{ $t('base.month')
-                    }}{{ date.getDate() }}{{ $t('base.day') }}&nbsp;
-                    {{ $t(`base.weekList.${date.getDay()}`) }}
+                <span class="text-2xl text-muted">
+                    {{ $d(new Date(), 'short') }}
                 </span>
             </header>
 

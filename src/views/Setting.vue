@@ -4,15 +4,17 @@
             <router-link to="Home"> 返回 </router-link>
         </button>
 
-        <h3 class="font-semibold text-4xl">设置</h3>
+        <h3 class="font-semibold text-4xl">
+            {{ $t('setting.title') }}
+        </h3>
 
         <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
             <header>
-                <h6 class="text-xl">基础设置</h6>
+                <h6 class="text-xl">{{ $t('setting.base.title') }}</h6>
             </header>
             <div class="flex flex-col">
                 <section class="mt-2 flex justify-between items-center">
-                    <span class=""> 颜色 </span>
+                    <span class=""> {{ $t('setting.base.color') }} </span>
                     <div class="relative" ref="colorList">
                         <button
                             class="h-5 rounded outline outline-2 text-primary bg-off-bases aspect-square block"
@@ -36,7 +38,9 @@
                 </section>
 
                 <section class="mt-2 flex justify-between items-center">
-                    <span class="float-left"> 语言 </span>
+                    <span class="float-left">
+                        {{ $t('setting.base.lang') }}
+                    </span>
                     <RoSelect class="float-left">
                         <RoOption
                             v-for="item in languageOptionList"
@@ -47,7 +51,7 @@
                     </RoSelect>
                 </section>
 
-                <section class="mt-2 flex justify-between items-center">
+                <!-- <section class="mt-2 flex justify-between items-center">
                     <span> 地区 </span>
                     <RoSelect class="float-left">
                         <RoOption
@@ -57,17 +61,17 @@
                             :label="item.label"
                         ></RoOption>
                     </RoSelect>
-                </section>
+                </section> -->
             </div>
         </article>
 
         <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
             <header>
-                <h6 class="text-xl">课表设置</h6>
+                <h6 class="text-xl">{{ $t('setting.table.title') }}</h6>
             </header>
             <div class="flex flex-col">
                 <section class="mt-2 flex justify-between items-center">
-                    <span class=""> 开学时间 </span>
+                    <span class=""> {{ $t('setting.table.startTime') }} </span>
                     <input
                         class="h-7 px-2 outline outline-2 bg-base rounded-md text-primary font-semibold"
                         type="date"
@@ -78,7 +82,7 @@
                 </section>
 
                 <section class="mt-2 flex justify-between items-center">
-                    <span class=""> 学期总周数 </span>
+                    <span class=""> {{ $t('setting.table.weekLength') }} </span>
                     <input
                         class="h-7 px-2 w-10 outline outline-2 bg-base rounded-md text-center text-primary font-semibold"
                         type="number"
@@ -90,9 +94,9 @@
 
                 <section class="mt-2 flex justify-between items-center">
                     <span class="mb-2">
-                        课表节数
+                        {{ $t('setting.table.section') }}
                         <p class="text-xs text-muted opacity-80">
-                            修改后可能导致部分课程显示异常
+                            {{ $t('setting.table.sectionTip') }}
                         </p>
                     </span>
                     <div class="flex">
@@ -104,7 +108,9 @@
                                 id=""
                                 v-model="sections[0]"
                             />
-                            <p class="mt-1 text-xs opacity-70">上午</p>
+                            <p class="mt-1 text-xs opacity-70">
+                                {{ $t('setting.table.sectionMor') }}
+                            </p>
                         </span>
                         <span class="flex flex-col items-center">
                             <input
@@ -114,13 +120,17 @@
                                 id=""
                                 v-model="sections[1]"
                             />
-                            <p class="mt-1 text-xs opacity-70">下午</p>
+                            <p class="mt-1 text-xs opacity-70">
+                                {{ $t('setting.table.sectionAft') }}
+                            </p>
                         </span>
                     </div>
                 </section>
 
                 <section class="mt-2 flex justify-between items-center">
-                    <span class=""> 上课时间 </span>
+                    <span class="">
+                        {{ $t('setting.table.sectionTime') }}
+                    </span>
                     <button
                         class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-base hover:text-primary hover:outline-2"
                         @click="isTimeShow = true"
@@ -145,19 +155,19 @@
         </article>
 
         <article>
-            <section class="control float-right mt-4 font-semibold">
+            <section class="control float-right flex mt-4 font-semibold">
                 <button
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out text-base hover:text-base hover:outline-2"
                     @click="cancel"
                 >
-                    取消
+                    {{ $t('cancel') }}
                 </button>
-                <button
+                <RoButton class="control__item  ml-8" type="default" @click="submit">
+                    {{ $t('confirm') }}
+                </RoButton>
+                <!-- <button
                     class="control__item px-3 py-1 ml-8 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                    @click="submit"
-                >
-                    确定
-                </button>
+                ></button> -->
             </section>
         </article>
 
@@ -179,6 +189,7 @@ import RoSelect from '@/components/select/roSelect.vue'
 import RoOption from '@/components/select/roOption.vue'
 import EditTime from '@/components/editTime.vue'
 import { useCourseStore } from '@/store/course'
+import RoButton from '@/components/roButton.vue'
 
 export default defineComponent({
     name: 'Setting',
@@ -255,7 +266,8 @@ export default defineComponent({
     components: {
         RoSelect,
         RoOption,
-        EditTime
+        EditTime,
+        RoButton
     }
 })
 </script>

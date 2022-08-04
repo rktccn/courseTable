@@ -17,7 +17,7 @@
                     class="item px-2 rounded-md text-primary"
                     type=" text"
                     v-model="courseName"
-                   :placeholder="$t('editCourse.base.courseName')"
+                    :placeholder="$t('editCourse.base.courseName')"
                 />
                 <div class="item flex items-center justify-between">
                     <span> {{ $t('editCourse.base.color') }}</span>
@@ -63,15 +63,21 @@
                         <div class="time flex justify-between text-primary">
                             <span
                                 >{{ $t(`base.weekList.${time.day}`) }},&nbsp;{{
-                                    $t('editCourse.timeAndLocation.weekLength')
-                                }}{{ time.weeks.length }}</span
-                            >
-                            <span>
-                                {{ $t('editCourse.timeAndLocation.section') }}
-                                {{ time.startSection }}-{{
-                                    time.endSection
+                                    $t(
+                                        'editCourse.timeAndLocation.weekLength',
+                                        {
+                                            length: time.weeks.length
+                                        }
+                                    )
                                 }}</span
                             >
+                            <span>
+                                {{
+                                    $t('editCourse.timeAndLocation.section', {
+                                        section: `${time.startSection}-${time.endSection}`
+                                    })
+                                }}
+                            </span>
                         </div>
 
                         <div class="location flex justify-between text-primary">
@@ -94,7 +100,7 @@
                     class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
                     @click="deleteCourse"
                 >
-                    {{$t('editCourse.base.deleteCourse')}}
+                    {{ $t('editCourse.base.deleteCourse') }}
                 </button>
             </section>
 
@@ -351,11 +357,11 @@ export default defineComponent({
             isEditTime: false,
             currentEditTime: <time | null>null, // 当前编辑的时间
             error: {
-                base: t(''),
-                timeList: t(''),
-                selectSection: t(''),
-                selectDay: t(''),
-                selectWeek: t('')
+                base: '',
+                timeList: '',
+                selectSection: '',
+                selectDay: '',
+                selectWeek: ''
             },
             state: {
                 baseButton: 'default',
@@ -430,8 +436,8 @@ export default defineComponent({
 
         const check = () => {
             let flag = true
-            data.error.base = t('')
-            data.error.timeList = t('')
+            data.error.base = ''
+            data.error.timeList = ''
             if (data.courseName.length === 0) {
                 data.error.base = t(`editCourse.base.error.noName`)
                 flag = false
@@ -482,9 +488,9 @@ export default defineComponent({
         }
 
         const addTime = () => {
-            data.error.selectDay = t('')
-            data.error.selectSection = t('')
-            data.error.selectWeek = t('')
+            data.error.selectDay = ''
+            data.error.selectSection =''
+            data.error.selectWeek = ''
 
             let flag = true
             let { startSection, endSection, day, weeks, classroom, teacher } =

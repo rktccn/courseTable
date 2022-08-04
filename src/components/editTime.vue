@@ -7,7 +7,9 @@
             class="text-base px-8 py-4 bg-off-base shadow-lg rounded-lg w-2/3 max-w-md flex flex-col"
         >
             <header class="flex justify-between">
-                <h6 class="text-xl font-semibold">编辑时间</h6>
+                <h6 class="text-xl font-semibold">
+                    {{ $t('editTime.title') }}
+                </h6>
                 <svg
                     @click="cancel"
                     xmlns="http://www.w3.org/2000/svg"
@@ -39,14 +41,18 @@
             </section> -->
 
             <section class="mt-3">
-                <header class="text-sm text-muted-hover">上午</header>
+                <header class="text-sm text-muted-hover">
+                    {{ $t('editTime.morning') }}
+                </header>
                 <section class="time-list p-1 max-h-48 overflow-scroll">
                     <span
                         v-for="section in courseSection[0]"
                         :key="section"
                         class="my-2 flex justify-between"
                     >
-                        <span class="mr-32">第{{ section }}节</span>
+                        <span class="mr-32">
+                            {{ $t('editTime.section', { index: section }) }}
+                        </span>
                         <div class="flex">
                             <input
                                 class="time text-base bg-base pl-2 rounded-md outline outline-2"
@@ -73,23 +79,36 @@
             </section>
 
             <section class="time-list mt-3">
-                <header class="text-sm text-muted-hover">下午</header>
+                <header class="text-sm text-muted-hover">
+                    {{ $t('editTime.afternoon') }}
+                </header>
                 <section class="time-list p-1 max-h-48 overflow-scroll">
                     <span
                         v-for="section in courseSection[1]"
                         :key="section"
                         class="my-2 flex justify-between"
                     >
-                        <span class="mr-32">第{{ section }}节</span>
+                        <span class="mr-32">
+                            {{ $t('editTime.section', { index: section }) }}
+                        </span>
                         <div class="flex">
                             <input
                                 class="time text-base bg-base pl-2 rounded-md outline outline-2"
                                 type="time"
                                 name=""
                                 id=""
-                                :min="timeList[section - 2 + courseSection[0]]?.end ?? '00:00'"
-                                :max="timeList[section - 1 + courseSection[0]]?.end ?? '24:00'"
-                                v-model="timeList[section - 1 + courseSection[0]].start"
+                                :min="
+                                    timeList[section - 2 + courseSection[0]]
+                                        ?.end ?? '00:00'
+                                "
+                                :max="
+                                    timeList[section - 1 + courseSection[0]]
+                                        ?.end ?? '24:00'
+                                "
+                                v-model="
+                                    timeList[section - 1 + courseSection[0]]
+                                        .start
+                                "
                             />
                             <em class="mx-3"> - </em>
                             <input
@@ -98,10 +117,16 @@
                                 name=""
                                 id=""
                                 :min="
-                                    timeList[section - 1 + courseSection[0]]?.start ?? '00:00'
+                                    timeList[section - 1 + courseSection[0]]
+                                        ?.start ?? '00:00'
                                 "
-                                :max="timeList[section + courseSection[0]]?.start ?? '24:00'"
-                                v-model="timeList[section - 1 + courseSection[0]].end"
+                                :max="
+                                    timeList[section + courseSection[0]]
+                                        ?.start ?? '24:00'
+                                "
+                                v-model="
+                                    timeList[section - 1 + courseSection[0]].end
+                                "
                             />
                         </div>
                     </span>
@@ -113,14 +138,11 @@
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
                     @click="cancel"
                 >
-                    取消
+                    {{ $t('cancel') }}
                 </button>
-                <button
-                    class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                    @click="submitTime"
-                >
-                    添加
-                </button>
+                <RoButton class="control__item" type="default">
+                    {{ $t('add') }}
+                </RoButton>
             </section>
         </div>
     </div>
@@ -130,6 +152,7 @@ import { useCourseStore } from '@/store/course'
 import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
 import { RoCourseTimeType } from '@/types/course'
+import RoButton from './roButton.vue'
 
 export default defineComponent({
     name: 'EidtTime',
@@ -148,19 +171,15 @@ export default defineComponent({
             { start: null, end: null },
             { start: null, end: null },
             { start: null, end: null },
-
             { start: null, end: null },
             { start: null, end: null },
             { start: null, end: null },
             { start: null, end: null }
         ])
-
         const initData = () => {
             timeList.value = courseTimeList.value
         }
-
         initData()
-
         const check = () => {
             let time = timeList.value
             let flag = true
@@ -178,27 +197,23 @@ export default defineComponent({
             }
             return flag
         }
-
         const cancel = () => {
             context.emit('update:isShow', false)
         }
-
         const submitTime = () => {
             console.log(courseTimeList.value)
-
             if (check()) {
                 let time: RoCourseTimeType[] = timeList.value
                 time.forEach((item, index) => {
                     courseStore.setSection(index + 1, item)
                 })
-
                 console.log(courseTimeList.value)
                 cancel()
             }
         }
-
         return { timeList, courseTimeList, courseSection, submitTime, cancel }
-    }
+    },
+    components: { RoButton }
 })
 </script>
 
