@@ -68,13 +68,9 @@ export enum courseColorKey {
     pink = 'pink'
 }
 
-// 数字转汉字
-export enum numToChinese {
-    '日',
-    '一',
-    '二',
-    '三',
-    '四',
-    '五',
-    '六'
+// 通知队列
+export type RoMessageList = {
+    title: string
+    body: string
+    date: Date
 }

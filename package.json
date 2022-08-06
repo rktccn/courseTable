@@ -24,6 +24,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.1.1",
     "klona": "^2.0.5",
+    "node-schedule": "^2.1.0",
     "pinia": "^2.0.14",
     "prettier": "^2.7.1",
     "qweather-icons": "^1.1.1",

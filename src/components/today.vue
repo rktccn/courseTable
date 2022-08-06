@@ -153,7 +153,7 @@
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
 import { defineComponent, computed, ref, onMounted } from 'vue'
-import { RoCourseDay, numToChinese } from '@/types/course'
+import { RoCourseDay } from '@/types/course'
 
 export default defineComponent({
     name: 'Today',
@@ -289,7 +289,6 @@ export default defineComponent({
             currentIndex,
             timeProgress,
             timeLeft,
-            numToChinese,
             courseListEL,
             timeProgressEL
         }

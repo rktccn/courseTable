@@ -5,7 +5,10 @@
         </transition> -->
 
         <router-view v-slot="{ Component, route }">
-            <transition :name="route.meta.transitionName || 'zoom-in'" mode="out-in">
+            <transition
+                :name="route.meta.transitionName || 'zoom-in'"
+                mode="out-in"
+            >
                 <component :is="Component" />
             </transition>
         </router-view>

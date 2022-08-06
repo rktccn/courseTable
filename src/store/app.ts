@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { RoMessageList } from '@/types/course'
+import { klona } from 'klona'
 
 export const useAppStore = defineStore('app', {
     state: () => {
@@ -6,7 +8,10 @@ export const useAppStore = defineStore('app', {
             currentWeek: 0, // 当前周次
             primaryColor: 'fuchsia',
 
-            lang: 'zh-CN'
+            lang: 'zh-CN',
+
+            // 通知队列
+            messageList: <RoMessageList[]>[]
         }
     },
     actions: {
@@ -15,5 +20,9 @@ export const useAppStore = defineStore('app', {
             this.currentWeek = week
         }
     },
-    getters: {}
+    getters: {
+        getMessageList(state: any) {
+            return klona(state.messageList)
+        }
+    }
 })

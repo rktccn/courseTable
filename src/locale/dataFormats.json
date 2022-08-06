@@ -2,7 +2,8 @@
     "en": {
         "short": {
             "month": "short",
-            "day": "numeric"
+            "day": "numeric",
+            "weekday": "long"
         },
         "long": {
             "year": "numeric",
@@ -16,7 +17,8 @@
     "zh-CN": {
         "short": {
             "month": "short",
-            "day": "numeric"
+            "day": "numeric",
+            "weekday": "long"
         },
         "long": {
             "year": "numeric",

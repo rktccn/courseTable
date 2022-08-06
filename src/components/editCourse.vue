@@ -308,12 +308,13 @@
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
 import { defineComponent, reactive, ref, toRefs, computed } from 'vue'
-import { RoCourse, courseDuractionModel, numToChinese } from '@/types/course'
+import { RoCourse, courseDuractionModel } from '@/types/course'
 import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { courseColorKey } from '@/types/course'
 import { klona } from 'klona'
-import i18n from '@/locale/index'
+// import i18n from '@/locale/index'
+import { installI18n } from '@/locale'
 
 interface time {
     startSection: number | null
@@ -332,7 +333,7 @@ export default defineComponent({
     },
     emits: ['update:isShow'],
     setup(props, context) {
-        const { locale, t } = i18n.global
+        const { locale, t } = installI18n().global
 
         const courseStore = useCourseStore()
         const addTimeEL = ref<HTMLDivElement | null>(null)
@@ -489,7 +490,7 @@ export default defineComponent({
 
         const addTime = () => {
             data.error.selectDay = ''
-            data.error.selectSection =''
+            data.error.selectSection = ''
             data.error.selectWeek = ''
 
             let flag = true
@@ -693,8 +694,7 @@ export default defineComponent({
             getColor,
             selectColor,
             addTimeEL,
-            colorList,
-            numToChinese
+            colorList
         }
     }
 })

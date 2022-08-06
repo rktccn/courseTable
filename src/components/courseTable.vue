@@ -5,7 +5,7 @@
         >
             <span
                 class="py-3 backdrop-contrast-75 flex items-center justify-center font-semibold cursor-pointer"
-                >{{ month }}{{ $t('base.month') }}</span
+                >{{ $t(`base.monthList.${month - 1}`) }}</span
             >
             <span
                 v-for="(day, index) in dateList"
@@ -71,7 +71,7 @@
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
 import { defineComponent, computed, reactive, toRefs } from 'vue'
-import { RoCourseTable, numToChinese } from '@/types/course'
+import { RoCourseTable } from '@/types/course'
 import { storeToRefs } from 'pinia'
 
 import EditCourse from './editCourse.vue'
@@ -104,7 +104,6 @@ export default defineComponent({
 
         return {
             ...toRefs(data),
-            numToChinese,
             table,
             courseTimeList,
             dateList,
