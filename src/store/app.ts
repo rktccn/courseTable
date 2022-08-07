@@ -11,7 +11,7 @@ export const useAppStore = defineStore('app', {
             currentWeek: 0, // 当前周次
             primaryColor: 'fuchsia',
             todayCourse: <RoCourseDay[]>[],
-            tommrowCourse: <RoCourseDay[]>[],
+            tomorrowCourse: <RoCourseDay[]>[],
 
             lang: 'zh-CN',
 

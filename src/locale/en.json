@@ -1,93 +1,136 @@
 {
-    "cancel": "cancel",
-    "confirm": "confirm",
-    "add": "add",
+    "add": "Add",
     "base": {
-        "month": "month",
-        "week": "week",
-        "day": "day",
+        "day": "Day",
+        "month": "Month",
+        "week": "Week",
+        "monthList": {
+            "0": "January",
+            "1": "February",
+            "2": "March",
+            "3": "April",
+            "4": "May",
+            "5": "June",
+            "6": "July",
+            "7": "August",
+            "8": "September",
+            "9": "October",
+            "10": "November",
+            "11": "December"
+        },
+        "selecter": {
+            "placeHolder": "Please choose"
+        },
         "weekList": {
-            "0": "周日",
-            "1": "周一",
-            "2": "周二",
-            "3": "周三",
-            "4": "周四",
-            "5": "周五",
-            "6": "周六"
+            "0": "Sunday",
+            "1": "Monday",
+            "2": "Tuesday",
+            "3": "Wednesday",
+            "4": "Thursday",
+            "5": "Friday",
+            "6": "Saturday"
         }
     },
-
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "editCourse": {
         "base": {
-            "title": "base info",
-            "courseName": "course name",
-            "color": "color",
-            "deleteCourse": "delete course",
+            "color": "Color",
+            "courseName": "Course Title",
+            "deleteCourse": "Delete course",
             "error": {
-                "noName": "*please input course name"
-            }
+                "noName": "*Please enter the course name"
+            },
+            "title": "Basic information"
         },
-        "timeAndLocation": {
-            "title": "时间与地点",
-            "addTime": "添加时间段",
-            "weekLength": "周数:",
-            "section": "节次:",
+        "otherInfo": {
+            "place": "Place",
+            "teacher": "Teacher",
+            "title": "Other information"
+        },
+        "selectDay": {
             "error": {
-                "noTime": "*请添加时间段"
+                "noDay": "*Please select a week"
+            },
+            "title": "Select week",
+            "weekList": {
+                "0": "Mon",
+                "1": "Tues",
+                "2": "Wed",
+                "3": "Thur",
+                "4": "Fri",
+                "5": "Sat",
+                "6": "Sun"
             }
         },
         "selectSection": {
-            "title": "选择节次",
-            "startSection": "开始节次",
-            "endSection": "结束节次",
+            "endSection": "End session",
             "error": {
-                "noStartSection": "*请输入开始节次",
-                "noEndSection": "*请输入结束节次",
-                "noSection": "*请输入节次",
-                "noSectionRange": "*请输入正确的节次范围"
-            }
-        },
-        "selectDay": {
-            "title": "选择星期",
-            "weekList": {
-                "0": "日",
-                "1": "一",
-                "2": "二",
-                "3": "三",
-                "4": "四",
-                "5": "五",
-                "6": "六"
+                "noEndSection": "*Please enter the end session",
+                "noSection": "*Please enter the section",
+                "noSectionRange": "*Please enter the correct section range",
+                "noStartSection": "*Please enter the starting section"
             },
-            "error": {
-                "noDay": "*请选择星期"
-            }
+            "startSection": "Start session",
+            "title": "Select a session"
         },
         "selectWeek": {
-            "title": "选择周次",
             "error": {
-                "noWeek": "*请选择周次"
-            }
+                "noWeek": "*Please select week"
+            },
+            "title": "Select week"
         },
-        "otherInfo": {
-            "title": "其他信息",
-            "teacher": "教师",
-            "place": "地点"
+        "timeAndLocation": {
+            "addTime": "Add time period",
+            "error": {
+                "noTime": "*Please add time period"
+            },
+            "section": "Section {section}",
+            "title": "Time and place",
+            "weekLength": "Total {length}weeks"
         }
     },
-    "today": {
-        "title": "today",
-        "tommrowTitle": "tommrow",
-        "noCourse": "no course",
-        "fromStart": "from start",
-        "fromEnd": "from end",
-        "minutes": "min"
+    "editTime": {
+        "afternoon": "Afternoon",
+        "morning": "Morning",
+        "section": "Section {index}",
+        "title": "Edit time"
+    },
+    "notice": {
+        "end": {
+            "body": "{course}\n \nEnds in {time} minutes",
+            "title": "Reminder after class ⏰"
+        },
+        "start": {
+            "body": "{course}\n \nStarts in {time} minutes, {place}",
+            "title": "Class reminder ⏰"
+        }
     },
     "setting": {
-        "title": "设置",
         "base": {
-            "title": "基础设置",
-            "color": "颜色",
-            "lang": "语言"
-        }
+            "color": "Theme",
+            "lang": "Language",
+            "title": "Basic Settings"
+        },
+        "table": {
+            "section": "Class schedule ends",
+            "sectionAft": "Afternoon",
+            "sectionMor": "Morning",
+            "sectionTime": "Class time",
+            "sectionTip": "After modification, some courses may display abnormally",
+            "startTime": "Commencement time",
+            "title": "Schedule setting",
+            "weekLength": "Total number of weeks in the semester"
+        },
+        "title": "Set Up"
+    },
+    "today": {
+        "date": "{month}month{day}day",
+        "fromEnd": "From the end",
+        "fromStart": "From start",
+        "minutes": "Min",
+        "noCourse": "No classes on the day!",
+        "title": "TODAY",
+        "tommrowTitle": "TOMORROW"
     }
 }

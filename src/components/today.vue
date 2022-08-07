@@ -154,7 +154,6 @@
 import { useCourseStore } from '@/store/course'
 import { useAppStore } from '@/store/app'
 import { defineComponent, computed, ref, onMounted } from 'vue'
-import { RoCourseDay, RoMessageList } from '@/types/course'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -181,56 +180,8 @@ export default defineComponent({
         })
 
         // 获取课程列表
-        const { todayCourse: courseList, tommrowCourse: courseListTomorrow } =
+        const { todayCourse: courseList, tomorrowCourse: courseListTomorrow } =
             storeToRefs(appStore)
-
-        // const courseList = computed((): RoCourseDay[] => {
-        //     console.log('今日')
-
-        //     let l: RoCourseDay[] = courseStore.getDayCourse(new Date())
-
-        //     let nowTime = new Date()
-        //     let year = nowTime.getFullYear()
-        //     let month = nowTime.getMonth()
-        //     let day = nowTime.getDate()
-
-        //     let res: RoMessageList[] = []
-
-        //     // 设置提醒
-        //     l.forEach(item => {
-        //         let start = new Date(
-        //             `${year}, ${month + 1}, ${day}, ${item.start}`
-        //         )
-        //         let end = new Date(`${year}, ${month + 1}, ${day}, ${item.end}`)
-
-        //         res.push(
-        //             {
-        //                 key: 1,
-        //                 date: new Date(start.getTime() + 1000),
-        //                 title: `上课提醒⏰`,
-        //                 body: `${item.name}开始上课 `
-        //             },
-        //             {
-        //                 key: 2,
-        //                 date: new Date(end.getTime() - 1000),
-        //                 title: `下课提醒⏰`,
-        //                 body: `${item.name}开始下课 `
-        //             }
-        //         )
-        //     })
-
-        //     appStore.setMessageList(res)
-
-        //     return l
-        // })
-
-        // const courseListTomorrow = computed(() => {
-        //     console.log(appStore.courseList)
-
-        //     return courseStore.getDayCourse(
-        //         new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-        //     )
-        // })
 
         // 当前课程index
         const currentIndex = computed(() => {

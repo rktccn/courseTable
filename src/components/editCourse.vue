@@ -71,7 +71,7 @@
                                     )
                                 }}</span
                             >
-                            <span>
+                            <span class="ml-3">
                                 {{
                                     $t('editCourse.timeAndLocation.section', {
                                         section: `${time.startSection}-${time.endSection}`

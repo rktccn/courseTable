@@ -50,7 +50,7 @@
                         :key="section"
                         class="my-2 flex justify-between"
                     >
-                        <span class="mr-32">
+                        <span class="">
                             {{ $t('editTime.section', { index: section }) }}
                         </span>
                         <div class="flex">
@@ -88,7 +88,7 @@
                         :key="section"
                         class="my-2 flex justify-between"
                     >
-                        <span class="mr-32">
+                        <span class="">
                             {{ $t('editTime.section', { index: section }) }}
                         </span>
                         <div class="flex">
