@@ -152,16 +152,17 @@
 </template>
 <script lang="ts">
 import { useCourseStore } from '@/store/course'
+import { useAppStore } from '@/store/app'
 import { defineComponent, computed, ref, onMounted } from 'vue'
-import { RoCourseDay } from '@/types/course'
+import { RoCourseDay, RoMessageList } from '@/types/course'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
     name: 'Today',
     setup(context) {
         const courseStore = useCourseStore()
-        const courseList = computed((): RoCourseDay[] => {
-            return courseStore.getDayCourse(new Date())
-        })
+        const appStore = useAppStore()
+
         const date = computed(() => {
             return new Date()
         })
@@ -179,11 +180,57 @@ export default defineComponent({
             return date.toTimeString().substr(0, 5)
         })
 
-        const courseListTomorrow = computed(() => {
-            return courseStore.getDayCourse(
-                new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-            )
-        })
+        // 获取课程列表
+        const { todayCourse: courseList, tommrowCourse: courseListTomorrow } =
+            storeToRefs(appStore)
+
+        // const courseList = computed((): RoCourseDay[] => {
+        //     console.log('今日')
+
+        //     let l: RoCourseDay[] = courseStore.getDayCourse(new Date())
+
+        //     let nowTime = new Date()
+        //     let year = nowTime.getFullYear()
+        //     let month = nowTime.getMonth()
+        //     let day = nowTime.getDate()
+
+        //     let res: RoMessageList[] = []
+
+        //     // 设置提醒
+        //     l.forEach(item => {
+        //         let start = new Date(
+        //             `${year}, ${month + 1}, ${day}, ${item.start}`
+        //         )
+        //         let end = new Date(`${year}, ${month + 1}, ${day}, ${item.end}`)
+
+        //         res.push(
+        //             {
+        //                 key: 1,
+        //                 date: new Date(start.getTime() + 1000),
+        //                 title: `上课提醒⏰`,
+        //                 body: `${item.name}开始上课 `
+        //             },
+        //             {
+        //                 key: 2,
+        //                 date: new Date(end.getTime() - 1000),
+        //                 title: `下课提醒⏰`,
+        //                 body: `${item.name}开始下课 `
+        //             }
+        //         )
+        //     })
+
+        //     appStore.setMessageList(res)
+
+        //     return l
+        // })
+
+        // const courseListTomorrow = computed(() => {
+        //     console.log(appStore.courseList)
+
+        //     return courseStore.getDayCourse(
+        //         new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+        //     )
+        // })
 
         // 当前课程index
         const currentIndex = computed(() => {
@@ -230,7 +277,7 @@ export default defineComponent({
                     now.getHours() * 60 * 60 +
                     now.getMinutes() * 60 +
                     now.getSeconds()
-                let current = Math.trunc(currentIndex.value)
+                let current = Math.floor(currentIndex.value)
 
                 let element = courseListEL.value.children[
                     current + 1
@@ -259,7 +306,7 @@ export default defineComponent({
 
                     timeLeft.value = Math.ceil((end - nowTime) / 60)
                 } else {
-                    offset = element.offsetHeight + 3
+                    offset = current + 1 ? element.offsetHeight + 4 : 3
                     const course = courseList.value[current + 1] ?? null
                     if (course) {
                         const startTime = course.start

@@ -6,8 +6,10 @@ const schedule = require('node-schedule')
 
 function setList() {
     let messageList: RoMessageList[] = useAppStore().getMessageList
-
-    notice(messageList)
+    schedule.gracefulShutdown()
+    if (messageList.length > 0) {
+        notice(messageList)
+    }
 }
 
 function notice(list: RoMessageList[]) {

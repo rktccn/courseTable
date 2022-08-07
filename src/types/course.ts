@@ -70,6 +70,7 @@ export enum courseColorKey {
 
 // 通知队列
 export type RoMessageList = {
+    key: number
     title: string
     body: string
     date: Date

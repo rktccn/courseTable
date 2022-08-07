@@ -140,8 +140,12 @@
                 >
                     {{ $t('cancel') }}
                 </button>
-                <RoButton class="control__item" type="default">
-                    {{ $t('add') }}
+                <RoButton
+                    class="control__item"
+                    type="default"
+                    @click="submitTime"
+                >
+                    {{ $t('confirm') }}
                 </RoButton>
             </section>
         </div>
@@ -153,6 +157,7 @@ import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
 import { RoCourseTimeType } from '@/types/course'
 import RoButton from './roButton.vue'
+import { klona } from 'klona'
 
 export default defineComponent({
     name: 'EidtTime',
@@ -177,7 +182,7 @@ export default defineComponent({
             { start: null, end: null }
         ])
         const initData = () => {
-            timeList.value = courseTimeList.value
+            timeList.value = klona(courseTimeList.value)
         }
         initData()
         const check = () => {
@@ -207,7 +212,6 @@ export default defineComponent({
                 time.forEach((item, index) => {
                     courseStore.setSection(index + 1, item)
                 })
-                console.log(courseTimeList.value)
                 cancel()
             }
         }
