@@ -15,3 +15,8 @@ input[type='number'] {
     -webkit-line-clamp: $line;
     overflow: hidden;
 }
+
+
+::-webkit-scrollbar {
+    display: none;
+}

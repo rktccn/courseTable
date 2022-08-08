@@ -206,7 +206,6 @@ export default defineComponent({
             context.emit('update:isShow', false)
         }
         const submitTime = () => {
-            console.log(courseTimeList.value)
             if (check()) {
                 let time: RoCourseTimeType[] = timeList.value
                 time.forEach((item, index) => {

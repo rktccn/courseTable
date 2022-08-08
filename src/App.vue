@@ -17,65 +17,81 @@
 
 <script lang="ts" setup>
 import { useCourseStore } from '@/store/course'
-import { computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, watchEffect } from 'vue'
 import { useAppStore } from './store/app'
 import { RoCourseDay, RoMessageList } from './types/course'
 import { installI18n } from '@/locale'
+import { storeToRefs } from 'pinia'
 
-const { locale, t } = installI18n().global
-
-const route = useRoute()
 const courseStore = useCourseStore()
 const appStore = useAppStore()
 courseStore.initCourse()
 
+const { startNoticeTime, endNoticeTime } = storeToRefs(appStore)
+
 // 获取当日课程列表和课程通知
-watch(
-    () => courseStore.getDayCourse(new Date()),
-    val => {
-        let l: RoCourseDay[] = val
+watchEffect(() => {
+    let l: RoCourseDay[] = courseStore.getDayCourse(new Date())
 
-        let nowTime = new Date()
-        let year = nowTime.getFullYear()
-        let month = nowTime.getMonth()
-        let day = nowTime.getDate()
+    let nowTime = new Date()
+    let year = nowTime.getFullYear()
+    let month = nowTime.getMonth()
+    let day = nowTime.getDate()
 
-        let res: RoMessageList[] = []
+    let res: RoMessageList[] = []
+    const getLang = (val: string, param?: any): string => {
+        const { t } = installI18n().global
 
-        // 设置提醒
-        l.forEach(item => {
-            let start = new Date(`${year}, ${month + 1}, ${day}, ${item.start}`)
-            let end = new Date(`${year}, ${month + 1}, ${day}, ${item.end}`)
-
-            res.push(
-                {
-                    key: 1,
-                    date: new Date(start.getTime() + 1000),
-                    title: t(`notice.start.title`),
-                    body: t(`notice.start.body`, {
-                        course: item.name,
-                        time: 0,
-                        place: item.classroom
-                    })
-                },
-                {
-                    key: 2,
-                    date: new Date(end.getTime() - 1000),
-                    title: t(`notice.end.title`),
-                    body: t(`notice.end.body`, {
-                        course: item.name,
-                        time: 0
-                    })
-                }
-            )
-        })
-
-        appStore.setMessageList(res)
-
-        appStore.todayCourse = l
+        return t(`${val}`, param)
     }
-)
+
+    // 设置提醒
+    l.forEach(item => {
+        let start = new Date(`${year}, ${month + 1}, ${day}, ${item.start}`)
+        let end = new Date(`${year}, ${month + 1}, ${day}, ${item.end}`)
+
+        let startNotice = {
+            key: 1,
+            date: new Date(
+                start.getTime() + 1000 - startNoticeTime.value * 60 * 1000
+            ),
+            title: getLang(`notice.start.title`),
+            body: getLang(`notice.start.body`, {
+                course: item.name,
+                time: startNoticeTime.value,
+                place: item.classroom
+            })
+        }
+
+        let endNotice = {
+            key: 2,
+            date: new Date(
+                end.getTime() - endNoticeTime.value * 60 * 1000 - 1000
+            ),
+            title: getLang(`notice.end.title`),
+            body: getLang(`notice.end.body`, {
+                course: item.name,
+                time: endNoticeTime.value,
+                place: item.classroom
+            })
+        }
+
+        if (startNoticeTime.value === 0 && endNoticeTime.value === 0) {
+            return
+        } else if (startNoticeTime.value === 0) {
+            res.push(endNotice)
+        } else if (endNoticeTime.value === 0) {
+            res.push(startNotice)
+        } else {
+            res.push(startNotice)
+            res.push(endNotice)
+        }
+    })
+
+    appStore.setMessageList(res)
+
+    appStore.todayCourse = l
+})
 
 appStore.tommrowCourse = computed(() => {
     return courseStore.getDayCourse(

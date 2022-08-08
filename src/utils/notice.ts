@@ -17,8 +17,6 @@ function notice(list: RoMessageList[]) {
     const next = list.find(date => date.date > now)
 
     if (next) {
-        console.log(next)
-
         schedule.scheduleJob(next.date, () => {
             showNotice(next.title, next.body)
 

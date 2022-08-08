@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import { RoMessageList, RoCourseDay } from '@/types/course'
 import { klona } from 'klona'
 import setList from '@/utils/notice'
-import { computed } from 'vue'
-import { useCourseStore } from './course'
 
 export const useAppStore = defineStore('app', {
     state: () => {
@@ -16,7 +14,11 @@ export const useAppStore = defineStore('app', {
             lang: 'zh-CN',
 
             // 通知队列
-            messageList: <RoMessageList[]>[]
+            messageList: <RoMessageList[]>[],
+            // 上课通知提前时间，单位：分钟
+            startNoticeTime: 0,
+            // 下课通知提前时间，单位：分钟
+            endNoticeTime: 0
         }
     },
     actions: {

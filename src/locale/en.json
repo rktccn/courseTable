@@ -54,13 +54,13 @@
             },
             "title": "Select week",
             "weekList": {
-                "0": "Mon",
-                "1": "Tues",
-                "2": "Wed",
-                "3": "Thur",
-                "4": "Fri",
-                "5": "Sat",
-                "6": "Sun"
+                "0": "Sun",
+                "1": "Mon",
+                "2": "Tues",
+                "3": "Wed",
+                "4": "Thur",
+                "5": "Fri",
+                "6": "Sat"
             }
         },
         "selectSection": {
@@ -98,13 +98,16 @@
     },
     "notice": {
         "end": {
-            "body": "{course}\n \nEnds in {time} minutes",
+            "body": "{course}\nEnds in {time} minutes",
             "title": "Reminder after class ⏰"
         },
         "start": {
-            "body": "{course}\n \nStarts in {time} minutes, {place}",
+            "body": "{course}\nStarts in {time} minutes {place}",
             "title": "Class reminder ⏰"
-        }
+        },
+        "title": "reminder settings",
+        "noNotice": "Do not remind",
+        "doNotice": "{time} minutes ahead"
     },
     "setting": {
         "base": {

@@ -3,7 +3,7 @@
         <header
             class="cursor-pointer flex justify-between items-center h-7 w-52 px-2 outline outline-2 rounded-md bg-base duration-150 ease-in-out"
             :class="isListShow ? 'text-muted-hover' : 'text-primary'"
-            @click="isListShow = !isListShow"
+            @click="toggleListShow"
         >
             <span
                 v-if="curLabel === ''"
@@ -31,10 +31,12 @@
             </svg>
         </header>
 
-        <transition name="drop-b">
+        <transition :name="optionListPos ? 'drop-t' : 'drop-b'">
             <div
-                v-if="isListShow"
-                class="option-list z-10 absolute top-full left-0 w-full mt-1 py-1 bg-off-base shadow-md rounded-md overflow-hidden"
+                v-show="isListShow"
+                class="option-list z-10 absolute left-0 w-full py-1 bg-off-base shadow-md rounded-md overflow-hidden"
+                ref="optionList"
+                :class="[optionListPos ? 'bottom-full mb-1' : 'top-full mt-1']"
             >
                 <slot></slot>
             </div>
@@ -44,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside, useElementBounding, useWindowSize } from '@vueuse/core'
 
 import {
     Option,
@@ -54,6 +56,8 @@ import {
     curValueKey
 } from './types'
 
+const OPTION_HEIGHT = 32
+
 export default defineComponent({
     name: 'RoSelect',
     props: {
@@ -62,25 +66,48 @@ export default defineComponent({
             default: ''
         },
         value: {
-            type: String,
+            type: [String, Number],
             required: false
         }
     },
-    setup(props) {
+    emits: ['update:value'],
+    setup(props, context) {
+        const optionList = ref<HTMLDivElement | null>(null)
         const options = ref<Option[]>([])
         const curValue = ref<String | number>('')
         const curLabel = ref<string>('')
         const isListShow = ref<boolean>(false)
+        const optionListPos = ref<boolean>(false) // 列表显示位置 true: 在上方, false: 在下方
 
         const pushOption: pushOption = ({ label, value }) => {
             options.value.push({ label, value })
+
+            if (props.value === value) {
+                curValue.value = value
+                curLabel.value = label
+            }
         }
 
         const setCurrent = (value: string | number) => {
             curValue.value = value
             curLabel.value =
                 options.value.find(item => item.value === value)?.label ?? ''
+
             isListShow.value = false
+            context.emit('update:value', value)
+        }
+
+        const toggleListShow = () => {
+            isListShow.value = !isListShow.value
+            const { bottom } = useElementBounding(roSelect)
+            const { height } = useWindowSize()
+
+            let offset =
+                (optionList.value?.children.length ?? 0) * OPTION_HEIGHT +
+                bottom.value -
+                height.value
+
+            optionListPos.value = offset > -OPTION_HEIGHT
         }
 
         provide(pushOptionKey, pushOption)
@@ -92,7 +119,15 @@ export default defineComponent({
             isListShow.value = false
         })
 
-        return { curValue, curLabel, isListShow, roSelect }
+        return {
+            curValue,
+            curLabel,
+            optionListPos,
+            isListShow,
+            toggleListShow,
+            roSelect,
+            optionList
+        }
     }
 })
 </script>

@@ -10,7 +10,7 @@
                 <span class="item text-xs opacity-70"
                     >{{ $t('editCourse.base.title')
                     }}<em class="text-xs ml-1 text-red-600">{{
-                        error.base
+                        $t(error.base)
                     }}</em></span
                 >
                 <input
@@ -50,7 +50,7 @@
                 <span class="item text-xs opacity-70"
                     >{{ $t('editCourse.timeAndLocation.title')
                     }}<em class="text-xs ml-1 text-red-600">{{
-                        error.timeList
+                        $t(error.timeList)
                     }}</em></span
                 >
 
@@ -134,7 +134,7 @@
                         <h6 class="item font-semibold text-base">
                             {{ $t('editCourse.selectSection.title')
                             }}<em class="text-xs ml-1 text-red-600">{{
-                                error.selectSection
+                                $t(error.selectSection)
                             }}</em>
                         </h6>
 
@@ -192,7 +192,7 @@
                         <h6 class="item font-semibold text-base">
                             {{ $t('editCourse.selectDay.title')
                             }}<em class="text-xs ml-1 text-red-600">{{
-                                error.selectDay
+                                $t(error.selectDay)
                             }}</em>
                         </h6>
                         <div class="item flex justify-between">
@@ -221,7 +221,7 @@
                         <h6 class="item font-semibold text-base">
                             {{ $t('editCourse.selectWeek.title')
                             }}<em class="text-xs ml-1 text-red-600">
-                                {{ error.selectWeek }}</em
+                                {{ $t(error.selectWeek) }}</em
                             >
                         </h6>
                         <div class="item flex flex-wrap">
@@ -357,11 +357,11 @@ export default defineComponent({
             isEditTime: false,
             currentEditTime: <time | null>null, // 当前编辑的时间
             error: {
-                base: '',
-                timeList: '',
-                selectSection: '',
-                selectDay: '',
-                selectWeek: ''
+                base: 'null',
+                timeList: 'null',
+                selectSection: 'null',
+                selectDay: 'null',
+                selectWeek: 'null'
             },
             state: {
                 baseButton: 'default',
@@ -436,16 +436,15 @@ export default defineComponent({
 
         const check = () => {
             let flag = true
-            data.error.base = ''
-            data.error.timeList = ''
+            data.error.base = 'null'
+            data.error.timeList = 'null'
             if (data.courseName.length === 0) {
-                data.error.base = t(`editCourse.base.error.noName`)
+                data.error.base = `editCourse.base.error.noName`
                 flag = false
             }
             if (data.timeList.length === 0) {
-                data.error.timeList = t(
-                    `editCourse.timeAndLocation.error.noTime`
-                )
+                data.error.timeList = `editCourse.timeAndLocation.error.noTime`
+
                 flag = false
             }
 
@@ -488,9 +487,9 @@ export default defineComponent({
         }
 
         const addTime = () => {
-            data.error.selectDay = ''
-            data.error.selectSection = ''
-            data.error.selectWeek = ''
+            data.error.selectDay = 'null'
+            data.error.selectSection = 'null'
+            data.error.selectWeek = 'null'
 
             let flag = true
             let { startSection, endSection, day, weeks, classroom, teacher } =
@@ -501,37 +500,33 @@ export default defineComponent({
             )
 
             if (!startSection && !endSection) {
-                data.error.selectSection = t(
-                    `editCourse.selectSection.error.noSection`
-                )
+                data.error.selectSection = `editCourse.selectSection.error.noSection`
+
                 flag = false
             } else if (!startSection) {
-                data.error.selectSection = t(
-                    `editCourse.selectSection.error.noStartSection`
-                )
+                data.error.selectSection = `editCourse.selectSection.error.noStartSection`
+
                 flag = false
             } else if (!endSection) {
-                data.error.selectSection = t(
-                    `editCourse.selectSection.error.noEndSection`
-                )
+                data.error.selectSection = `editCourse.selectSection.error.noEndSection`
+
                 flag = false
             } else if (
                 !sectionState(startSection) ||
                 !sectionState(endSection)
             ) {
-                data.error.selectSection = t(
-                    `editCourse.selectSection.error.noSectionRange`
-                )
+                data.error.selectSection = `editCourse.selectSection.error.noSectionRange`
+
                 flag = false
             }
 
             if (day === null) {
-                data.error.selectDay = t(`editCourse.selectDay.error.noDay`)
+                data.error.selectDay = `editCourse.selectDay.error.noDay`
                 flag = false
             }
 
             if (weeks.length === 0) {
-                data.error.selectWeek = t(`editCourse.selectWeek.error.noWeek`)
+                data.error.selectWeek = `editCourse.selectWeek.error.noWeek`
                 flag = false
             }
 

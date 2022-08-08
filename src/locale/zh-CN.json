@@ -1,4 +1,5 @@
 {
+    "null": "",
     "cancel": "取消",
     "confirm": "确认",
     "add": "添加",
@@ -126,13 +127,16 @@
         "section": "第{index}节"
     },
     "notice": {
+        "title": "提醒设置",
         "start": {
             "title": "上课提醒⏰",
-            "body": "{course} \n {time}分钟后开始, {place}"
+            "body": "{course}\n{time}分钟后开始 {place}"
         },
         "end": {
             "title": "下课提醒⏰",
-            "body": "{course} \n {time}分钟后结束"
-        }
+            "body": "{course}\n{time}分钟后结束"
+        },
+        "noNotice": "不提醒",
+        "doNotice": "提前{time}分钟"
     }
 }

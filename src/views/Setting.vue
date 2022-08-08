@@ -1,5 +1,7 @@
 <template>
-    <div class="max-w-3xl px-12 pt-8 mx-auto text-base">
+    <div
+        class="max-w-3xl px-12 pt-8 mx-auto text-base h-screen overflow-x-scroll"
+    >
         <button class="outlined">
             <router-link to="Home"> 返回 </router-link>
         </button>
@@ -8,6 +10,7 @@
             {{ $t('setting.title') }}
         </h3>
 
+        <!-- 基础设置 -->
         <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
             <header>
                 <h6 class="text-xl">{{ $t('setting.base.title') }}</h6>
@@ -41,7 +44,7 @@
                     <span class="float-left">
                         {{ $t('setting.base.lang') }}
                     </span>
-                    <RoSelect class="float-left">
+                    <RoSelect class="float-left" v-model:value="lang">
                         <RoOption
                             v-for="item in languageOptionList"
                             :key="item.value"
@@ -65,6 +68,7 @@
             </div>
         </article>
 
+        <!-- 课表设置 -->
         <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
             <header>
                 <h6 class="text-xl">{{ $t('setting.table.title') }}</h6>
@@ -152,23 +156,62 @@
                     </button>
                 </section>
             </div>
-        </article>
 
-        <article>
-            <section class="control float-right flex mt-4 font-semibold">
+            <footer class="control flex place-content-end mt-6 font-semibold">
                 <button
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out text-base hover:text-base hover:outline-2"
                     @click="cancel"
                 >
                     {{ $t('cancel') }}
                 </button>
-                <RoButton class="control__item  ml-8" type="default" @click="submit">
+                <RoButton
+                    class="control__item ml-8"
+                    type="default"
+                    @click="submit"
+                >
                     {{ $t('confirm') }}
                 </RoButton>
-                <!-- <button
-                    class="control__item px-3 py-1 ml-8 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                ></button> -->
-            </section>
+            </footer>
+        </article>
+
+        <!-- 提醒设置 -->
+        <article class="p-5 my-5 rounded-xl shadow-xl bg-off-base">
+            <header>
+                <h6 class="text-xl">{{ $t('notice.title') }}</h6>
+            </header>
+            <div class="flex flex-col">
+                <section class="mt-2 flex justify-between items-center">
+                    <span>{{ $t('notice.start.title') }}</span>
+                    <RoSelect
+                        class="float-left"
+                        v-model:value="startNoticeTime"
+                        :key="$i18n.locale"
+                    >
+                        <RoOption
+                            v-for="item in noticeTimeList"
+                            :key="item.value"
+                            :value="item.value"
+                            :label="$t(item.label, { time: item.value })"
+                        ></RoOption>
+                    </RoSelect>
+                </section>
+
+                <section class="mt-2 flex justify-between items-center">
+                    <span>{{ $t('notice.end.title') }}</span>
+                    <RoSelect
+                        class="float-left"
+                        v-model:value="endNoticeTime"
+                        :key="$i18n.locale"
+                    >
+                        <RoOption
+                            v-for="item in noticeTimeList"
+                            :key="item.value"
+                            :value="item.value"
+                            :label="$t(item.label, { time: item.value })"
+                        ></RoOption>
+                    </RoSelect>
+                </section>
+            </div>
         </article>
 
         <transition name="drop-b">
@@ -184,33 +227,60 @@
 import { defineComponent, reactive, toRefs, ref } from 'vue'
 import { themeKey } from '@/types/course'
 import { onClickOutside } from '@vueuse/core'
+import { useCourseStore } from '@/store/course'
+import { useAppStore } from '@/store/app'
+import { storeToRefs } from 'pinia'
+import { installI18n } from '@/locale'
 
 import RoSelect from '@/components/select/roSelect.vue'
 import RoOption from '@/components/select/roOption.vue'
 import EditTime from '@/components/editTime.vue'
-import { useCourseStore } from '@/store/course'
 import RoButton from '@/components/roButton.vue'
 
 export default defineComponent({
     name: 'Setting',
     setup() {
         const courseStore = useCourseStore()
+        const appStore = useAppStore()
+
+        const { startNoticeTime, endNoticeTime, lang } = storeToRefs(appStore)
+        const { locale, t } = installI18n().global
 
         const languageOptionList = [
             {
                 value: 'zh-CN',
                 label: '中文'
+            },
+            {
+                value: 'en',
+                label: 'English'
             }
-            // {
-            //     value: 'en-US',
-            //     label: '英文'
-            // }
         ]
 
-        const regionList = [
+        const noticeTimeList = [
             {
-                value: '+8',
-                label: '中国，北京'
+                value: 0,
+                label: 'notice.noNotice'
+            },
+            {
+                value: 5,
+                label: 'notice.doNotice'
+            },
+            {
+                value: 10,
+                label: 'notice.doNotice'
+            },
+            {
+                value: 15,
+                label: 'notice.doNotice'
+            },
+            {
+                value: 30,
+                label: 'notice.doNotice'
+            },
+            {
+                value: 60,
+                label: 'notice.doNotice'
             }
         ]
 
@@ -255,7 +325,10 @@ export default defineComponent({
         return {
             ...toRefs(data),
             languageOptionList,
-            regionList,
+            lang,
+            noticeTimeList,
+            startNoticeTime,
+            endNoticeTime,
             themeKey,
             colorList,
             toggleTheme,

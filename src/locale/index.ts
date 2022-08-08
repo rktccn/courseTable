@@ -15,8 +15,6 @@ const messages = {
 
 export function installI18n(app?: App) {
     const i18n = createI18n({
-        legacy: false,
-        globalInjection: true,
 
         locale: useAppStore().lang,
         fallbackLocale: 'zh-CN',

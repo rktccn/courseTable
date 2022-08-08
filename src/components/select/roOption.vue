@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <span
-            class="w-full px-2 py-1 block cursor-pointer font-semibold text-base hover:backdrop-brightness-110"
+            class="w-full px-2 py-1 h-8 block cursor-pointer font-semibold text-base hover:backdrop-brightness-110"
             :class="{
                 'text-muted-hover backdrop-brightness-110': curValue === value
             }"
