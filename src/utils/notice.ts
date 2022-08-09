@@ -2,7 +2,7 @@ import { useWebNotification } from '@vueuse/core'
 import { RoMessageList } from '@/types/course'
 import { useAppStore } from '@/store/app'
 
-const schedule = require('node-schedule')
+import schedule from 'node-schedule'
 
 function setList() {
     let messageList: RoMessageList[] = useAppStore().getMessageList

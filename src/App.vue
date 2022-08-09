@@ -29,14 +29,33 @@ courseStore.initCourse()
 
 const { startNoticeTime, endNoticeTime } = storeToRefs(appStore)
 
+let date = new Date()
+
+function timeRefresh() {
+    let nowTime = new Date().getTime()
+    let tommrowTime = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    ).getTime()
+    let restTime = tommrowTime - nowTime
+
+    setTimeout(() => {
+        date = new Date()
+        timeRefresh()
+    }, restTime)
+}
+
+timeRefresh()
+
 // 获取当日课程列表和课程通知
 watchEffect(() => {
-    let l: RoCourseDay[] = courseStore.getDayCourse(new Date())
+    let l: RoCourseDay[] = courseStore.getDayCourse(date)
 
-    let nowTime = new Date()
+    let nowTime = date
     let year = nowTime.getFullYear()
     let month = nowTime.getMonth()
-    let day = nowTime.getDate()
+    let day = nowTime.getDay()
 
     let res: RoMessageList[] = []
     const getLang = (val: string, param?: any): string => {

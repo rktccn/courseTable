@@ -13,6 +13,7 @@
     "prettier": "prettier --write"
   },
   "dependencies": {
+    "@types/node-schedule": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "@vueuse/components": "^8.9.2",
