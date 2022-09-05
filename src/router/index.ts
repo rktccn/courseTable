@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {
+    createRouter,
+    createWebHistory,
+    createWebHashHistory,
+    RouteRecordRaw
+} from 'vue-router'
 import index from '../views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -22,7 +27,8 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
+
     routes
 })
 

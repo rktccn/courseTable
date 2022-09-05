@@ -25,13 +25,9 @@ const appStore = useAppStore()
 courseStore.initCourse()
 document.documentElement.classList.value = `theme-${appStore.primaryColor}`
 
-
-
-
 const { startNoticeTime, endNoticeTime } = storeToRefs(appStore)
 
 const router = useRouter()
-router.push('/')
 
 let date = new Date()
 
