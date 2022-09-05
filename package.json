@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.7.2",
+    "@types/node-schedule": "^2.1.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "latest",
     "electron": "^20.0.3",

@@ -16,16 +16,18 @@ function notice(list: RoMessageList[]) {
     const now = new Date()
     const next = list.find(date => date.date > now)
 
-    if (next) {
-        // schedule.scheduleJob(next.date, () => {
-            // showNotice(next.title, next.body)
+    // if (next) {
+    //     console.log(next)
 
-        //     list = list.filter(date => date !== next)
-        //     if (list.length > 0) {
-        //         notice(list)
-        //     }
-        // })
-    }
+    //     schedule.scheduleJob(next.date, () => {
+    //         showNotice(next.title, next.body)
+
+    //         list = list.filter(date => date !== next)
+    //         if (list.length > 0) {
+    //             notice(list)
+    //         }
+    //     })
+    // }
 }
 
 function showNotice(title: string, body: string) {

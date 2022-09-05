@@ -50,7 +50,10 @@ timeRefresh()
 
 // 获取当日课程列表和课程通知
 watchEffect(() => {
-    let l: RoCourseDay[] = courseStore.getDayCourse(date)
+    let todayCourseList: RoCourseDay[] = courseStore.getDayCourse(date)
+    let tomorrowCourseList: RoCourseDay[] = courseStore.getDayCourse(
+        new Date(date.getTime() + 24 * 60 * 60 * 1000)
+    ) // 获取明日课程 
 
     let nowTime = date
     let year = nowTime.getFullYear()
@@ -64,11 +67,12 @@ watchEffect(() => {
         return t(`${val}`, param)
     }
 
-    // 设置提醒
-    l.forEach(item => {
+    // 设置提醒和今日课程列表
+    todayCourseList.forEach(item => {
         let start = new Date(`${year}, ${month + 1}, ${day}, ${item.start}`)
         let end = new Date(`${year}, ${month + 1}, ${day}, ${item.end}`)
 
+        // 开始提醒, key 为1代表上课提醒
         let startNotice = {
             key: 1,
             date: new Date(
@@ -82,6 +86,7 @@ watchEffect(() => {
             })
         }
 
+        // key为2代表下课提醒
         let endNotice = {
             key: 2,
             date: new Date(
@@ -109,7 +114,8 @@ watchEffect(() => {
 
     appStore.setMessageList(res)
 
-    appStore.todayCourse = l
+    appStore.todayCourse = todayCourseList
+    appStore.tomorrowCourse = tomorrowCourseList
 })
 
 appStore.tommrowCourse = computed(() => {
