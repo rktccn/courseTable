@@ -2,11 +2,11 @@ import { useWebNotification } from '@vueuse/core'
 import { RoMessageList } from '@/types/course'
 import { useAppStore } from '@/store/app'
 
-import schedule from 'node-schedule'
+// import schedule from 'node-schedule'
 
 function setList() {
     let messageList: RoMessageList[] = useAppStore().getMessageList
-    schedule.gracefulShutdown()
+    // schedule.gracefulShutdown()
     if (messageList.length > 0) {
         notice(messageList)
     }
@@ -17,14 +17,14 @@ function notice(list: RoMessageList[]) {
     const next = list.find(date => date.date > now)
 
     if (next) {
-        schedule.scheduleJob(next.date, () => {
-            showNotice(next.title, next.body)
+        // schedule.scheduleJob(next.date, () => {
+            // showNotice(next.title, next.body)
 
-            list = list.filter(date => date !== next)
-            if (list.length > 0) {
-                notice(list)
-            }
-        })
+        //     list = list.filter(date => date !== next)
+        //     if (list.length > 0) {
+        //         notice(list)
+        //     }
+        // })
     }
 }
 

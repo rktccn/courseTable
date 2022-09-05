@@ -7,7 +7,7 @@ export interface courseDuractionModel {
 
 // 课程类型
 export type RoCourse = {
-    key: number
+    key: string
     courseName: string // 课程名称
     courseId?: number // 课程id
     courseTeacher?: string // 授课教师
@@ -25,7 +25,7 @@ export type RoCourseTimeType = {
 
 // 课表类型
 export type RoCourseTable = {
-    key: number
+    key: string
     count: number
     start: number
     name: string

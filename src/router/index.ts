@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import index from '../views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -9,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         name: 'Home',
         path: '/home',
-        component: () => import('../views/Home.vue'),
+        component: index,
         meta: { index: 1 }
     },
     {
@@ -26,8 +27,8 @@ const router = createRouter({
 })
 
 router.afterEach((to, from) => {
-    const toDepth = to.meta.index || 0
-    const fromDepth = from.meta.index || 0
+    const toDepth: number = (to.meta?.index as number | null) || 0
+    const fromDepth: number = (from.meta?.index as number | null) || 0
     to.meta.transitionName = toDepth < fromDepth ? 'zoom-out' : 'zoom-in'
 })
 

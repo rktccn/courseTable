@@ -1,9 +1,5 @@
 <template>
     <div class="app">
-        <!-- <transition name="zoom-in">
-            <router-view></router-view>
-        </transition> -->
-
         <router-view v-slot="{ Component, route }">
             <transition
                 :name="`${route.meta.transitionName}` || 'zoom-in'"
@@ -22,12 +18,20 @@ import { useAppStore } from './store/app'
 import { RoCourseDay, RoMessageList } from './types/course'
 import { installI18n } from '@/locale'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 
 const courseStore = useCourseStore()
 const appStore = useAppStore()
 courseStore.initCourse()
+document.documentElement.classList.value = `theme-${appStore.primaryColor}`
+
+
+
 
 const { startNoticeTime, endNoticeTime } = storeToRefs(appStore)
+
+const router = useRouter()
+router.push('/')
 
 let date = new Date()
 

@@ -50,7 +50,7 @@ export default defineComponent({
         const data = reactive({
             currentWeekIndex: 0,
             animationTag: '',
-            editCoursePosition: <[number, number]>[0, 0]
+            editCoursePosition: [0, 0]
         })
 
         const editCourse = ref(null)

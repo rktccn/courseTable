@@ -11,10 +11,11 @@
             "day": "numeric",
             "weekday": "long",
             "hour": "numeric",
-            "minute": "numeric"
+            "minute": "numeric",
+            "hour12": true
         }
     },
-    "zh-CN": {
+    "zh": {
         "short": {
             "month": "short",
             "day": "numeric",

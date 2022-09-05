@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "skipLibCheck": true,
         "typeRoots": [
             "node_modules/@types", // 默认值
             "src/types"
@@ -18,15 +19,14 @@
         "paths": {
             "@": ["src"],
             "@/*": ["src/*"]
-        },
+        }
     },
     "include": [
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
         "src/**/*.vue",
-        "electron/*.ts",
-        "electron/preload.ts",
-        "electron/main.ts"
+        "electron-preload/*.ts",
+        "electron-main/*.ts"
     ]
 }

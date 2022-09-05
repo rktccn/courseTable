@@ -8,17 +8,6 @@ import {
 } from '../types/course'
 import { klona } from 'klona'
 
-// 颜色列表
-const RoCourseColorList = [
-    '#f5222d',
-    '#faad14',
-    '#52c41a',
-    '#1890ff',
-    '#2f54eb',
-    '#722ed1',
-    '#eb2f96'
-]
-
 export const useCourseStore = defineStore({
     id: 'course',
     state: () => {
@@ -29,6 +18,7 @@ export const useCourseStore = defineStore({
             firstWeekDate: <string>'', // 第一周上课日期
             weekInfo: <number[][][]>[], // weekInfo[周数][星期][课程key]
             courseMap: <Map<number, RoCourse>>new Map(), // courseMap[课程key]
+            _courseMapStore: '', // 用于对课程信息进行储存
             courseTimeList: <RoCourseTimeType[]>[], // 节次信息, [节次开始时间, 节次结束时间],午休和晚餐也算是节次,但无法被选择
             courseSection: <[number, number, number]>[4, 4, 0] // a[1]上午节数, a[2]下午节数, a[3]晚上节数
         }
@@ -77,6 +67,10 @@ export const useCourseStore = defineStore({
                 date[2] = +date[2] < 10 ? '0' + date[2] : date[2]
                 this.firstWeekDate = date.join('-')
             }
+
+            if (this._courseMapStore !== '') {
+                this.courseMap = new Map(JSON.parse(this._courseMapStore))
+            }
         },
 
         // 插入课程
@@ -86,6 +80,11 @@ export const useCourseStore = defineStore({
             const key = this.getCourseKey(course.courseName)
             course.key = key
             this.courseMap.set(key, course)
+            console.log(this.courseMap)
+
+            this._courseMapStore = JSON.stringify(
+                Array.from(this.courseMap.entries())
+            )
 
             course.duration.forEach(duration => {
                 duration.weeks.forEach(week => {
@@ -152,7 +151,7 @@ export const useCourseStore = defineStore({
         setStartDate(date: string) {
             this.firstWeekDate = klona(date)
         },
-        
+
         // 将日期转换为周次和星期
         getWeekAndDay(date: Date): [number, number] {
             const week =
@@ -286,7 +285,7 @@ export const useCourseStore = defineStore({
         },
 
         // 根据课程名称生成key值
-        getCourseKey(courseName: string): number {
+        getCourseKey(courseName: string): string {
             let key = courseName.split('').reduce((prev, curr) => {
                 return prev + curr.charCodeAt(0)
             }, 0)
@@ -295,7 +294,7 @@ export const useCourseStore = defineStore({
                 // 解决课程key冲突
                 key = this.getCourseKey(courseName + '_')
             }
-            return key
+            return `${key}`
         },
 
         // 获取课程连续上课节次
@@ -371,11 +370,11 @@ export const useCourseStore = defineStore({
         getCourseTable(week: number): RoCourseTable[][] {
             const weekInfo = this.getWeek(week)
             const res: RoCourseTable[][] = [] // res[星期][节次]
-            weekInfo.forEach((day: number[], index: number) => {
+            weekInfo.forEach((day: string[], index: number) => {
                 res.push([])
                 day = Array.from(new Set(day))
 
-                day.forEach((key: number) => {
+                day.forEach((key: string) => {
                     const course = this.getCourse(key) // 获取课程信息
                     if (course) {
                         const { courseName, courseTeacher, color } = course
@@ -538,5 +537,18 @@ export const useCourseStore = defineStore({
         _getTotalWeeks(state: any) {
             return state.totalWeeks
         }
+    },
+    persist: {
+        storage: localStorage,
+        paths: [
+            'totalWeeks',
+            'currentWeek',
+            'currentWeekDay',
+            'firstWeekDate',
+            'weekInfo',
+            '_courseMapStore',
+            'courseTimeList',
+            'courseSection'
+        ]
     }
 })

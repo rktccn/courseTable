@@ -252,7 +252,7 @@ export default defineComponent({
                 label: '中文'
             },
             {
-                value: 'en',
+                value: 'en-US',
                 label: 'English'
             }
         ]
@@ -308,6 +308,7 @@ export default defineComponent({
 
         const toggleTheme = (val: string) => {
             document.documentElement.classList.value = `theme-${val}`
+            appStore.primaryColor = val
         }
 
         initData()

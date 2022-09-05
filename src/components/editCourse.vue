@@ -328,7 +328,7 @@ export default defineComponent({
     name: 'EditCourse',
     props: {
         isShow: { type: Boolean, default: false },
-        courseKey: { type: Number, default: undefined }
+        courseKey: { type: String, default: undefined }
     },
     emits: ['update:isShow'],
     setup(props, context) {
@@ -351,11 +351,11 @@ export default defineComponent({
             courseName: '',
             color: 'orange',
             // icon: '',
-            timeList: <time[]>[],
+            timeList: [] as time[],
             addTimeShow: false,
             isColorShow: false,
             isEditTime: false,
-            currentEditTime: <time | null>null, // 当前编辑的时间
+            currentEditTime: null as time | null, // 当前编辑的时间
             error: {
                 base: 'null',
                 timeList: 'null',
@@ -473,10 +473,8 @@ export default defineComponent({
                     return null
                 }
             })
-            const res: courseDuractionModel[] = <courseDuractionModel[]>(
-                temp.filter(item => item !== null)
-            )
-            return res
+
+            return temp.filter(item => item !== null) as courseDuractionModel[]
         }
 
         const editTime = (val: time) => {
@@ -562,7 +560,7 @@ export default defineComponent({
             }
 
             let course: RoCourse = {
-                key: props?.courseKey ?? 0,
+                key: props?.courseKey ?? '0',
                 courseName: data.courseName, // 课程名称
                 courseTeacher: '王老师', // 授课教师
                 duration: formatTime(data.timeList),

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
     --color-base: theme('colors.white');
     --color-text-base: theme('colors.black');
@@ -11,14 +12,12 @@
     --color-primary: theme('colors.blue.800');
     --color-secondary: theme('colors.blue.300');
 
-
-
     --color-success: rgba(24, 160, 88, 0.16);
     --color-success-text: #18a058;
     --color-warning: rgba(240, 160, 32, 0.16);
     --color-warning-text: #f0a020;
     --color-danger: rgba(217, 67, 85, 0.16);
-    --color-danger-text: #D94355;
+    --color-danger-text: #d94355;
 }
 
 .theme-light {

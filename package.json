@@ -1,8 +1,8 @@
 {
-  "name": "course",
+  "name": "rocourse",
   "private": true,
-  "version": "0.0.0",
-  "main": "dist/electron/main.js",
+  "version": "0.1.3",
+  "main": "dist/electron/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
@@ -10,36 +10,39 @@
     "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .js 和 .vue 的文件",
     "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "prettier:comment": "自动格式化当前目录下的所有文件",
-    "prettier": "prettier --write"
+    "prettier": "prettier --write",
+    "package": "electron-packager . ElectronDemo --platform=win32 --arch=x64  --out=./out --app-version=0.0.1 --overwrite --ignore=node_modules --icon=./public/base.ico",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "@types/node-schedule": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "@vueuse/components": "^8.9.2",
     "@vueuse/core": "^8.9.2",
     "axios": "^0.27.2",
-    "electron": "^19.0.8",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.1.1",
     "klona": "^2.0.5",
+    "latest-version": "^7.0.0",
     "node-schedule": "^2.1.0",
     "pinia": "^2.0.14",
+    "pinia-plugin-persistedstate": "^2.1.1",
     "prettier": "^2.7.1",
     "qweather-icons": "^1.1.1",
     "tailwindcss": "^3.1.5",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.2.25",
-    "vue-i18n": "next",
+    "vue-i18n": "^9.3.0-beta.3",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.7.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "latest",
-    "electron-builder": "^23.1.0",
+    "electron": "^20.0.3",
+    "electron-builder": "^23.3.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-rebuild": "^3.2.7",
     "postcss": "latest",
@@ -48,7 +51,7 @@
     "typescript": "^4.5.4",
     "vfonts": "^0.0.3",
     "vite": "^2.9.9",
-    "vite-plugin-electron": "^0.7.2",
+    "vite-plugin-electron": "^0.9.0",
     "vue-tsc": "^0.34.7"
   },
   "build": {
@@ -69,6 +72,7 @@
       ]
     },
     "win": {
+      "icon": "./public/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -83,7 +87,10 @@
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": false
+      "deleteAppDataOnUninstall": false,
+      "installerIcon": "./public/icon.ico",
+      "uninstallerIcon": "./public/icon.ico",
+      "installerHeaderIcon": "./public/icon.ico"
     },
     "publish": [
       {
@@ -92,7 +99,14 @@
       }
     ],
     "releaseInfo": {
-      "releaseNotes": "版本更新的具体内容"
-    }
-  }
+      "releaseNotes": "更新数据持久化"
+    },
+    "extraResources": [
+      {
+        "from": "./build/icons",
+        "to": "./"
+      }
+    ]
+  },
+  "__npminstall_done": false
 }

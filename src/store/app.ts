@@ -37,5 +37,9 @@ export const useAppStore = defineStore('app', {
         getMessageList(state: any) {
             return klona(state.messageList)
         }
+    },
+    persist: {
+        storage: localStorage,
+        paths: ['lang', 'primaryColor', 'startNoticeTime', 'endNoticeTime']
     }
 })

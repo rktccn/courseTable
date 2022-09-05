@@ -86,7 +86,7 @@ export default defineComponent({
         const courseStore = useCourseStore()
         const data = reactive({
             showEditcourse: false,
-            courseKey: <number | undefined>undefined
+            courseKey: undefined as string | undefined
         })
 
         const { dateList, month } = courseStore.getDateByWeek(props.week)
@@ -97,7 +97,7 @@ export default defineComponent({
             return courseStore.getCourseTable(props.week)
         })
 
-        const toggleEditcourse = (key: number) => {
+        const toggleEditcourse = (key: string) => {
             data.showEditcourse = true
             data.courseKey = key
         }
