@@ -394,8 +394,7 @@ export default defineComponent({
                         day: item.day,
                         weeks: item.weeks,
                         classroom: item.classroom,
-                        // teacher: item.teacher
-                        teacher: '王'
+                        teacher: item.teacher
                     })
                 })
                 data.timeList = timeList
@@ -452,8 +451,15 @@ export default defineComponent({
         }
 
         const formatTime = (timeList: time[]): courseDuractionModel[] => {
-            const temp = timeList.map<courseDuractionModel | null>(item => {
-                const { weeks, day, startSection, endSection, classroom } = item
+            const temp = timeList.map(item => {
+                const {
+                    weeks,
+                    day,
+                    startSection,
+                    endSection,
+                    classroom,
+                    teacher
+                } = item
 
                 if (
                     startSection &&
@@ -467,7 +473,8 @@ export default defineComponent({
                         weeks,
                         day,
                         section,
-                        classroom
+                        classroom,
+                        teacher
                     }
                 } else {
                     return null

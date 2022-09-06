@@ -3,6 +3,7 @@ export interface courseDuractionModel {
     day: number // 星期几
     section: number[] // 第几节
     classroom: string // 教室
+    teacher: string
 }
 
 // 课程类型
