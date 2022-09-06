@@ -1,11 +1,11 @@
 <template>
     <div class="flex w-screen h-screen relative">
-        <section class="week basis-5/12 grow pl-12 pr-8 py-8 overflow-hidden">
+        <section class="week basis-4/12 grow pl-8 pr-8 py-8 overflow-hidden">
             <todayVue></todayVue>
         </section>
 
         <section
-            class="day flex flex-col basis-7/12 grow pl-8 pr-12 py-8 overflow-hidden"
+            class="day flex flex-col basis-8/12 grow pl-8 pr-12 py-8 overflow-hidden"
         >
             <TableFunction></TableFunction>
             <div class="table grow h-full relative my-3">
