@@ -36,7 +36,7 @@
                     $t('today.title')
                 }}</span>
                 <span class="text-2xl text-muted">
-                    {{ $d(new Date(), 'short') }}
+                    <!-- {{ $d(new Date(), 'short') }} -->
                 </span>
             </header>
 

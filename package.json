@@ -26,7 +26,6 @@
     "eslint-plugin-vue": "^9.1.1",
     "klona": "^2.0.5",
     "latest-version": "^7.0.0",
-    "node-schedule": "^2.1.0",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^2.1.1",
     "prettier": "^2.7.1",
@@ -39,7 +38,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.7.2",
-    "@types/node-schedule": "^2.1.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "latest",
     "electron": "^20.0.3",

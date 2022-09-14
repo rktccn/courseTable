@@ -113,7 +113,7 @@
             "title": "课表设置",
             "startTime": "开学时间",
             "weekLength": "学期总周数",
-            "section": "课表结束",
+            "section": "课表节数",
             "sectionTip": "修改后可能导致部分课程显示异常",
             "sectionMor": "上午",
             "sectionAft": "下午",
@@ -130,7 +130,7 @@
         "title": "提醒设置",
         "start": {
             "title": "上课提醒⏰",
-            "body": "{course}\n{time}分钟后开始 {place}"
+            "body": "{course}\n{time}分钟后开始，位于{place}"
         },
         "end": {
             "title": "下课提醒⏰",

@@ -1,10 +1,27 @@
 <template>
     <div
-        class="max-w-3xl px-12 pt-8 mx-auto text-base h-screen overflow-x-scroll"
+        class="max-w-4xl px-24 pt-8 mx-auto text-base h-screen overflow-x-scroll"
     >
-        <button class="outlined">
-            <router-link to="Home"> 返回 </router-link>
-        </button>
+        <router-link to="Home">
+            <button
+                class="sticky -translate-x-14 -mb-10 top-0 left-0 block p-2 rounded-full text-center duration-150 hover:bg-primary hover:text-secondary"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="3"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
+                </svg>
+            </button>
+        </router-link>
 
         <h3 class="font-semibold text-4xl">
             {{ $t('setting.title') }}
@@ -20,7 +37,7 @@
                     <span class=""> {{ $t('setting.base.color') }} </span>
                     <div class="relative" ref="colorList">
                         <button
-                            class="h-5 rounded outline outline-2 text-primary bg-off-bases aspect-square block"
+                            class="h-5 rounded outline outline-2 text-primary bg-off-base aspect-square block"
                             @click.self="isThemeShow = !isThemeShow"
                         ></button>
 

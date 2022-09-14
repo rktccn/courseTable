@@ -102,7 +102,7 @@
             "title": "Reminder after class ⏰"
         },
         "start": {
-            "body": "{course}\nStarts in {time} minutes {place}",
+            "body": "{course}\nStarts in {time} minutes, at {place}",
             "title": "Class reminder ⏰"
         },
         "title": "reminder settings",
@@ -116,7 +116,7 @@
             "title": "Basic Settings"
         },
         "table": {
-            "section": "Class schedule ends",
+            "section": "Class schedule",
             "sectionAft": "Afternoon",
             "sectionMor": "Morning",
             "sectionTime": "Class time",

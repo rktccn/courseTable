@@ -31,6 +31,7 @@ const router = useRouter()
 
 let date = new Date()
 
+// 每天0点更新时间信息,获取课程列表
 function timeRefresh() {
     let nowTime = new Date().getTime()
     let tommrowTime = new Date(
@@ -53,12 +54,13 @@ watchEffect(() => {
     let todayCourseList: RoCourseDay[] = courseStore.getDayCourse(date)
     let tomorrowCourseList: RoCourseDay[] = courseStore.getDayCourse(
         new Date(date.getTime() + 24 * 60 * 60 * 1000)
-    ) // 获取明日课程 
+    ) // 获取明日课程
 
     let nowTime = date
     let year = nowTime.getFullYear()
     let month = nowTime.getMonth()
-    let day = nowTime.getDay()
+    let day = nowTime.getDate()
+    
 
     let res: RoMessageList[] = []
     const getLang = (val: string, param?: any): string => {
@@ -118,11 +120,11 @@ watchEffect(() => {
     appStore.tomorrowCourse = tomorrowCourseList
 })
 
-appStore.tommrowCourse = computed(() => {
-    return courseStore.getDayCourse(
-        new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-    )
-})
+// appStore.tommrowCourse = computed(() => {
+//     return courseStore.getDayCourse(
+//         new Date(date.getTime() + 24 * 60 * 60 * 1000)
+//     )
+// })
 </script>
 
 <style lang="scss">

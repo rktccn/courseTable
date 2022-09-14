@@ -1,23 +1,39 @@
 import { useWebNotification } from '@vueuse/core'
 import { RoMessageList } from '@/types/course'
 import { useAppStore } from '@/store/app'
+import { klona } from 'klona'
 
-// import schedule from 'node-schedule'
+let timer: number
 
+// 设置消息列表
 function setList() {
-    let messageList: RoMessageList[] = useAppStore().getMessageList
-    // schedule.gracefulShutdown()
+    if (timer) {
+        clearTimeout(timer)
+    }
+    let messageList: RoMessageList[] = klona(useAppStore().getMessageList)
+
+    messageList.sort((a, b) => a.date.getTime() - b.date.getTime())
+
     if (messageList.length > 0) {
         notice(messageList)
     }
 }
 
+// 设置消息提醒
 function notice(list: RoMessageList[]) {
     const now = new Date()
-    const next = list.find(date => date.date > now)
+    const next = list.find(item => item.date > now)
 
-    // if (next) {
-    //     console.log(next)
+    if (next) {
+        let restTime = next.date.getTime() - now.getTime()
+        timer = window.setTimeout(() => {
+            showNotice(next.title, next.body)
+            list = list.filter(data => data !== next)
+            if (list.length > 0) {
+                notice(list)
+            }
+        }, restTime)
+    }
 
     //     schedule.scheduleJob(next.date, () => {
     //         showNotice(next.title, next.body)
