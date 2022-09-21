@@ -1,7 +1,7 @@
 {
   "name": "rocourse",
   "private": true,
-  "version": "0.1.4",
+  "version": "0.1.7",
   "main": "dist/electron/index.js",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
     "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "prettier:comment": "自动格式化当前目录下的所有文件",
     "prettier": "prettier --write",
-    "package": "electron-packager . ElectronDemo --platform=win32 --arch=x64  --out=./out --app-version=0.0.1 --overwrite --ignore=node_modules --icon=./public/base.ico",
+    "package": "electron-packager . ElectronDemo --platform=win32 --arch=x64  --out=./out --app-version=0.1.5 --overwrite --ignore=node_modules --icon=./public/base.ico",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -20,10 +20,12 @@
     "@vueuse/components": "^8.9.2",
     "@vueuse/core": "^8.9.2",
     "axios": "^0.27.2",
+    "cal-parser": "^1.0.2",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.1.1",
+    "ical": "^0.8.0",
     "klona": "^2.0.5",
     "latest-version": "^7.0.0",
     "pinia": "^2.0.14",
@@ -37,10 +39,11 @@
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
+    "@types/electron": "^1.6.10",
     "@types/node": "^18.7.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "latest",
-    "electron": "^20.0.3",
+    "electron": "^20.1.4",
     "electron-builder": "^23.3.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-rebuild": "^3.2.7",

@@ -260,6 +260,13 @@
   dependencies:
     "@types/ms" "*"
 
+"@types/electron@^1.6.10":
+  version "1.6.10"
+  resolved "https://registry.npmmirror.com/@types/electron/-/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
+  integrity sha512-MOCVyzIwkBEloreoCVrTV108vSf8fFIJPsGruLCoAoBZdxtnJUqKA4lNonf/2u1twSjAspPEfmEheC+TLm/cMw==
+  dependencies:
+    electron "*"
+
 "@types/fs-extra@^9.0.11":
   version "9.0.13"
   resolved "https://registry.npmmirror.com/@types/fs-extra/-/fs-extra-9.0.13.tgz"
@@ -1153,6 +1160,14 @@ cacheable-request@^7.0.2:
     normalize-url "^6.0.1"
     responselike "^2.0.0"
 
+cal-parser@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/cal-parser/-/cal-parser-1.0.2.tgz#527bebdd0ef915cdf0d1fc02a38da3f290da26f4"
+  integrity sha512-wlQwcF0fl4eLclyGdncF9rcNNq0ipRYZGagG6h3LVgRXvCWE1fdMUaCLXwfC9YWoz9jKKbjQAq7TpO2Y3yrvmA==
+  dependencies:
+    ical-date-parser "^4.0.0"
+    rrule "^2.6.8"
+
 callsites@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmmirror.com/callsites/-/callsites-3.1.0.tgz"
@@ -1836,10 +1851,10 @@ electron-to-chromium@^1.4.202:
   resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.224.tgz"
   integrity sha512-dOujC5Yzj0nOVE23iD5HKqrRSDj2SD7RazpZS/b/WX85MtO6/LzKDF4TlYZTBteB+7fvSg5JpWh0sN7fImNF8w==
 
-electron@^20.0.3:
-  version "20.0.3"
-  resolved "https://registry.npmmirror.com/electron/-/electron-20.0.3.tgz"
-  integrity sha512-Yx0a/SGgus/XqDAoMMs165JUikgE5vBmQpNJ+0XMDG/IYFj6TNNzfY2ATI+t171JjhKKO+MYPO8xqyZdFRoIDw==
+electron@*, electron@^20.1.4:
+  version "20.1.4"
+  resolved "https://registry.npmmirror.com/electron/-/electron-20.1.4.tgz#d25b549f14376f99a0a239e27d67ef8515b4a5a0"
+  integrity sha512-7ov5kgSQi2JewV5SrVfjGasUvyScjuJrrDCW0rYxtP2SMe3JjoP4rsOOnh3ps2P/Nrdlbv+0ygiK0zp4ARCZ+A==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
@@ -2782,6 +2797,18 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
+ical-date-parser@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmmirror.com/ical-date-parser/-/ical-date-parser-4.0.0.tgz#4236b3043feda307c6c01f5a9da3e28b0ba1bdb1"
+  integrity sha512-XRCK/FU1akC2ZaJOdKIeZI6BLLgzWUuE0pegSrrkEva89GOan5mNkLVqCU4EMhCJ9nkG5TLWdMXrVX1fNAkFzw==
+
+ical@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.npmmirror.com/ical/-/ical-0.8.0.tgz#aa93f021dfead58e54aaa22076a11ca07d65886b"
+  integrity sha512-/viUSb/RGLLnlgm0lWRlPBtVeQguQRErSPYl3ugnUaKUnzQswKqOG3M8/P1v1AB5NJwlHTuvTq1cs4mpeG2rCg==
+  dependencies:
+    rrule "2.4.1"
+
 iconv-corefoundation@^1.1.7:
   version "1.1.7"
   resolved "https://registry.npmmirror.com/iconv-corefoundation/-/iconv-corefoundation-1.1.7.tgz#31065e6ab2c9272154c8b0821151e2c88f1b002a"
@@ -3318,6 +3345,11 @@ lru-cache@^7.7.1:
   version "7.14.0"
   resolved "https://registry.npmmirror.com/lru-cache/-/lru-cache-7.14.0.tgz"
   integrity sha512-EIRtP1GrSJny0dqb50QXRUNBxHJhcpxHC++M5tD7RYbvLLn5KVWKsbyswSSqDuU15UFi3bgTQIY8nhDMeF6aDQ==
+
+luxon@^1.3.3:
+  version "1.28.0"
+  resolved "https://registry.npmmirror.com/luxon/-/luxon-1.28.0.tgz#e7f96daad3938c06a62de0fb027115d251251fbf"
+  integrity sha512-TfTiyvZhwBYM/7QdAVDh+7dBTBA29v4ik0Ce9zda3Mnf8on1S5KJI8P2jKFZ8+5C0jhmr0KwJEO/Wdpm0VeWJQ==
 
 lzma-native@^8.0.5:
   version "8.0.6"
@@ -4323,6 +4355,20 @@ rollup@^2.59.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+rrule@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npmmirror.com/rrule/-/rrule-2.4.1.tgz#1d0db4e45f2b0e92e2cca62d2f7093729ac7ec94"
+  integrity sha512-+NcvhETefswZq13T8nkuEnnQ6YgUeZaqMqVbp+ZiFDPCbp3AVgQIwUvNVDdMNrP05bKZG9ddDULFp0qZZYDrxg==
+  optionalDependencies:
+    luxon "^1.3.3"
+
+rrule@^2.6.8:
+  version "2.7.1"
+  resolved "https://registry.npmmirror.com/rrule/-/rrule-2.7.1.tgz#2511e1aed0e96fb5acf831304cde97d2cb65d99e"
+  integrity sha512-4p20u/1U7WqR3Nb1hOUrm0u1nSI7sO93ZUVZEZ5HeF6Gr5OlJuyhwEGRvUHq8ZfrPsq5gfa5b9dqnUs/kPqpIw==
+  dependencies:
+    tslib "^2.4.0"
+
 run-parallel@^1.1.9:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/run-parallel/-/run-parallel-1.2.0.tgz"
@@ -4812,7 +4858,7 @@ tslib@^1.8.1:
   resolved "https://registry.npmmirror.com/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.1.0:
+tslib@^2.1.0, tslib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.4.0.tgz"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==

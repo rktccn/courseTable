@@ -1,128 +1,134 @@
 <template>
-    <div
-        class="edit-course z-20 text-left backdrop-blur-md backdrop-brightness-75"
-        @click.self="$emit('update:isShow', false)"
-    >
-        <div
-            class="edit-course__box fixed px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
-        >
-            <div class="flex flex-col my-2">
-                <span class="item text-xs opacity-70"
-                    >{{ $t('editCourse.base.title')
-                    }}<em class="text-xs ml-1 text-red-600">{{
-                        $t(error.base)
-                    }}</em></span
-                >
-                <input
-                    class="item px-2 rounded-md text-primary"
-                    type=" text"
-                    v-model="courseName"
-                    :placeholder="$t('editCourse.base.courseName')"
-                />
-                <div class="item flex items-center justify-between">
-                    <span> {{ $t('editCourse.base.color') }}</span>
-                    <span class="relative">
-                        <button
-                            class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
-                            :class="`bg-${color}-200 outline-${color}-400`"
-                            @click.self="isColorShow = !isColorShow"
-                        ></button>
 
-                        <transition name="drop-b">
-                            <div
-                                v-if="isColorShow"
-                                class="color-list z-10 absolute mt-1 px-3 py-2 bg-off-base shadow-md rounded-md"
-                                ref="colorList"
-                            >
-                                <button
-                                    v-for="item in courseColorKey"
-                                    :class="getColor(item)"
-                                    class="h-5 rounded outline outline-2 aspect-square block hover:brightness-110"
-                                    @click="selectColor(item)"
-                                ></button>
-                            </div>
-                        </transition>
-                    </span>
-                </div>
-            </div>
-
-            <div class="flex flex-col my-2">
-                <span class="item text-xs opacity-70"
-                    >{{ $t('editCourse.timeAndLocation.title')
-                    }}<em class="text-xs ml-1 text-red-600">{{
-                        $t(error.timeList)
-                    }}</em></span
-                >
-
-                <div class="time-list">
-                    <div
-                        class="item time-list__item flex flex-col my-1 text-sm bg-secondary p-2 rounded-md leading-7 cursor-pointer"
-                        v-for="time in timeList"
-                        @click="editTime(time)"
+    <div>
+        <div class="edit-course">
+            <div
+                class="edit-course__box px-8 py-4 bg-off-base shadow-lg rounded-lg select-none text-base"
+            >
+                <div class="flex flex-col my-2">
+                    <span class="item text-xs opacity-70"
+                        >{{ $t('editCourse.base.title')
+                        }}<em class="text-xs ml-1 text-red-600">{{
+                            $t(error.base)
+                        }}</em></span
                     >
-                        <div class="time flex justify-between text-primary">
-                            <span
-                                >{{ $t(`base.weekList.${time.day}`) }},&nbsp;{{
-                                    $t(
-                                        'editCourse.timeAndLocation.weekLength',
-                                        {
-                                            length: time.weeks.length
-                                        }
-                                    )
-                                }}</span
-                            >
-                            <span class="ml-3">
-                                {{
-                                    $t('editCourse.timeAndLocation.section', {
-                                        section: `${time.startSection}-${time.endSection}`
-                                    })
-                                }}
-                            </span>
-                        </div>
+                    <input
+                        class="item px-2 rounded-md text-primary"
+                        type=" text"
+                        v-model="courseName"
+                        :placeholder="$t('editCourse.base.courseName')"
+                    />
+                    <div class="item flex items-center justify-between">
+                        <span> {{ $t('editCourse.base.color') }}</span>
+                        <span class="relative">
+                            <button
+                                class="h-5 rounded aspect-square block duration-150 ease-in-out outline outline-2 hover:brightness-110"
+                                :class="`bg-${color}-200 outline-${color}-400`"
+                                @click.self="isColorShow = !isColorShow"
+                            ></button>
 
-                        <div class="location flex justify-between text-primary">
-                            <span>{{ time.classroom }}</span>
-                            <span>{{ time.teacher }}</span>
-                        </div>
+                            <transition name="drop-b">
+                                <div
+                                    v-if="isColorShow"
+                                    class="color-list z-10 absolute mt-1 px-3 py-2 bg-off-base shadow-md rounded-md"
+                                    ref="colorList"
+                                >
+                                    <button
+                                        v-for="item in courseColorKey"
+                                        :class="getColor(item)"
+                                        class="h-5 rounded outline outline-2 aspect-square block hover:brightness-110"
+                                        @click="selectColor(item)"
+                                    ></button>
+                                </div>
+                            </transition>
+                        </span>
                     </div>
                 </div>
 
-                <button
-                    class="item outline rounded mt-2"
-                    @click="addTimeShow = true"
-                >
-                    {{ $t('editCourse.timeAndLocation.addTime') }}
-                </button>
-            </div>
-            <!-- 删除课程 -->
-            <section v-if="courseKey" class="item block">
-                <button
-                    class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
-                    @click="deleteCourse"
-                >
-                    {{ $t('editCourse.base.deleteCourse') }}
-                </button>
-            </section>
+                <div class="flex flex-col my-2">
+                    <span class="item text-xs opacity-70"
+                        >{{ $t('editCourse.timeAndLocation.title')
+                        }}<em class="text-xs ml-1 text-red-600">{{
+                            $t(error.timeList)
+                        }}</em></span
+                    >
 
-            <div class="control flex justify-between mt-4 font-semibold">
-                <button
-                    class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
-                    @click="$emit('update:isShow', false)"
-                >
-                    {{ $t('cancel') }}
-                </button>
-                <RoButton :type="state.baseButton" @click="addCourse">{{
-                    $t('add')
-                }}</RoButton>
+                    <div class="time-list">
+                        <div
+                            class="item time-list__item flex flex-col my-1 text-sm bg-secondary p-2 rounded-md leading-7 cursor-pointer"
+                            v-for="time in timeList"
+                            @click="editTime(time)"
+                        >
+                            <div class="time flex justify-between text-primary">
+                                <span
+                                    >{{
+                                        $t(`base.weekList.${time.day}`)
+                                    }},&nbsp;{{
+                                        $t(
+                                            'editCourse.timeAndLocation.weekLength',
+                                            {
+                                                length: time.weeks.length
+                                            }
+                                        )
+                                    }}</span
+                                >
+                                <span class="ml-3">
+                                    {{
+                                        $t(
+                                            'editCourse.timeAndLocation.section',
+                                            {
+                                                section: `${time.startSection}-${time.endSection}`
+                                            }
+                                        )
+                                    }}
+                                </span>
+                            </div>
 
-                <!-- <button
+                            <div
+                                class="location flex justify-between text-primary"
+                            >
+                                <span>{{ time.classroom }}</span>
+                                <span>{{ time.teacher }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        class="item outline rounded mt-2"
+                        @click="addTimeShow = true"
+                    >
+                        {{ $t('editCourse.timeAndLocation.addTime') }}
+                    </button>
+                </div>
+                <!-- 删除课程 -->
+                <section v-if="courseKey" class="item block">
+                    <button
+                        class="px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
+                        @click="deleteCourse"
+                    >
+                        {{ $t('editCourse.base.deleteCourse') }}
+                    </button>
+                </section>
+
+                <div class="control flex justify-between mt-4 font-semibold">
+                    <button
+                        class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-off-base text-base hover:text-base hover:outline-2"
+                        @click="closeFN()"
+                    >
+                        {{ $t('cancel') }}
+                    </button>
+                    <RoButton :type="state.baseButton" @click="addCourse">{{
+                        $t('add')
+                    }}</RoButton>
+
+                    <!-- <button
                     class="control__item px-3 py-1 rounded-md outline outline-0 duration-150 ease-in-out bg-primary text-secondary hover:bg-secondary hover:text-primary hover:outline-2"
                 >
                     添加
                 </button> -->
+                </div>
             </div>
         </div>
-
         <!-- 时间管理 -->
         <transition name="drop-b">
             <div class="edit-time backdrop-brightness-75" v-if="addTimeShow">
@@ -327,10 +333,9 @@ interface time {
 export default defineComponent({
     name: 'EditCourse',
     props: {
-        isShow: { type: Boolean, default: false },
-        courseKey: { type: String, default: undefined }
+        courseKey: { type: String, default: undefined },
+        closeFN: { type: Function, default: () => {} }
     },
-    emits: ['update:isShow'],
     setup(props, context) {
         const { locale, t } = installI18n().global
 
@@ -700,6 +705,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.edit-course,
+.edit-time {
+    &__box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
 .item {
     margin-bottom: 4px;
 }
@@ -712,23 +727,6 @@ export default defineComponent({
     grid-gap: 8px;
     justify-content: center;
     align-items: center;
-}
-
-.edit-course,
-.edit-time {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: calc(100vh + 10px);
-
-    &__box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
 }
 
 input::-webkit-outer-spin-button,

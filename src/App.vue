@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { useCourseStore } from '@/store/course'
-import { computed, watchEffect } from 'vue'
+import { computed, watchEffect, ref } from 'vue'
 import { useAppStore } from './store/app'
 import { RoCourseDay, RoMessageList } from './types/course'
 import { installI18n } from '@/locale'
@@ -29,20 +29,20 @@ const { startNoticeTime, endNoticeTime } = storeToRefs(appStore)
 
 const router = useRouter()
 
-let date = new Date()
+let date = ref(new Date())
 
 // 每天0点更新时间信息,获取课程列表
 function timeRefresh() {
     let nowTime = new Date().getTime()
     let tommrowTime = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate()
+        date.value.getFullYear(),
+        date.value.getMonth(),
+        date.value.getDate()
     ).getTime()
-    let restTime = tommrowTime - nowTime
+    let restTime = tommrowTime - nowTime + 3000
 
     setTimeout(() => {
-        date = new Date()
+        date.value = new Date()
         timeRefresh()
     }, restTime)
 }
@@ -51,16 +51,17 @@ timeRefresh()
 
 // 获取当日课程列表和课程通知
 watchEffect(() => {
-    let todayCourseList: RoCourseDay[] = courseStore.getDayCourse(date)
+    let todayCourseList: RoCourseDay[] = courseStore.getDayCourse(date.value)
     let tomorrowCourseList: RoCourseDay[] = courseStore.getDayCourse(
-        new Date(date.getTime() + 24 * 60 * 60 * 1000)
+        new Date(date.value.getTime() + 24 * 60 * 60 * 1000)
     ) // 获取明日课程
 
-    let nowTime = date
+    console.log('检测到')
+
+    let nowTime = date.value
     let year = nowTime.getFullYear()
     let month = nowTime.getMonth()
     let day = nowTime.getDate()
-    
 
     let res: RoMessageList[] = []
     const getLang = (val: string, param?: any): string => {
