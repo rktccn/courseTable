@@ -60,11 +60,17 @@
         </section>
 
         <transition name="drop-b">
-            <EditCourse
+            <div
+                class="model z-20 text-left backdrop-blur-md backdrop-brightness-75"
                 v-if="showEditcourse"
-                :courseKey="courseKey"
-                v-model:isShow="showEditcourse"
-            ></EditCourse>
+                @click.self="showEditcourse = false"
+            >
+                <EditCourse
+                    class="model__box"
+                    :courseKey="courseKey"
+                    :closeFN="closeModel"
+                ></EditCourse>
+            </div>
         </transition>
     </div>
 </template>
@@ -102,13 +108,18 @@ export default defineComponent({
             data.courseKey = key
         }
 
+        const closeModel = () => {
+            data.showEditcourse = false
+        }
+
         return {
             ...toRefs(data),
             table,
             courseTimeList,
             dateList,
             month,
-            toggleEditcourse
+            toggleEditcourse,
+            closeModel
         }
     },
     components: {
@@ -128,5 +139,21 @@ export default defineComponent({
 
 .section {
     min-height: 1.75rem;
+}
+
+.model {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: calc(100vh + 10px);
+
+    &__box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 </style>

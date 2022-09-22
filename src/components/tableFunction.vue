@@ -83,7 +83,11 @@
                 v-if="modelName !== null"
                 @click.self="modelName = null"
             >
-                <component :is="modelName" :closeFN="closeFN" class="ccssdd" />
+                <component
+                    :is="modelName"
+                    :closeFN="closeModel"
+                    class="model__box"
+                />
             </div>
         </transition>
     </div>
@@ -107,11 +111,11 @@ export default defineComponent({
             data.modelName = 'LoadFile'
         }
 
-        const closeFN = () => {
+        const closeModel = () => {
             data.modelName = null
         }
 
-        return { ...toRefs(data), loadFile, closeFN }
+        return { ...toRefs(data), loadFile, closeModel }
     },
     components: { EditCourse, LoadFile }
 })
@@ -132,12 +136,12 @@ export default defineComponent({
 
     width: 100vw;
     height: calc(100vh + 10px);
-}
 
-.ccssdd {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    &__box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 </style>

@@ -37,7 +37,7 @@ function timeRefresh() {
     let tommrowTime = new Date(
         date.value.getFullYear(),
         date.value.getMonth(),
-        date.value.getDate()
+        date.value.getDate() + 1
     ).getTime()
     let restTime = tommrowTime - nowTime + 3000
 
@@ -55,8 +55,6 @@ watchEffect(() => {
     let tomorrowCourseList: RoCourseDay[] = courseStore.getDayCourse(
         new Date(date.value.getTime() + 24 * 60 * 60 * 1000)
     ) // 获取明日课程
-
-    console.log('检测到')
 
     let nowTime = date.value
     let year = nowTime.getFullYear()

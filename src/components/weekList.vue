@@ -43,14 +43,7 @@
     </div>
 </template>
 <script lang="ts">
-import {
-    defineComponent,
-    computed,
-    onMounted,
-    ref,
-    reactive,
-    toRefs
-} from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useAppStore } from '@/store/app'
 import { useCourseStore } from '@/store/course'
 import { storeToRefs } from 'pinia'
