@@ -1,7 +1,7 @@
 {
   "name": "rocourse",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "dist/electron/index.js",
   "scripts": {
     "dev": "vite",

@@ -587,13 +587,13 @@ export default defineComponent({
             data.state.baseButton = 'success'
 
             setTimeout(() => {
-                context.emit('update:isShow', false)
+                props.closeFN()
             }, 500)
         }
 
         const deleteCourse = () => {
             courseStore.deleteCourse(props.courseKey)
-            context.emit('update:isShow', false)
+            props.closeFN()
         }
 
         // 滚轮切换数字
