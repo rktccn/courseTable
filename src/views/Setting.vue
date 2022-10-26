@@ -238,6 +238,9 @@
                 class="edit-time fixed"
             ></EditTime>
         </transition>
+        <p class="text-center text-xs text-muted opacity-80 mb-3">
+            {{ version }}
+        </p>
     </div>
 </template>
 <script lang="ts">
@@ -249,6 +252,7 @@ import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
 import { installI18n } from '@/locale'
 
+import config from '../../package.json'
 import RoSelect from '@/components/select/roSelect.vue'
 import RoOption from '@/components/select/roOption.vue'
 import EditTime from '@/components/editTime.vue'
@@ -306,7 +310,8 @@ export default defineComponent({
             isTimeShow: false,
             firstWeekTime: '',
             totalWeeks: '',
-            sections: [0, 0, 0]
+            sections: [0, 0, 0],
+            version: config.version
         })
 
         const initData = () => {
